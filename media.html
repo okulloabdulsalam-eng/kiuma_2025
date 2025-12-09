@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media - KIUMA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="nav-menu" id="navMenu">
+        <div class="nav-header">
+            <span class="nav-close" id="navClose"><i class="fas fa-times"></i></span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="values.html" class="nav-link"><i class="fas fa-heart"></i> Values</a></li>
+            <li><a href="programs.html" class="nav-link"><i class="fas fa-book"></i> Programs</a></li>
+            <li><a href="activities.html" class="nav-link"><i class="fas fa-running"></i> Activities</a></li>
+            <li><a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            <li><a href="leadership.html" class="nav-link"><i class="fas fa-users"></i> Leadership</a></li>
+            <li><a href="contact.html" class="nav-link"><i class="fas fa-phone"></i> Contact</a></li>
+            <li><a href="media.html" class="nav-link active"><i class="fas fa-photo-video"></i> Media</a></li>
+            <li><a href="ask-question.html" class="nav-link"><i class="fas fa-question-circle"></i> Ask Question</a></li>
+            <li><a href="join-programs.html" class="nav-link"><i class="fas fa-user-plus"></i> Join Programs</a></li>
+            <li><a href="notifications.html" class="nav-link"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="pay.html" class="nav-link"><i class="fas fa-credit-card"></i> Pay</a></li>
+            <li><a href="join-us.html" class="nav-link"><i class="fas fa-hand-holding-heart"></i> Join Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="logo-container">
+                    <img src="logo.png" alt="KIUMA Logo" class="header-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+                    <svg class="header-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <circle cx="100" cy="100" r="95" fill="none" stroke="#4CAF50" stroke-width="4"/>
+                        <path id="topArc" d="M 20,100 A 80,80 0 0,1 180,100" fill="none"/>
+                        <text fill="#4CAF50" font-size="9" font-weight="bold" font-family="Arial, sans-serif" letter-spacing="0.5">
+                            <textPath href="#topArc" startOffset="50%" text-anchor="middle">KAMPALA INTERNATIONAL UNIVERSITY</textPath>
+                        </text>
+                        <path id="bottomArc" d="M 180,100 A 80,80 0 0,1 20,100" fill="none"/>
+                        <text fill="#4CAF50" font-size="9" font-weight="bold" font-family="Arial, sans-serif" letter-spacing="0.5">
+                            <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">MUSLIM ASSOCIATION</textPath>
+                        </text>
+                        <path d="M 50,75 L 50,115 L 58,115 L 58,105 L 63,100 L 58,95 L 58,85 Z" fill="none" stroke="#4CAF50" stroke-width="2"/>
+                        <circle cx="56.5" cy="100" r="2" fill="#4CAF50"/>
+                        <rect x="88" y="65" width="10" height="45" fill="none" stroke="#4CAF50" stroke-width="2"/>
+                        <rect x="90" y="75" width="6" height="2" fill="#4CAF50"/>
+                        <rect x="90" y="85" width="6" height="2" fill="#4CAF50"/>
+                        <rect x="90" y="95" width="6" height="2" fill="#4CAF50"/>
+                        <polygon points="93,60 90,65 96,65" fill="#4CAF50"/>
+                        <path d="M 140,92 A 12,12 0 0,1 128,92 A 10,10 0 0,0 140,92 Z" fill="#4CAF50"/>
+                        <path d="M 130,88 L 131.5,92 L 136,92 L 132.5,94.5 L 134,99 L 130,96.5 L 126,99 L 127.5,94.5 L 124,92 L 128.5,92 Z" fill="#4CAF50"/>
+                        <text x="100" y="145" font-size="22" font-weight="bold" fill="#4CAF50" text-anchor="middle" font-family="Arial, sans-serif" letter-spacing="2">KIUMA</text>
+                    </svg>
+                </div>
+                <button class="notifications-btn" id="notificationsBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div>
+                    <h2 class="greeting">
+                        <a href="about.html">KIUMA</a>
+                    </h2>
+                </div>
+                <button class="account-icon-btn" id="accountIconBtn" onclick="toggleAccountModal()">
+                    <i class="fas fa-user-circle" id="accountIcon"></i>
+                </button>
+            </section>
+
+            <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2 class="page-title">Media Gallery</h2>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" id="adminLoginBtn" onclick="showAdminLogin()" style="padding: 10px 15px;">
+                        <i class="fas fa-lock"></i> Admin Login
+                    </button>
+                    <button class="btn btn-primary admin-only" onclick="if(typeof window.showAddMediaModal==='function')window.showAddMediaModal()" style="display: none; padding: 10px 15px;">
+                        <i class="fas fa-plus"></i> Add Media
+                    </button>
+                    <button class="btn btn-secondary admin-logout" onclick="if(typeof window.logoutAdmin==='function')window.logoutAdmin()" style="display: none; padding: 10px 15px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </section>
+
+            <section class="page-content">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" style="flex: 1; min-width: calc(50% - 5px); padding: 12px;" onclick="if(typeof window.filterMedia==='function')window.filterMedia('all')">All</button>
+                    <button class="btn btn-outline" style="flex: 1; min-width: calc(50% - 5px); padding: 12px;" onclick="if(typeof window.filterMedia==='function')window.filterMedia('photos')">Photos</button>
+                    <button class="btn btn-outline" style="flex: 1; min-width: calc(50% - 5px); padding: 12px;" onclick="if(typeof window.filterMedia==='function')window.filterMedia('videos')">Videos</button>
+                    <button class="btn btn-outline" style="flex: 1; min-width: calc(50% - 5px); padding: 12px;" onclick="if(typeof window.filterMedia==='function')window.filterMedia('audio')">Audio</button>
+                </div>
+
+                <div class="media-grid" id="mediaGrid">
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-mosque"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, #4CAF50, #388E3C); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-quran"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, #4CAF50, #388E3C); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, #4CAF50, #388E3C); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="videos">
+                        <div style="background: linear-gradient(135deg, #FF5722, #D84315); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="videos">
+                        <div style="background: linear-gradient(135deg, #FF5722, #D84315); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-video"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, #4CAF50, #388E3C); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-child"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="audio">
+                        <div style="background: linear-gradient(135deg, #2196F3, #1976D2); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, #4CAF50, #388E3C); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-star-and-crescent"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="videos">
+                        <div style="background: linear-gradient(135deg, #FF5722, #D84315); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-film"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="photos">
+                        <div style="background: linear-gradient(135deg, #4CAF50, #388E3C); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                    </div>
+                    <div class="media-item" data-type="audio">
+                        <div style="background: linear-gradient(135deg, #2196F3, #1976D2); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                            <i class="fas fa-microphone"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3><i class="fas fa-info-circle"></i> About Our Media</h3>
+                    <p>Browse through photos and videos from our events, programs, and community activities. All media content is shared with respect to Islamic values and community guidelines.</p>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="programs.html" class="nav-item"><i class="fas fa-book"></i><span>Programs</span></a>
+            <a href="events.html" class="nav-item"><i class="fas fa-calendar"></i><span>Events</span></a>
+            <a href="pay.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Pay</span></a>
+            <a href="join-us.html" class="nav-item"><i class="fas fa-user-plus"></i><span>Join</span></a>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check admin status on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAdminStatus();
+            loadMediaFromStorage();
+            
+            // Initialize admin login modal
+            const adminModal = document.getElementById('adminLoginModal');
+            if (adminModal) {
+                adminModal.addEventListener('click', function(e) {
+                    if (e.target === adminModal) {
+                        closeAdminLogin();
+                    }
+                });
+            }
+            
+            // Allow Enter key to submit password
+            const passwordInput = document.getElementById('adminPassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        if (typeof window.verifyAdminPassword === 'function') {
+                            window.verifyAdminPassword();
+                        }
+                    }
+                });
+            }
+
+            // Close add media modal on overlay click
+            const addMediaModal = document.getElementById('addMediaModal');
+            if (addMediaModal) {
+                addMediaModal.addEventListener('click', function(e) {
+                    if (e.target === addMediaModal) {
+                        if (typeof window.closeAddMediaModal === 'function') {
+                            window.closeAddMediaModal();
+                        }
+                    }
+                });
+            }
+        });
+
+        // Filter media function - globally accessible
+        window.filterMedia = function(type) {
+            const items = document.querySelectorAll('.media-item');
+            const filterButtons = document.querySelectorAll('.page-content > div:first-child button');
+            
+            // Update button styles based on selected filter
+            filterButtons.forEach(btn => {
+                const btnText = btn.textContent.trim().toLowerCase();
+                const isActive = (type === 'all' && btnText === 'all') ||
+                                (type === 'photos' && btnText === 'photos') ||
+                                (type === 'videos' && btnText === 'videos') ||
+                                (type === 'audio' && btnText === 'audio');
+                
+                if (isActive) {
+                    btn.className = 'btn btn-primary';
+                    btn.style.flex = '1';
+                    btn.style.minWidth = 'calc(50% - 5px)';
+                    btn.style.padding = '12px';
+                } else {
+                    btn.className = 'btn btn-outline';
+                    btn.style.flex = '1';
+                    btn.style.minWidth = 'calc(50% - 5px)';
+                    btn.style.padding = '12px';
+                }
+            });
+            
+            // Filter media items
+            items.forEach(item => {
+                if (type === 'all' || item.dataset.type === type) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        };
+
+        window.showAddMediaModal = function() {
+            const adminStatus = localStorage.getItem('isAdminLoggedIn') === 'true';
+            if (!adminStatus) {
+                if (typeof window.showAdminLogin === 'function') {
+                    window.showAdminLogin();
+                } else {
+                    alert('Please login as admin first.');
+                }
+                return;
+            }
+            const modal = document.getElementById('addMediaModal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        };
+
+        window.closeAddMediaModal = function() {
+            document.getElementById('addMediaModal').style.display = 'none';
+            document.getElementById('addMediaForm').reset();
+            // Clear preview
+            document.getElementById('filePreview').style.display = 'none';
+            document.getElementById('previewImage').style.display = 'none';
+            document.getElementById('previewVideo').style.display = 'none';
+            document.getElementById('previewAudio').style.display = 'none';
+        };
+
+        window.handleMediaTypeChange = function() {
+            const type = document.getElementById('mediaType').value;
+            const fileInput = document.getElementById('mediaFile');
+            if (fileInput) {
+                if (type === 'photos') {
+                    fileInput.accept = 'image/*';
+                } else if (type === 'videos') {
+                    fileInput.accept = 'video/*';
+                } else if (type === 'audio') {
+                    fileInput.accept = 'audio/*';
+                } else {
+                    fileInput.accept = 'image/*,video/*,audio/*';
+                }
+            }
+        };
+
+        window.handleFileSelect = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const preview = document.getElementById('filePreview');
+            const previewImage = document.getElementById('previewImage');
+            const previewVideo = document.getElementById('previewVideo');
+            const previewAudio = document.getElementById('previewAudio');
+
+            // Hide all previews first
+            previewImage.style.display = 'none';
+            previewVideo.style.display = 'none';
+            previewAudio.style.display = 'none';
+            preview.style.display = 'none';
+
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewImage.style.display = 'block';
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else if (file.type.startsWith('video/')) {
+                previewVideo.src = URL.createObjectURL(file);
+                previewVideo.style.display = 'block';
+                preview.style.display = 'block';
+            } else if (file.type.startsWith('audio/')) {
+                previewAudio.src = URL.createObjectURL(file);
+                previewAudio.style.display = 'block';
+                preview.style.display = 'block';
+            }
+        }
+
+        window.addMedia = function(e) {
+            if (e) {
+                e.preventDefault();
+            }
+            
+            // Check admin login status
+            const adminStatus = localStorage.getItem('isAdminLoggedIn') === 'true';
+            if (!adminStatus) {
+                alert('You must be logged in as admin to add media.');
+                if (typeof window.showAdminLogin === 'function') {
+                    window.showAdminLogin();
+                }
+                return false;
+            }
+
+            const titleInput = document.getElementById('mediaTitle');
+            const title = titleInput ? titleInput.value.trim() : '';
+            const type = document.getElementById('mediaType').value;
+            const fileInput = document.getElementById('mediaFile');
+            const url = document.getElementById('mediaUrl').value.trim();
+            
+            if (!title || !type) {
+                alert('Please fill in title and select media type.');
+                return false;
+            }
+
+            if (!fileInput.files[0] && !url) {
+                alert('Please either upload a file or provide a URL.');
+                return;
+            }
+
+            // Get or create media data from localStorage
+            let mediaData = JSON.parse(localStorage.getItem('mediaData') || '[]');
+
+            // Handle file upload
+            if (fileInput && fileInput.files && fileInput.files[0]) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const mediaUrl = e.target.result; // Base64 data URL
+                    createMediaItem(title, type, mediaUrl, mediaData);
+                };
+                reader.onerror = function() {
+                    alert('Error reading file. Please try again.');
+                };
+                reader.readAsDataURL(file);
+            } else if (url) {
+                createMediaItem(title, type, url, mediaData);
+            } else {
+                alert('Please either upload a file or provide a URL.');
+            }
+        };
+
+        // Helper function to create and add media item
+        function createMediaItem(title, type, mediaUrl, mediaData) {
+            const adminStatus = localStorage.getItem('isAdminLoggedIn') === 'true';
+            const mediaItem = {
+                id: Date.now().toString(),
+                title: title,
+                type: type,
+                url: mediaUrl,
+                date: new Date().toISOString()
+            };
+
+            mediaData.unshift(mediaItem); // Add to beginning
+            localStorage.setItem('mediaData', JSON.stringify(mediaData));
+
+            // Create and display media item
+            const mediaGrid = document.getElementById('mediaGrid');
+            const newMediaItem = document.createElement('div');
+            newMediaItem.className = 'media-item';
+            newMediaItem.dataset.type = type;
+            newMediaItem.dataset.id = mediaItem.id;
+
+            const safeTitle = title.replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+            const safeUrl = mediaUrl.replace(/'/g, "&#39;");
+            
+            if (type === 'photos') {
+                newMediaItem.innerHTML = `
+                    <div style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden;">
+                        <img src="${safeUrl}" alt="${safeTitle}" style="width: 100%; height: 100%; object-fit: cover;">
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; padding: 12px 8px 8px 8px; font-size: 12px; text-align: center;">
+                            ${safeTitle}
+                        </div>
+                        <button onclick="downloadMedia('${safeUrl}', '${safeTitle}', '${type}')" style="position: absolute; top: 8px; right: 8px; background: var(--primary-green); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 16px;">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        ${adminStatus ? `<button onclick="deleteMedia('${mediaItem.id}')" style="position: absolute; top: 8px; left: 8px; background: #f44336; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 14px;">
+                            <i class="fas fa-trash"></i>
+                        </button>` : ''}
+                    </div>
+                `;
+            } else if (type === 'videos') {
+                newMediaItem.innerHTML = `
+                    <div style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000;">
+                        <video src="${safeUrl}" controls style="width: 100%; height: 100%; object-fit: contain;"></video>
+                        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; padding: 12px 8px 8px 8px; font-size: 12px; text-align: center; pointer-events: none;">
+                            ${safeTitle}
+                        </div>
+                        <button onclick="downloadMedia('${safeUrl}', '${safeTitle}', '${type}')" style="position: absolute; top: 8px; right: 8px; background: var(--primary-green); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 16px; z-index: 10;">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        ${adminStatus ? `<button onclick="deleteMedia('${mediaItem.id}')" style="position: absolute; top: 8px; left: 8px; background: #f44336; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 14px; z-index: 10;">
+                            <i class="fas fa-trash"></i>
+                        </button>` : ''}
+                    </div>
+                `;
+            } else {
+                newMediaItem.innerHTML = `
+                    <div style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background: linear-gradient(135deg, #2196F3, #1976D2); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px;">
+                        <i class="fas fa-headphones" style="font-size: 48px; color: white; margin-bottom: 10px;"></i>
+                        <audio src="${safeUrl}" controls style="width: 100%;"></audio>
+                        <div style="color: white; font-size: 12px; text-align: center; margin-top: 10px;">
+                            ${safeTitle}
+                        </div>
+                        <button onclick="downloadMedia('${safeUrl}', '${safeTitle}', '${type}')" style="position: absolute; top: 8px; right: 8px; background: var(--primary-green); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 16px;">
+                            <i class="fas fa-download"></i>
+                        </button>
+                        ${adminStatus ? `<button onclick="deleteMedia('${mediaItem.id}')" style="position: absolute; top: 8px; left: 8px; background: #f44336; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 14px;">
+                            <i class="fas fa-trash"></i>
+                        </button>` : ''}
+                    </div>
+                `;
+            }
+
+            // Insert at the beginning
+            const mediaGrid = document.getElementById('mediaGrid');
+            if (mediaGrid) {
+                mediaGrid.insertBefore(newMediaItem, mediaGrid.firstChild);
+                window.closeAddMediaModal();
+                alert('Media uploaded successfully!');
+                // Reload media to ensure consistency
+                setTimeout(function() {
+                    loadMediaFromStorage();
+                }, 100);
+            } else {
+                alert('Error: Could not find media grid container.');
+            }
+        }
+
+        // Delete media function - admin only
+        window.deleteMedia = function(mediaId) {
+            const adminStatus = localStorage.getItem('isAdminLoggedIn') === 'true';
+            if (!adminStatus) {
+                alert('You must be logged in as admin to delete media.');
+                return;
+            }
+            
+            if (!confirm('Are you sure you want to delete this media?')) {
+                return;
+            }
+            
+            let mediaData = JSON.parse(localStorage.getItem('mediaData') || '[]');
+            mediaData = mediaData.filter(item => item.id !== mediaId);
+            localStorage.setItem('mediaData', JSON.stringify(mediaData));
+            
+            // Remove from DOM
+            const item = document.querySelector(`.media-item[data-id="${mediaId}"]`);
+            if (item) {
+                item.remove();
+            }
+            
+            alert('Media deleted successfully!');
+        };
+
+        // Load media from localStorage on page load
+        function loadMediaFromStorage() {
+            const adminStatus = localStorage.getItem('isAdminLoggedIn') === 'true';
+            const mediaData = JSON.parse(localStorage.getItem('mediaData') || '[]');
+            const mediaGrid = document.getElementById('mediaGrid');
+            
+            // Clear existing items first (except default ones)
+            const existingItems = Array.from(mediaGrid.querySelectorAll('.media-item[data-id]'));
+            existingItems.forEach(item => item.remove());
+            
+            // Add stored media items
+            mediaData.forEach(item => {
+                const newMediaItem = document.createElement('div');
+                newMediaItem.className = 'media-item';
+                newMediaItem.dataset.type = item.type;
+                newMediaItem.dataset.id = item.id;
+                
+                const safeTitle = (item.title || '').replace(/'/g, "&#39;").replace(/"/g, "&quot;");
+                const safeUrl = (item.url || '').replace(/'/g, "&#39;");
+
+                if (item.type === 'photos') {
+                    newMediaItem.innerHTML = `
+                        <div style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden;">
+                            <img src="${safeUrl}" alt="${safeTitle}" style="width: 100%; height: 100%; object-fit: cover;">
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; padding: 12px 8px 8px 8px; font-size: 12px; text-align: center;">
+                                ${safeTitle}
+                            </div>
+                            <button onclick="downloadMedia('${safeUrl}', '${safeTitle}', '${item.type}')" style="position: absolute; top: 8px; right: 8px; background: var(--primary-green); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 16px;">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            ${adminStatus ? `<button onclick="deleteMedia('${item.id}')" style="position: absolute; top: 8px; left: 8px; background: #f44336; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 14px;">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </div>
+                    `;
+                } else if (item.type === 'videos') {
+                    newMediaItem.innerHTML = `
+                        <div style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background: #000;">
+                            <video src="${safeUrl}" controls style="width: 100%; height: 100%; object-fit: contain;"></video>
+                            <div style="position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); color: white; padding: 12px 8px 8px 8px; font-size: 12px; text-align: center; pointer-events: none;">
+                                ${safeTitle}
+                            </div>
+                            <button onclick="downloadMedia('${safeUrl}', '${safeTitle}', '${item.type}')" style="position: absolute; top: 8px; right: 8px; background: var(--primary-green); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 16px; z-index: 10;">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            ${adminStatus ? `<button onclick="deleteMedia('${item.id}')" style="position: absolute; top: 8px; left: 8px; background: #f44336; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 14px; z-index: 10;">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </div>
+                    `;
+                } else {
+                    newMediaItem.innerHTML = `
+                        <div style="width: 100%; height: 100%; position: relative; border-radius: 8px; overflow: hidden; background: linear-gradient(135deg, #2196F3, #1976D2); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px;">
+                            <i class="fas fa-headphones" style="font-size: 48px; color: white; margin-bottom: 10px;"></i>
+                            <audio src="${safeUrl}" controls style="width: 100%;"></audio>
+                            <div style="color: white; font-size: 12px; text-align: center; margin-top: 10px;">
+                                ${safeTitle}
+                            </div>
+                            <button onclick="downloadMedia('${safeUrl}', '${safeTitle}', '${item.type}')" style="position: absolute; top: 8px; right: 8px; background: var(--primary-green); color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 16px;">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            ${adminStatus ? `<button onclick="deleteMedia('${item.id}')" style="position: absolute; top: 8px; left: 8px; background: #f44336; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.3); font-size: 14px;">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </div>
+                    `;
+                }
+
+                mediaGrid.insertBefore(newMediaItem, mediaGrid.firstChild);
+            });
+        }
+        
+        // Re-render media when admin status changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'isAdminLoggedIn') {
+                loadMediaFromStorage();
+            }
+        });
+
+        // Download media function - available to everyone
+        window.downloadMedia = function(url, title, type) {
+            try {
+                // Determine file extension based on type
+                let extension = '';
+                if (type === 'photos') {
+                    extension = url.startsWith('data:image/') ? url.split(';')[0].split('/')[1] : 'jpg';
+                } else if (type === 'videos') {
+                    extension = url.startsWith('data:video/') ? url.split(';')[0].split('/')[1] : 'mp4';
+                } else {
+                    extension = url.startsWith('data:audio/') ? url.split(';')[0].split('/')[1] : 'mp3';
+                }
+
+                // Create a temporary anchor element
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `${title.replace(/[^a-z0-9]/gi, '_')}.${extension}`;
+                
+                // For data URLs, we can download directly
+                if (url.startsWith('data:')) {
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    // For external URLs, open in new tab as fallback
+                    window.open(url, '_blank');
+                }
+            } catch (error) {
+                console.error('Download error:', error);
+                // Fallback: open in new tab
+                window.open(url, '_blank');
+            }
+        };
+    </script>
+
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="adminLoginModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-shield-alt"></i> Admin Login</h3>
+                <button class="modal-close" onclick="closeAdminLogin()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 15px;">Enter admin password to access admin features.</p>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="adminPassword" placeholder="Enter admin password">
+                    <p id="passwordError" style="color: #f44336; font-size: 14px; margin-top: 5px; display: none;">Incorrect password. Please try again.</p>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="if(typeof window.verifyAdminPassword==='function')window.verifyAdminPassword()" style="flex: 1;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="btn btn-secondary" onclick="if(typeof window.closeAdminLogin==='function')window.closeAdminLogin()" style="flex: 1;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Media Modal -->
+    <div class="modal-overlay" id="addMediaModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-photo-video"></i> Add New Media</h3>
+                <button class="modal-close" onclick="if(typeof window.closeAddMediaModal==='function')window.closeAddMediaModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addMediaForm" onsubmit="event.preventDefault(); if(typeof window.addMedia==='function'){window.addMedia(event);} return false;" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">Title *</label>
+                        <input type="text" class="form-input" id="mediaTitle" placeholder="Media title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Type *</label>
+                        <select class="form-input" id="mediaType" required onchange="if(typeof window.handleMediaTypeChange==='function')window.handleMediaTypeChange()">
+                            <option value="">Select type</option>
+                            <option value="photos">Photo</option>
+                            <option value="videos">Video</option>
+                            <option value="audio">Audio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload Media File</label>
+                        <input type="file" class="form-input" id="mediaFile" accept="image/*,video/*,audio/*" onchange="if(typeof window.handleFileSelect==='function')window.handleFileSelect(event)">
+                        <p style="font-size: 12px; color: var(--text-gray); margin-top: 5px;">Select an image, video, or audio file to upload</p>
+                        <div id="filePreview" style="margin-top: 10px; display: none;">
+                            <img id="previewImage" src="" alt="Preview" style="max-width: 100%; max-height: 200px; border-radius: 8px; display: none;">
+                            <video id="previewVideo" controls style="max-width: 100%; max-height: 200px; border-radius: 8px; display: none;"></video>
+                            <audio id="previewAudio" controls style="width: 100%; display: none;"></audio>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Or Enter Media URL (Optional)</label>
+                        <input type="url" class="form-input" id="mediaUrl" placeholder="https://example.com/media.jpg">
+                        <p style="font-size: 12px; color: var(--text-gray); margin-top: 5px;">Alternative: Enter a URL if you prefer not to upload a file</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            <i class="fas fa-upload"></i> Upload Media
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="if(typeof window.closeAddMediaModal==='function')window.closeAddMediaModal()" style="flex: 1;">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Kizumu Visit Button -->
+    <div class="floating-kizumu-btn" onclick="showActivitiesModal()">
+        <i class="fas fa-heart"></i>
+        <span>Kizumu Visit</span>
+    </div>
+
+    <!-- Activities Modal -->
+    <div class="modal-overlay" id="activitiesModal" style="display: none;">
+        <div class="modal-content activities-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-heart"></i> Important Activities</h3>
+                <button class="modal-close" onclick="closeActivitiesModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="activities-modal-list">
+                <div class="activity-modal-item" onclick="navigateToActivity('kizumu-visit')">
+                    <div class="activity-modal-icon" style="background: #E91E63;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Kizumu Tahfiz Charity Visit</h4>
+                        <p>Support Islamic education through charity visit</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('tuition-brothers')">
+                    <div class="activity-modal-icon" style="background: var(--primary-green);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Tuition for Brothers</h4>
+                        <p>Support brothers' education and learning</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('kisilaahe')">
+                    <div class="activity-modal-icon" style="background: #9C27B0;">
+                        <i class="fas fa-donate"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Donate to Kisilaahe</h4>
+                        <p>Support Kisilaahe with essential items</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('activities')">
+                    <div class="activity-modal-icon" style="background: #FF9800;">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>View All Activities</h4>
+                        <p>See all community activities and events</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

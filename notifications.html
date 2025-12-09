@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - KIUMA</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="nav-menu" id="navMenu">
+        <div class="nav-header">
+            <span class="nav-close" id="navClose"><i class="fas fa-times"></i></span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="values.html" class="nav-link"><i class="fas fa-heart"></i> Values</a></li>
+            <li><a href="programs.html" class="nav-link"><i class="fas fa-book"></i> Programs</a></li>
+            <li><a href="activities.html" class="nav-link"><i class="fas fa-running"></i> Activities</a></li>
+            <li><a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            <li><a href="leadership.html" class="nav-link"><i class="fas fa-users"></i> Leadership</a></li>
+            <li><a href="contact.html" class="nav-link"><i class="fas fa-phone"></i> Contact</a></li>
+            <li><a href="media.html" class="nav-link"><i class="fas fa-photo-video"></i> Media</a></li>
+            <li><a href="ask-question.html" class="nav-link"><i class="fas fa-question-circle"></i> Ask Question</a></li>
+            <li><a href="join-programs.html" class="nav-link"><i class="fas fa-user-plus"></i> Join Programs</a></li>
+            <li><a href="notifications.html" class="nav-link active"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="pay.html" class="nav-link"><i class="fas fa-credit-card"></i> Pay</a></li>
+            <li><a href="join-us.html" class="nav-link"><i class="fas fa-hand-holding-heart"></i> Join Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="logo-container">
+                    <img src="logo.png" alt="KIUMA Logo" class="header-logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" onload="this.style.display='block'; this.nextElementSibling.style.display='none';">
+                    <svg class="header-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <circle cx="100" cy="100" r="95" fill="none" stroke="#4CAF50" stroke-width="4"/>
+                        <path id="topArc" d="M 20,100 A 80,80 0 0,1 180,100" fill="none"/>
+                        <text fill="#4CAF50" font-size="9" font-weight="bold" font-family="Arial, sans-serif" letter-spacing="0.5">
+                            <textPath href="#topArc" startOffset="50%" text-anchor="middle">KAMPALA INTERNATIONAL UNIVERSITY</textPath>
+                        </text>
+                        <path id="bottomArc" d="M 180,100 A 80,80 0 0,1 20,100" fill="none"/>
+                        <text fill="#4CAF50" font-size="9" font-weight="bold" font-family="Arial, sans-serif" letter-spacing="0.5">
+                            <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">MUSLIM ASSOCIATION</textPath>
+                        </text>
+                        <path d="M 50,75 L 50,115 L 58,115 L 58,105 L 63,100 L 58,95 L 58,85 Z" fill="none" stroke="#4CAF50" stroke-width="2"/>
+                        <circle cx="56.5" cy="100" r="2" fill="#4CAF50"/>
+                        <rect x="88" y="65" width="10" height="45" fill="none" stroke="#4CAF50" stroke-width="2"/>
+                        <rect x="90" y="75" width="6" height="2" fill="#4CAF50"/>
+                        <rect x="90" y="85" width="6" height="2" fill="#4CAF50"/>
+                        <rect x="90" y="95" width="6" height="2" fill="#4CAF50"/>
+                        <polygon points="93,60 90,65 96,65" fill="#4CAF50"/>
+                        <path d="M 140,92 A 12,12 0 0,1 128,92 A 10,10 0 0,0 140,92 Z" fill="#4CAF50"/>
+                        <path d="M 130,88 L 131.5,92 L 136,92 L 132.5,94.5 L 134,99 L 130,96.5 L 126,99 L 127.5,94.5 L 124,92 L 128.5,92 Z" fill="#4CAF50"/>
+                        <text x="100" y="145" font-size="22" font-weight="bold" fill="#4CAF50" text-anchor="middle" font-family="Arial, sans-serif" letter-spacing="2">KIUMA</text>
+                    </svg>
+                </div>
+                <button class="notifications-btn" id="notificationsBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">3</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div>
+                    <h2 class="greeting">
+                        <a href="about.html">KIUMA</a>
+                    </h2>
+                </div>
+                <button class="account-icon-btn" id="accountIconBtn" onclick="toggleAccountModal()">
+                    <i class="fas fa-user-circle" id="accountIcon"></i>
+                </button>
+            </section>
+
+            <section class="page-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                <h2 class="page-title">Notifications</h2>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" id="adminLoginBtn" onclick="showAdminLogin()" style="padding: 10px 15px;">
+                        <i class="fas fa-lock"></i> Admin Login
+                    </button>
+                    <button class="btn btn-primary admin-only" onclick="showAddNotificationModal()" style="display: none; padding: 10px 15px;">
+                        <i class="fas fa-plus"></i> Add Notification
+                    </button>
+                    <button class="btn btn-secondary admin-logout" onclick="logoutAdmin()" style="display: none; padding: 10px 15px;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </section>
+
+            <section class="page-content">
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <button class="btn btn-primary" style="flex: 1; padding: 12px;" onclick="filterNotifications('all')">All</button>
+                    <button class="btn btn-outline" style="flex: 1; padding: 12px;" onclick="filterNotifications('unread')">Unread</button>
+                </div>
+
+                <div class="notification-item" data-status="unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>New Event: Ramadan Welcome</h4>
+                        <p>Join us this Friday for a special Ramadan welcome event. Dinner and spiritual talks included.</p>
+                        <span class="notification-time">2 hours ago</span>
+                    </div>
+                </div>
+
+                <div class="notification-item" data-status="unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Quran Study Registration Open</h4>
+                        <p>Registration for the weekly Quran Study Circle is now open. Limited spots available.</p>
+                        <span class="notification-time">5 hours ago</span>
+                    </div>
+                </div>
+
+                <div class="notification-item" data-status="read">
+                    <div class="notification-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Thank You for Your Donation</h4>
+                        <p>Your Zakat contribution has been received. May Allah accept it from you.</p>
+                        <span class="notification-time">1 day ago</span>
+                    </div>
+                </div>
+
+                <div class="notification-item" data-status="read">
+                    <div class="notification-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Prayer Time Reminder</h4>
+                        <p>Asr prayer begins in 15 minutes. Don't forget to pray!</p>
+                        <span class="notification-time">2 days ago</span>
+                    </div>
+                </div>
+
+                <div class="notification-item" data-status="read">
+                    <div class="notification-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Community Iftar Tomorrow</h4>
+                        <p>Join us tomorrow evening for community Iftar at 7:00 PM. All welcome!</p>
+                        <span class="notification-time">3 days ago</span>
+                    </div>
+                </div>
+
+                <div class="notification-item" data-status="read">
+                    <div class="notification-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>New Online Course Available</h4>
+                        <p>Check out our new Islamic Studies course available on the online platform.</p>
+                        <span class="notification-time">1 week ago</span>
+                    </div>
+                </div>
+
+                <div class="notification-item" data-status="read">
+                    <div class="notification-icon">
+                        <i class="fas fa-star-and-crescent"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>Ramadan Mubarak!</h4>
+                        <p>The blessed month of Ramadan has begun. May this month bring you peace and blessings.</p>
+                        <span class="notification-time">2 weeks ago</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="programs.html" class="nav-item"><i class="fas fa-book"></i><span>Programs</span></a>
+            <a href="events.html" class="nav-item"><i class="fas fa-calendar"></i><span>Events</span></a>
+            <a href="pay.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Pay</span></a>
+            <a href="join-us.html" class="nav-item"><i class="fas fa-user-plus"></i><span>Join</span></a>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check admin status on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            checkAdminStatus();
+            loadNotificationsFromStorage();
+            
+            // Check for white days notification after a short delay to ensure dates are updated
+            setTimeout(function() {
+                // Trigger date update to check for white days
+                if (typeof updateDates === 'function') {
+                    updateDates();
+                }
+                // Reload notifications after date check
+                loadNotificationsFromStorage();
+            }, 1000);
+            
+            // Initialize admin login modal
+            const adminModal = document.getElementById('adminLoginModal');
+            if (adminModal) {
+                adminModal.addEventListener('click', function(e) {
+                    if (e.target === adminModal) {
+                        closeAdminLogin();
+                    }
+                });
+            }
+            
+            // Allow Enter key to submit password
+            const passwordInput = document.getElementById('adminPassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        verifyAdminPassword();
+                    }
+                });
+            }
+
+            // Close add notification modal on overlay click
+            const addNotifModal = document.getElementById('addNotificationModal');
+            if (addNotifModal) {
+                addNotifModal.addEventListener('click', function(e) {
+                    if (e.target === addNotifModal) {
+                        window.closeAddNotificationModal();
+                    }
+                });
+            }
+        });
+
+        function filterNotifications(status) {
+            const items = document.querySelectorAll('.notification-item');
+            items.forEach(item => {
+                if (status === 'all' || item.dataset.status === status) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Mark as read on click
+        document.querySelectorAll('.notification-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (this.dataset.status === 'unread') {
+                    this.dataset.status = 'read';
+                    this.style.opacity = '0.7';
+                }
+            });
+        });
+
+        window.showAddNotificationModal = function() {
+            if (!isAdminLoggedIn) {
+                showAdminLogin();
+                return;
+            }
+            document.getElementById('addNotificationModal').style.display = 'flex';
+        };
+
+        window.closeAddNotificationModal = function() {
+            document.getElementById('addNotificationModal').style.display = 'none';
+            document.getElementById('addNotificationForm').reset();
+        };
+
+        window.addNotification = function(e) {
+            e.preventDefault();
+            if (!isAdminLoggedIn) {
+                alert('You must be logged in as admin to add notifications.');
+                return;
+            }
+
+            const title = document.getElementById('notifTitle').value;
+            const message = document.getElementById('notifMessage').value;
+            const icon = document.getElementById('notifIcon').value || 'fas fa-bell';
+            
+            if (!title || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Get or create notifications data from localStorage
+            let notificationsData = JSON.parse(localStorage.getItem('notificationsData') || '[]');
+
+            const notification = {
+                id: Date.now().toString(),
+                title: title,
+                message: message,
+                icon: icon,
+                status: 'unread',
+                date: new Date().toISOString(),
+                timeDisplay: 'Just now'
+            };
+
+            notificationsData.unshift(notification); // Add to beginning
+            localStorage.setItem('notificationsData', JSON.stringify(notificationsData));
+
+            // Create and display notification element
+            const notificationsContainer = document.querySelector('.page-content');
+            const firstNotification = notificationsContainer.querySelector('.notification-item');
+            const newNotification = document.createElement('div');
+            newNotification.className = 'notification-item';
+            newNotification.dataset.status = 'unread';
+            newNotification.dataset.id = notification.id;
+            newNotification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="${icon}"></i>
+                </div>
+                <div class="notification-content">
+                    <h4>${title}</h4>
+                    <p>${message}</p>
+                    <span class="notification-time">Just now</span>
+                </div>
+            `;
+
+            // Insert at the top
+            if (firstNotification) {
+                notificationsContainer.insertBefore(newNotification, firstNotification);
+            } else {
+                notificationsContainer.appendChild(newNotification);
+            }
+
+            // Mark as read on click
+            newNotification.addEventListener('click', function() {
+                if (this.dataset.status === 'unread') {
+                    this.dataset.status = 'read';
+                    this.style.opacity = '0.7';
+                    // Update in localStorage
+                    updateNotificationStatus(notification.id, 'read');
+                }
+            });
+
+            window.closeAddNotificationModal();
+            alert('Notification added successfully!');
+        };
+
+        function updateNotificationStatus(id, status) {
+            let notificationsData = JSON.parse(localStorage.getItem('notificationsData') || '[]');
+            const notif = notificationsData.find(n => n.id === id);
+            if (notif) {
+                notif.status = status;
+                localStorage.setItem('notificationsData', JSON.stringify(notificationsData));
+            }
+        }
+
+        function formatTimeAgo(dateString) {
+            const now = new Date();
+            const date = new Date(dateString);
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return 'Just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+            if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
+            return date.toLocaleDateString();
+        }
+
+        // Load notifications from localStorage on page load
+        function loadNotificationsFromStorage() {
+            const notificationsData = JSON.parse(localStorage.getItem('notificationsData') || '[]');
+            const notificationsContainer = document.querySelector('.page-content');
+            
+            // Clear existing stored notifications (keep only hardcoded ones)
+            const existingStored = Array.from(notificationsContainer.querySelectorAll('.notification-item[data-id]'));
+            existingStored.forEach(item => item.remove());
+            
+            // Add stored notifications
+            notificationsData.forEach(notif => {
+                const newNotification = document.createElement('div');
+                newNotification.className = 'notification-item';
+                newNotification.dataset.status = notif.status || 'read';
+                newNotification.dataset.id = notif.id;
+                newNotification.innerHTML = `
+                    <div class="notification-icon">
+                        <i class="${notif.icon || 'fas fa-bell'}"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h4>${notif.title}</h4>
+                        <p>${notif.message}</p>
+                        <span class="notification-time">${formatTimeAgo(notif.date)}</span>
+                    </div>
+                `;
+
+                // Insert at the top
+                const firstNotification = notificationsContainer.querySelector('.notification-item');
+                if (firstNotification) {
+                    notificationsContainer.insertBefore(newNotification, firstNotification);
+                } else {
+                    notificationsContainer.appendChild(newNotification);
+                }
+
+                // Mark as read on click
+                newNotification.addEventListener('click', function() {
+                    if (this.dataset.status === 'unread') {
+                        this.dataset.status = 'read';
+                        this.style.opacity = '0.7';
+                        updateNotificationStatus(notif.id, 'read');
+                    }
+                });
+            });
+        }
+    </script>
+
+    <!-- Admin Login Modal -->
+    <div class="modal-overlay" id="adminLoginModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-shield-alt"></i> Admin Login</h3>
+                <button class="modal-close" onclick="closeAdminLogin()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 15px;">Enter admin password to access admin features.</p>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="adminPassword" placeholder="Enter admin password">
+                    <p id="passwordError" style="color: #f44336; font-size: 14px; margin-top: 5px; display: none;">Incorrect password. Please try again.</p>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="verifyAdminPassword()" style="flex: 1;">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeAdminLogin()" style="flex: 1;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Notification Modal -->
+    <div class="modal-overlay" id="addNotificationModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-bell"></i> Add New Notification</h3>
+                <button class="modal-close" onclick="closeAddNotificationModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addNotificationForm" onsubmit="addNotification(event)">
+                    <div class="form-group">
+                        <label class="form-label">Title *</label>
+                        <input type="text" class="form-input" id="notifTitle" placeholder="Notification title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message *</label>
+                        <textarea class="form-input" id="notifMessage" rows="4" placeholder="Notification message" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Icon</label>
+                        <select class="form-input" id="notifIcon">
+                            <option value="fas fa-bell">Bell</option>
+                            <option value="fas fa-calendar-check">Calendar</option>
+                            <option value="fas fa-book">Book</option>
+                            <option value="fas fa-hand-holding-heart">Donation</option>
+                            <option value="fas fa-clock">Time</option>
+                            <option value="fas fa-users">Users</option>
+                            <option value="fas fa-graduation-cap">Education</option>
+                            <option value="fas fa-star-and-crescent">Star</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">
+                            <i class="fas fa-plus"></i> Add Notification
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="closeAddNotificationModal()" style="flex: 1;">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Kizumu Visit Button -->
+    <div class="floating-kizumu-btn" onclick="showActivitiesModal()">
+        <i class="fas fa-heart"></i>
+        <span>Kizumu Visit</span>
+    </div>
+
+    <!-- Activities Modal -->
+    <div class="modal-overlay" id="activitiesModal" style="display: none;">
+        <div class="modal-content activities-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-heart"></i> Important Activities</h3>
+                <button class="modal-close" onclick="closeActivitiesModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="activities-modal-list">
+                <div class="activity-modal-item" onclick="navigateToActivity('kizumu-visit')">
+                    <div class="activity-modal-icon" style="background: #E91E63;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Kizumu Tahfiz Charity Visit</h4>
+                        <p>Support Islamic education through charity visit</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('tuition-brothers')">
+                    <div class="activity-modal-icon" style="background: var(--primary-green);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Tuition for Brothers</h4>
+                        <p>Support brothers' education and learning</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('kisilaahe')">
+                    <div class="activity-modal-icon" style="background: #9C27B0;">
+                        <i class="fas fa-donate"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Donate to Kisilaahe</h4>
+                        <p>Support Kisilaahe with essential items</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('activities')">
+                    <div class="activity-modal-icon" style="background: #FF9800;">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>View All Activities</h4>
+                        <p>See all community activities and events</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
