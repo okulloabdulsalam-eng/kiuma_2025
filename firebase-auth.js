@@ -39,24 +39,52 @@ async function initializeFirebaseAuth() {
 
         // Get auth instance
         const auth = firebase.auth();
+        
+        // Set auth persistence to LOCAL (permanent like mobile app)
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        
         authInitialized = true;
 
-        // Set up auth state observer
+        // Set up auth state observer for persistent login
         auth.onAuthStateChanged(async (user) => {
             if (user) {
-                console.log('User signed in:', user.email);
+                console.log('User authenticated permanently:', user.email);
                 currentUser = user;
+                
+                // Store persistent login state
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userEmail', user.email);
+                localStorage.setItem('userUid', user.uid);
                 
                 // Check if user is admin
                 await checkAdminStatus(user);
                 
-                // Update UI
+                // Update UI immediately
                 updateAuthUI(user);
+                
+                // Trigger global login event
+                window.dispatchEvent(new CustomEvent('userLoggedIn', { 
+                    detail: { 
+                        user: user,
+                        persistent: true 
+                    } 
+                }));
+                
             } else {
-                console.log('User signed out');
+                console.log('User signed out - clearing persistent state');
                 currentUser = null;
+                
+                // Clear all persistent login state
+                localStorage.removeItem('userLoggedIn');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userUid');
                 localStorage.removeItem('isAdminLoggedIn');
+                localStorage.removeItem('userData');
+                
                 updateAuthUI(null);
+                
+                // Trigger global logout event
+                window.dispatchEvent(new CustomEvent('userLoggedOut'));
             }
         });
 
@@ -115,6 +143,10 @@ async function checkAdminStatus(user) {
 async function signInWithEmail(email, password) {
     try {
         const auth = firebase.auth();
+        
+        // Ensure persistence is set to LOCAL for permanent login
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
         
@@ -169,33 +201,23 @@ async function signInWithEmail(email, password) {
 async function signUpWithEmail(email, password, displayName = '') {
     try {
         const auth = firebase.auth();
+        
+        // Ensure persistence is set to LOCAL for permanent login
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         currentUser = userCredential.user;
         
         // Update display name if provided
         if (displayName) {
-            await currentUser.updateProfile({
-                displayName: displayName
-            });
+            await userCredential.user.updateProfile({ displayName: displayName });
         }
         
         // Sync to localStorage for unified login state
-        const userData = {
-            name: displayName || currentUser.email?.split('@')[0] || 'User',
-            firstName: (displayName || currentUser.email?.split('@')[0] || 'User').split(' ')[0],
-            email: currentUser.email,
-            uid: currentUser.uid,
-            createdAt: new Date().toISOString()
-        };
-        localStorage.setItem('userData', JSON.stringify(userData));
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userName', displayName || email.split('@')[0]);
         
-        // Trigger unified navigation update
-        if (typeof window.forceUpdateNavigation === 'function') {
-            window.forceUpdateNavigation();
-        }
-        
-        // Dispatch login event
-        window.dispatchEvent(new CustomEvent('userLoggedIn'));
         
         // Trigger UI update across all systems
         if (typeof updateUserDisplay === 'function') updateUserDisplay();
@@ -207,6 +229,31 @@ async function signUpWithEmail(email, password, displayName = '') {
         };
     } catch (error) {
         console.error('Sign up error:', error);
+        return {
+            success: false,
+            error: error.code,
+            message: getAuthErrorMessage(error)
+        };
+    }
+}
+
+/**
+ * Reset password with email
+ * 
+ * @param {string} email - User email
+ * @returns {Promise<Object>} Result object or error
+ */
+async function resetPassword(email) {
+    try {
+        const auth = firebase.auth();
+        await auth.sendPasswordResetEmail(email);
+        
+        return {
+            success: true,
+            message: 'Password reset email sent successfully'
+        };
+    } catch (error) {
+        console.error('Password reset error:', error);
         return {
             success: false,
             error: error.code,

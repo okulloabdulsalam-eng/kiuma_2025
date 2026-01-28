@@ -263,12 +263,10 @@
                                 <option value="">Select payment method</option>
                                 <option value="mtn">MTN Mobile Money</option>
                                 <option value="airtel">Airtel Money</option>
+                                <option value="bank">Bank Transfer</option>
                                 <option value="pesapal">Pesapal (Online Payment)</option>
                                 <option value="other">Other Payment Methods</option>
                             </select>
-                            <small style="color: #F44336; font-size: 12px; margin-top: 5px; display: block;">
-                                <i class="fas fa-info-circle"></i> Bank transfers are temporarily under maintenance. Please use mobile money for faster processing.
-                            </small>
                             <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Select the method you will use to make payment</small>
                             
                             <!-- Other Payment Methods Dropdown (shown when "Other Payment Methods" is selected) -->
@@ -432,7 +430,7 @@
                                 <i class="fas fa-lock" style="color: #F44336; font-size: 16px;"></i>
                             </div>
                             <div class="payment-account-details" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
-                                <div style="background: #FFF3CD; border: 1px solid #FFEAA7; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+                                <div style="background: #FFF3CD; border: 1px solid #FFEAA7; border-radius: 8px; padding: 12px;">
                                     <p style="margin: 0; color: #856404; font-size: 14px; font-weight: 600;">
                                         <i class="fas fa-tools" style="margin-right: 8px;"></i>
                                         Under Maintenance
@@ -441,34 +439,7 @@
                                         Bank transfer services are temporarily unavailable. Please use MTN Mobile Money or Airtel Money for faster processing.
                                     </p>
                                 </div>
-                                <div class="account-detail-row">
-                                    <span class="account-label" style="color: #999;">Bank Name:</span>
-                                    <span class="account-value" style="color: #999;">Centenary Bank</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('Centenary Bank')" title="Copy" disabled style="opacity: 0.5; cursor: not-allowed;">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="account-detail-row">
-                                    <span class="account-label">Account Name:</span>
-                                    <span class="account-value">KIUMA Finance</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('KIUMA Finance')" title="Copy">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="account-detail-row">
-                                    <span class="account-label">Account Number:</span>
-                                    <span class="account-value">4592430101469919</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('4592430101469919')" title="Copy">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
-                                <div class="account-detail-row">
-                                    <span class="account-label">Branch:</span>
-                                    <span class="account-value">Ishaka Branch</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('Ishaka Branch')" title="Copy">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                </div>
+                            </div>
                                 <div class="payment-reference-note" style="background: #FFEBEE; border: 2px solid #F44336; border-radius: 8px; padding: 12px; margin-top: 10px;">
                                     <strong style="color: #F44336; font-size: 16px; display: block; margin-bottom: 5px;">
                                         <i class="fas fa-exclamation-triangle"></i> CRUCIAL: Payment Reference
@@ -583,7 +554,9 @@
             const type = urlParams.get('type');
             const donation = urlParams.get('donation');
             
-            if (type === 'charity' && donation) {
+            if (type === 'donate') {
+                selectPaymentType('donate');
+            } else if (type === 'charity' && donation) {
                 selectPaymentType('charity');
                 setTimeout(() => {
                     const donationTypeEl = document.getElementById('donationType');
@@ -595,6 +568,7 @@
         });
 
         function selectPaymentType(type) {
+            console.log('selectPaymentType called with:', type); // Debug log
             selectedPaymentType = type;
             
             // Update UI
@@ -610,9 +584,16 @@
             const selectedPlanInfo = document.getElementById('selectedPlanInfo');
 
             if (type === 'semester' || type === 'monthly') {
+                console.log('Showing membership plans for:', type); // Debug log
                 membershipPlans.style.display = 'block';
                 paymentForm.style.display = 'none';
                 selectedPlan = null;
+                
+                // Hide zakat form and show unified form (but keep it hidden until plan is selected)
+                const unifiedForm = document.getElementById('unifiedPaymentForm');
+                const zakatForm = document.getElementById('zakatForm');
+                if (unifiedForm) unifiedForm.style.display = 'none';
+                if (zakatForm) zakatForm.style.display = 'none';
                 
                 // Scroll to membership plans section
                 setTimeout(() => {
@@ -1088,8 +1069,7 @@
             const typeNames = {
                 'zakat': 'Zakat',
                 'charity': 'Charity',
-                'donate': 'Donation',
-                'kisilaahe': 'Kisilaahe Subscription'
+                'donate': 'Donation'
             };
 
             // Get donation type name
@@ -1419,8 +1399,7 @@ Jazakallahu Khairan.`;
                     const typeNames = {
                         'zakat': 'Zakat Payment',
                         'charity': 'Charity Donation',
-                        'donate': 'General Donation',
-                        'kisilaahe': 'Kisilaahe Subscription'
+                        'donate': 'General Donation'
                     };
                     description = typeNames[selectedPaymentType] || 'Payment';
                     

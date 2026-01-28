@@ -29,6 +29,42 @@ window.openWhatsApp = function(phoneNumber, message = '') {
     }
 };
 
+// Mobile-friendly alert replacement
+window.showMobileAlert = function(message, title = 'Notice') {
+    // Create custom modal instead of browser alert
+    const modal = document.createElement('div');
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 20px;';
+    
+    const content = document.createElement('div');
+    content.style.cssText = 'background: white; padding: 30px; border-radius: 15px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);';
+    
+    content.innerHTML = `
+        <div style="margin-bottom: 20px;">
+            <i class="fas fa-info-circle" style="font-size: 48px; color: var(--primary-green);"></i>
+        </div>
+        <h3 style="margin: 0 0 15px 0; color: #333; font-size: 20px; font-weight: 600;">${title}</h3>
+        <p style="margin: 0 0 25px 0; color: #666; font-size: 16px; line-height: 1.5; white-space: pre-line;">${message}</p>
+        <button onclick="this.closest('div[style*=position]').remove()" style="background: var(--primary-green); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s;">OK</button>
+    `;
+    
+    modal.appendChild(content);
+    document.body.appendChild(modal);
+    
+    // Auto-close after 5 seconds
+    setTimeout(() => {
+        if (modal.parentNode) {
+            modal.remove();
+        }
+    }, 5000);
+    
+    // Close on backdrop click
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+};
+
 // Navigation Menu Toggle
 const menuToggle = document.getElementById('menuToggle');
 const navMenu = document.getElementById('navMenu');
