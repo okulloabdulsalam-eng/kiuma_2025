@@ -106,9 +106,6 @@
                     <div class="payment-tab-item" data-type="donate" onclick="selectPaymentType('donate')">
                         Donate
                     </div>
-                    <div class="payment-tab-item" data-type="kisilaahe" onclick="selectPaymentType('kisilaahe')">
-                        Kisilaahe Subscription
-                    </div>
                 </div>
 
                 <!-- Membership Plans Section (shown when Semester or Monthly Subscription is selected) -->
@@ -266,10 +263,12 @@
                                 <option value="">Select payment method</option>
                                 <option value="mtn">MTN Mobile Money</option>
                                 <option value="airtel">Airtel Money</option>
-                                <option value="bank">Bank Transfer</option>
                                 <option value="pesapal">Pesapal (Online Payment)</option>
                                 <option value="other">Other Payment Methods</option>
                             </select>
+                            <small style="color: #F44336; font-size: 12px; margin-top: 5px; display: block;">
+                                <i class="fas fa-info-circle"></i> Bank transfers are temporarily under maintenance. Please use mobile money for faster processing.
+                            </small>
                             <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Select the method you will use to make payment</small>
                             
                             <!-- Other Payment Methods Dropdown (shown when "Other Payment Methods" is selected) -->
@@ -309,7 +308,7 @@
                         <!-- Payment Notes (Optional) -->
                         <div class="form-group">
                             <label class="form-label">Notes <span style="color: #666; font-size: 12px;">(Optional)</span></label>
-                            <textarea class="form-input" id="paymentNotes" rows="3" placeholder="Add any notes about your payment (e.g., 'I want you to use this for bananas this week')"></textarea>
+                            <textarea class="form-input" id="paymentNotes" rows="3" placeholder="Any more details about your payment you wish to provide will appear before the finance Amir"></textarea>
                             <small style="color: #666; font-size: 12px; margin-top: 5px; display: block;">Any additional information about your payment</small>
                         </div>
 
@@ -424,19 +423,28 @@
                         </div>
 
                         <!-- Bank Account Dropdown -->
-                        <div class="payment-account-card" style="margin-bottom: 15px; border: 2px solid #e0e0e0; border-radius: 10px; overflow: hidden;">
-                            <div class="payment-account-header" onclick="togglePaymentDropdown('bank')" style="cursor: pointer; padding: 15px; background: #fff; display: flex; justify-content: space-between; align-items: center;">
+                        <div class="payment-account-card" style="margin-bottom: 15px; border: 2px solid #e0e0e0; border-radius: 10px; overflow: hidden; opacity: 0.6; pointer-events: none;">
+                            <div class="payment-account-header" style="cursor: not-allowed; padding: 15px; background: #fff; display: flex; justify-content: space-between; align-items: center;">
                                 <div style="display: flex; align-items: center; gap: 10px;">
-                                    <i class="fas fa-university" style="color: var(--primary-green); font-size: 24px;"></i>
-                                    <h4 style="margin: 0; font-size: 18px; font-weight: 600;">Bank Account</h4>
+                                    <i class="fas fa-university" style="color: #999; font-size: 24px;"></i>
+                                    <h4 style="margin: 0; font-size: 18px; font-weight: 600; color: #999;">Bank Account</h4>
                                 </div>
-                                <i class="fas fa-chevron-down" id="bankChevron" style="transition: transform 0.3s;"></i>
+                                <i class="fas fa-lock" style="color: #F44336; font-size: 16px;"></i>
                             </div>
-                            <div class="payment-account-details" id="bankDetails" style="display: none; padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+                            <div class="payment-account-details" style="padding: 15px; background: #f9f9f9; border-top: 1px solid #e0e0e0;">
+                                <div style="background: #FFF3CD; border: 1px solid #FFEAA7; border-radius: 8px; padding: 12px; margin-bottom: 15px;">
+                                    <p style="margin: 0; color: #856404; font-size: 14px; font-weight: 600;">
+                                        <i class="fas fa-tools" style="margin-right: 8px;"></i>
+                                        Under Maintenance
+                                    </p>
+                                    <p style="margin: 5px 0 0 0; color: #856404; font-size: 12px;">
+                                        Bank transfer services are temporarily unavailable. Please use MTN Mobile Money or Airtel Money for faster processing.
+                                    </p>
+                                </div>
                                 <div class="account-detail-row">
-                                    <span class="account-label">Bank Name:</span>
-                                    <span class="account-value">Centenary Bank</span>
-                                    <button class="copy-btn" onclick="copyToClipboard('Centenary Bank')" title="Copy">
+                                    <span class="account-label" style="color: #999;">Bank Name:</span>
+                                    <span class="account-value" style="color: #999;">Centenary Bank</span>
+                                    <button class="copy-btn" onclick="copyToClipboard('Centenary Bank')" title="Copy" disabled style="opacity: 0.5; cursor: not-allowed;">
                                         <i class="fas fa-copy"></i>
                                     </button>
                                 </div>
@@ -630,7 +638,7 @@
                     paymentForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }, 100);
             } else {
-                // For all other payment types (charity, donate, kisilaahe)
+                // For all other payment types (charity, donate)
                 membershipPlans.style.display = 'none';
                 paymentForm.style.display = 'block';
                 const unifiedForm = document.getElementById('unifiedPaymentForm');
@@ -659,13 +667,6 @@
                     amountInput.style.background = '';
                 }
                 if (amountRequired) amountRequired.style.display = 'inline';
-                
-                // Set default amount for Kisilaahe
-                if (type === 'kisilaahe' && amountInput) {
-                    amountInput.value = '1500000';
-                    selectedAmount = 1500000;
-                    selectedPlan = 'kisilaahe';
-                }
                 
                 // Autofill name if user is logged in
                 autofillPaymentName();
@@ -931,23 +932,8 @@
             const paymentMethod = document.getElementById('selectedPaymentMethod')?.value || 'not-selected';
             const methodNames = {
                 'mtn': 'MTN Mobile Money',
-                'airtel': 'Airtel Money',
-                'bank': 'Bank Transfer',
-                'not-selected': 'Not Selected'
+                'airtel': 'Airtel Money'
             };
-
-            // Payment confirmation
-            const paymentTypeNames = {
-                'semester': 'Semester Subscription',
-                'monthly': 'Monthly Subscription',
-                'zakat': 'Zakat',
-                'charity': 'Charity',
-                'donate': 'Donation',
-                'kisilaahe': 'Kisilaahe Subscription'
-            };
-
-            // Generate payment ID
-            const paymentId = 'PAY-' + Date.now().toString().slice(-8);
             
             // Build payment summary
             let summary = {
@@ -1271,8 +1257,7 @@ Jazakallahu Khairan.`;
                 'monthly': 'Monthly Subscription',
                 'zakat': 'Zakat',
                 'charity': 'Charity',
-                'donate': 'Donation',
-                'kisilaahe': 'Kisilaahe Subscription'
+                'donate': 'Donation'
             };
             
             // Get payment reason names
@@ -1318,6 +1303,12 @@ Jazakallahu Khairan.`;
             if (regNumber) message += `Registration Number: ${regNumber}\n`;
             message += `Amount: ${parseInt(amount).toLocaleString()} UGX\n`;
             message += `Payment Method: ${methodNames[paymentMethod] || paymentMethod}\n`;
+            
+            // Add payment reference
+            const paymentReference = document.getElementById('paymentReference')?.value?.trim() || '';
+            if (paymentReference) {
+                message += `Payment Reference: ${paymentReference}\n`;
+            }
             
             if (paymentReason) {
                 message += `Payment Reason: ${reasonNames[paymentReason] || paymentReason}\n`;
@@ -1739,13 +1730,13 @@ Jazakallahu Khairan.`;
                     <i class="fas fa-chevron-right"></i>
                 </div>
                 
-                <div class="activity-modal-item" onclick="navigateToActivity('kisilaahe')">
-                    <div class="activity-modal-icon" style="background: #9C27B0;">
-                        <i class="fas fa-donate"></i>
+                <div class="activity-modal-item" onclick="navigateToActivity('charity-visit')">
+                    <div class="activity-modal-icon" style="background: #4CAF50;">
+                        <i class="fas fa-hand-holding-heart"></i>
                     </div>
                     <div class="activity-modal-text">
-                        <h4>Donate to Kisilaahe</h4>
-                        <p>Support Kisilaahe with essential items</p>
+                        <h4>Charity Visit</h4>
+                        <p>Support our charity initiatives</p>
                     </div>
                     <i class="fas fa-chevron-right"></i>
                 </div>

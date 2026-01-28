@@ -526,14 +526,32 @@ const prayerStyles = `
         padding: 8px 16px;
     }
     
+    /* Keep table horizontal on mobile - same as desktop */
     .prayer-item {
-        flex-direction: column;
+        flex-direction: row; /* Keep horizontal layout */
+        min-height: 50px; /* Ensure proper height */
     }
     
     .prayer-time {
-        text-align: left;
-        padding: 8px 20px;
-        border-top: 1px solid #f0f0f0;
+        text-align: center; /* Keep centered */
+        padding: 12px 8px; /* Adjust padding for mobile */
+        border-top: none; /* Remove horizontal borders */
+        flex: 1; /* Ensure equal width */
+    }
+    
+    .prayer-name {
+        padding: 12px 15px; /* Adjust padding for mobile */
+        flex: 1.2; /* Slightly wider for prayer names */
+        font-size: 14px; /* Slightly smaller text */
+    }
+    
+    .header-cell {
+        padding: 12px 8px; /* Match mobile padding */
+        font-size: 13px; /* Slightly smaller header text */
+    }
+    
+    .header-cell:first-child {
+        padding-left: 15px; /* Match left padding */
     }
 }
 </style>
