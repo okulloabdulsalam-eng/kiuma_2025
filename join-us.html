@@ -135,6 +135,24 @@
                     </div>
                 </div>
 
+<<<<<<< HEAD
+=======
+                <!-- Guest User Info (shown when not logged in) -->
+                <div id="guestInfoCard">
+                    <div class="info-card" style="background: linear-gradient(135deg, #f5f5f5, #e0e0e0);">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="activity-icon" style="width: 60px; height: 60px; background: #999; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; color: #666;">Guest User</h3>
+                                <p style="margin: 5px 0 0 0; color: #999; font-size: 14px;">Sign in to access all features</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+>>>>>>> 855c052f6462d045ae1a1d9e77c1f1fc6daeaf06
                 <!-- Settings Section -->
                 <h4 style="margin: 20px 0 15px 0; color: var(--dark-gray);"><i class="fas fa-cog"></i> Settings</h4>
                 <div class="settings-list">
@@ -673,6 +691,582 @@
                 updateNavigation();
             }
         }
+<<<<<<< HEAD
+=======
+
+        // Show login section
+        function showLoginSection() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
+            document.getElementById('forgotPasswordSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'none';
+            
+            // Show guest-specific UI elements
+            const userInfoCard = document.getElementById('userInfoCard');
+            const guestInfoCard = document.getElementById('guestInfoCard');
+            const editProfileItem = document.getElementById('editProfileItem');
+            const signInProfileItem = document.getElementById('signInProfileItem');
+            const privacySettingsItem = document.getElementById('privacySettingsItem');
+            const signInPrivacyItem = document.getElementById('signInPrivacyItem');
+            const signOutSection = document.getElementById('signOutSection');
+            
+            if (userInfoCard) userInfoCard.style.display = 'none';
+            if (guestInfoCard) guestInfoCard.style.display = 'block';
+            if (editProfileItem) editProfileItem.style.display = 'none';
+            if (signInProfileItem) signInProfileItem.style.display = 'block';
+            if (privacySettingsItem) privacySettingsItem.style.display = 'none';
+            if (signInPrivacyItem) signInPrivacyItem.style.display = 'block';
+            if (signOutSection) signOutSection.style.display = 'none';
+        }
+
+        // Show account section
+        function showAccountSection() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
+            document.getElementById('forgotPasswordSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'none';
+            
+            // Show logged-in specific UI elements
+            const userInfoCard = document.getElementById('userInfoCard');
+            const guestInfoCard = document.getElementById('guestInfoCard');
+            const editProfileItem = document.getElementById('editProfileItem');
+            const signInProfileItem = document.getElementById('signInProfileItem');
+            const privacySettingsItem = document.getElementById('privacySettingsItem');
+            const signInPrivacyItem = document.getElementById('signInPrivacyItem');
+            const signOutSection = document.getElementById('signOutSection');
+            
+            if (userInfoCard) userInfoCard.style.display = 'block';
+            if (guestInfoCard) guestInfoCard.style.display = 'none';
+            if (editProfileItem) editProfileItem.style.display = 'block';
+            if (signInProfileItem) signInProfileItem.style.display = 'none';
+            if (privacySettingsItem) privacySettingsItem.style.display = 'block';
+            if (signInPrivacyItem) signInPrivacyItem.style.display = 'none';
+            if (signOutSection) signOutSection.style.display = 'block';
+        }
+
+        // Show signup form
+        function showSignupForm() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('forgotPasswordSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'block';
+        }
+
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('accountSection').style.display = 'none'; // Hide settings when showing login form
+            document.getElementById('forgotPasswordSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'none';
+        }
+
+        // Show forgot password form
+        function showForgotPasswordForm() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('forgotPasswordSection').style.display = 'block';
+            document.getElementById('signupSection').style.display = 'none';
+            
+            // Clear any previous messages
+            const messageDiv = document.getElementById('forgotPasswordMessage');
+            messageDiv.style.display = 'none';
+            messageDiv.innerHTML = '';
+            
+            // Clear the form
+            document.getElementById('forgotPasswordEmail').value = '';
+        }
+
+        // Password strength checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('signupPassword').value;
+            const strengthDiv = document.getElementById('passwordStrength');
+            
+            if (password.length === 0) {
+                strengthDiv.innerHTML = '';
+                strengthDiv.className = 'mobile-password-strength';
+                return;
+            }
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            const strengthTexts = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+            const strengthColors = ['#F44336', '#FF9800', '#FF9800', '#4CAF50', '#4CAF50', '#2E7D32'];
+            
+            strengthDiv.innerHTML = `Password strength: ${strengthTexts[strength]}`;
+            strengthDiv.style.color = strengthColors[strength];
+        }
+
+        // Password match checker
+        function checkPasswordMatch() {
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const matchDiv = document.getElementById('passwordMatch');
+            
+            if (confirmPassword.length === 0) {
+                matchDiv.innerHTML = '';
+                matchDiv.className = 'mobile-password-match';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                matchDiv.innerHTML = '✓ Passwords match';
+                matchDiv.style.color = '#4CAF50';
+            } else {
+                matchDiv.innerHTML = '✗ Passwords do not match';
+                matchDiv.style.color = '#F44336';
+            }
+        }
+
+        // Password toggle function
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Show terms modal
+        function showTerms() {
+            showMobileAlert('Terms and Conditions\n\nBy creating an account, you agree to:\n• Provide accurate information\n• Keep your password secure\n• Use the service responsibly\n• Respect community guidelines\n\nKIUMA reserves the right to suspend accounts that violate these terms.', 'Terms and Conditions');
+        }
+
+        // Show privacy policy
+        function showPrivacy() {
+            showMobileAlert('Privacy Policy\n\nYour privacy is important to us:\n• We collect only necessary information\n• Your data is stored securely\n• We never share your personal information\n• You can request data deletion at any time\n\nFor questions, contact our support team.', 'Privacy Policy');
+        }
+
+        // Update user info display
+        function updateUserInfo() {
+            if (pageUser) {
+                const displayName = pageUser.displayName || pageUser.email?.split('@')[0] || 'User';
+                const email = pageUser.email || 'No email';
+                
+                // Main user card
+                const userDisplayNameEl = document.getElementById('userDisplayName');
+                const userEmailEl = document.getElementById('userEmail');
+                if (userDisplayNameEl) userDisplayNameEl.textContent = displayName;
+                if (userEmailEl) {
+                    userEmailEl.textContent = email;
+                    userEmailEl.style.display = 'block';
+                    userEmailEl.style.visibility = 'visible';
+                }
+                
+                // Account details section
+                const detailName = document.getElementById('detailName');
+                const detailEmail = document.getElementById('detailEmail');
+                const memberSince = document.getElementById('userMemberSince');
+                
+                if (detailName) detailName.textContent = displayName;
+                if (detailEmail) detailEmail.textContent = email;
+                
+                // Member since date
+                if (memberSince) {
+                    let joinDate = '--';
+                    if (pageUser.metadata?.creationTime) {
+                        const date = new Date(pageUser.metadata.creationTime);
+                        joinDate = date.toLocaleDateString('en-US', {
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric'
+                        });
+                    } else if (pageUser.createdAt) {
+                        const date = new Date(pageUser.createdAt);
+                        joinDate = date.toLocaleDateString('en-US', {
+                            year: 'numeric', 
+                            month: 'short', 
+                            day: 'numeric'
+                        });
+                    }
+                    memberSince.textContent = 'Member since: ' + joinDate;
+                    memberSince.style.display = 'block';
+                    memberSince.style.visibility = 'visible';
+                }
+            }
+        }
+
+        // Handle login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+            messageDiv.style.display = 'none';
+
+            try {
+                if (typeof signInWithEmail === 'function') {
+                    const result = await signInWithEmail(email, password);
+                    if (result.success) {
+                        pageUser = result.user;
+                        // Save user data to localStorage for homepage greeting
+                        const userData = {
+                            name: pageUser.displayName || pageUser.email?.split('@')[0] || 'User',
+                            firstName: pageUser.displayName?.split(' ')[0] || pageUser.email?.split('@')[0] || 'User',
+                            email: pageUser.email,
+                            uid: pageUser.uid,
+                            createdAt: pageUser.metadata?.creationTime || new Date().toISOString()
+                        };
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        showAccountSection();
+                        updateUserInfo();
+                        updateNavigation();
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.backgroundColor = '#E8F5E9';
+                        messageDiv.style.color = '#2E7D32';
+                        messageDiv.style.border = '1px solid #4CAF50';
+                        messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Signed in successfully!';
+                        setTimeout(() => {
+                            messageDiv.style.display = 'none';
+                        }, 2000);
+                    } else {
+                        throw new Error(result.message || 'Login failed');
+                    }
+                } else {
+                    throw new Error('Firebase Auth not available');
+                }
+            } catch (error) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.backgroundColor = '#FFEBEE';
+                messageDiv.style.color = '#C62828';
+                messageDiv.style.border = '1px solid #F44336';
+                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+            }
+        }
+
+        // Handle signup
+        async function handleSignup(e) {
+            e.preventDefault();
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            const messageDiv = document.getElementById('signupMessage');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Enhanced validation
+            if (!name || name.length < 2) {
+                showMessage('Please enter your full name (at least 2 characters)', 'error');
+                return;
+            }
+
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters long', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match', 'error');
+                return;
+            }
+
+            if (!agreeTerms) {
+                showMessage('You must agree to the Terms and Conditions and Privacy Policy', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            messageDiv.style.display = 'none';
+
+            try {
+                if (typeof signUpWithEmail === 'function') {
+                    const result = await signUpWithEmail(email, password, name);
+                    if (result.success) {
+                        pageUser = result.user;
+                        // Save user data to localStorage for homepage greeting
+                        const userData = {
+                            name: name || pageUser.displayName || pageUser.email?.split('@')[0] || 'User',
+                            firstName: (name || pageUser.displayName || pageUser.email?.split('@')[0] || 'User').split(' ')[0],
+                            email: pageUser.email,
+                            phone: phone || '',
+                            uid: pageUser.uid,
+                            createdAt: new Date().toISOString()
+                        };
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        showAccountSection();
+                        updateUserInfo();
+                        updateNavigation();
+                        showMessage('Account created successfully! Welcome to KIUMA!', 'success');
+                        
+                        // Redirect to home page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        throw new Error(result.message || 'Signup failed');
+                    }
+                } else {
+                    throw new Error('Firebase Auth not available');
+                }
+            } catch (error) {
+                showMessage(error.message || 'Failed to create account. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            }
+        }
+
+        // Handle forgot password
+        async function handleForgotPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotPasswordEmail').value.trim();
+            const messageDiv = document.getElementById('forgotPasswordMessage');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Enhanced validation
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                showForgotPasswordMessage('Please enter a valid email address', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            messageDiv.style.display = 'none';
+
+            try {
+                if (typeof resetPassword === 'function') {
+                    const result = await resetPassword(email);
+                    if (result.success) {
+                        showForgotPasswordMessage('Password reset link sent! Please check your email inbox (including spam folder).', 'success');
+                        
+                        // Clear the form
+                        document.getElementById('forgotPasswordEmail').value = '';
+                        
+                        // Redirect to login after 3 seconds
+                        setTimeout(() => {
+                            showLoginForm();
+                        }, 3000);
+                    } else {
+                        throw new Error(result.message || 'Failed to send reset link');
+                    }
+                } else {
+                    // Fallback for when Firebase is not available
+                    showForgotPasswordMessage('Password reset functionality is currently unavailable. Please contact support for assistance.', 'error');
+                }
+            } catch (error) {
+                let errorMessage = error.message;
+                
+                // Handle specific Firebase errors
+                if (errorMessage.includes('user-not-found')) {
+                    errorMessage = 'No account found with this email address.';
+                } else if (errorMessage.includes('invalid-email')) {
+                    errorMessage = 'Invalid email address format.';
+                } else if (errorMessage.includes('too-many-requests')) {
+                    errorMessage = 'Too many requests. Please try again later.';
+                } else {
+                    errorMessage = 'Failed to send reset link. Please try again.';
+                }
+                
+                showForgotPasswordMessage(errorMessage, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
+            }
+        }
+
+        // Helper function to show forgot password messages
+        function showForgotPasswordMessage(message, type) {
+            const messageDiv = document.getElementById('forgotPasswordMessage');
+            messageDiv.style.display = 'flex';
+            messageDiv.className = 'mobile-message ' + type;
+            
+            if (type === 'success') {
+                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            } else {
+                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            }
+        }
+
+        // Helper function to show signup messages
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('signupMessage');
+            messageDiv.style.display = 'flex';
+            messageDiv.className = 'mobile-message ' + type;
+            
+            if (type === 'success') {
+                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            } else {
+                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            }
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            if (!confirm('Are you sure you want to sign out?')) {
+                return;
+            }
+
+            try {
+                if (typeof signOut === 'function') {
+                    await signOut();
+                } else {
+                    localStorage.removeItem('userData');
+                }
+                pageUser = null;
+                showLoginSection();
+                updateNavigation();
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Error signing out. Please try again.');
+            }
+        }
+
+        // Edit name functions
+        function showEditNameModal() {
+            // Check if user is logged in
+            if (!pageUser || !pageUser.uid) {
+                alert('Please sign in to edit your profile');
+                showLoginForm();
+                return;
+            }
+            
+            const modal = document.getElementById('editNameModal');
+            const input = document.getElementById('editNameInput');
+            if (pageUser) {
+                input.value = pageUser.displayName || pageUser.email?.split('@')[0] || '';
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeEditNameModal() {
+            document.getElementById('editNameModal').style.display = 'none';
+        }
+
+        async function handleEditName(e) {
+            e.preventDefault();
+            const newName = document.getElementById('editNameInput').value.trim();
+            
+            if (!newName) {
+                alert('Please enter a name');
+                return;
+            }
+
+            try {
+                if (pageUser && typeof pageUser.updateProfile === 'function') {
+                    await pageUser.updateProfile({ displayName: newName });
+                    pageUser.displayName = newName;
+                }
+                // Always update localStorage for homepage greeting
+                const existingData = JSON.parse(localStorage.getItem('userData') || '{}');
+                existingData.name = newName;
+                existingData.firstName = newName.split(' ')[0];
+                localStorage.setItem('userData', JSON.stringify(existingData));
+                updateUserInfo();
+                closeEditNameModal();
+                alert('Name updated successfully!');
+            } catch (error) {
+                console.error('Error updating name:', error);
+                alert('Error updating name. Please try again.');
+            }
+        }
+
+        // Settings functions
+        function showSettingsModal() {
+            // Load saved settings
+            const notificationsEnabled = localStorage.getItem('notificationsEnabled') !== 'false';
+            const emailUpdates = localStorage.getItem('emailUpdates') !== 'false';
+            const eventReminders = localStorage.getItem('eventReminders') !== 'false';
+            
+            document.getElementById('notificationsEnabled').checked = notificationsEnabled;
+            document.getElementById('emailUpdates').checked = emailUpdates;
+            document.getElementById('eventReminders').checked = eventReminders;
+            
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function saveSettings() {
+            const notifications = document.getElementById('notificationsEnabled').checked;
+            const emails = document.getElementById('emailUpdates').checked;
+            const reminders = document.getElementById('eventReminders').checked;
+            
+            localStorage.setItem('notificationsEnabled', notifications);
+            localStorage.setItem('emailUpdates', emails);
+            localStorage.setItem('eventReminders', reminders);
+            
+            closeSettingsModal();
+            alert('Settings saved successfully!');
+        }
+
+        // Privacy functions
+        function showPrivacyModal() {
+            // Check if user is logged in
+            if (!pageUser || !pageUser.uid) {
+                alert('Please sign in to manage privacy settings');
+                showLoginForm();
+                return;
+            }
+            
+            // Load saved privacy settings
+            const profileVisible = localStorage.getItem('profileVisible') !== 'false';
+            const showEmail = localStorage.getItem('showEmail') !== 'false';
+            
+            document.getElementById('profileVisible').checked = profileVisible;
+            document.getElementById('showEmail').checked = showEmail;
+            
+            document.getElementById('privacyModal').style.display = 'flex';
+        }
+
+        function closePrivacyModal() {
+            document.getElementById('privacyModal').style.display = 'none';
+        }
+
+        function savePrivacySettings() {
+            const profileVisible = document.getElementById('profileVisible').checked;
+            const showEmail = document.getElementById('showEmail').checked;
+            
+            localStorage.setItem('profileVisible', profileVisible);
+            localStorage.setItem('showEmail', showEmail);
+            
+            closePrivacyModal();
+            alert('Privacy settings saved successfully!');
+        }
+
+        // Update navigation text - uses unified navigation system
+        function updateNavigation() {
+            // Use the unified navigation update system
+            if (typeof window.forceUpdateNavigation === 'function') {
+                window.forceUpdateNavigation();
+            } else if (typeof window.updateNavigationLinks === 'function') {
+                window.updateNavigationLinks();
+            }
+        }
+
+        // Close modals when clicking outside
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+>>>>>>> 855c052f6462d045ae1a1d9e77c1f1fc6daeaf06
     </script>
 </body>
 </html>
