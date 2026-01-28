@@ -168,21 +168,17 @@
                     </div>
                 </div>
 
-                <!-- Account Details -->
-                <div class="info-card" style="margin-bottom: 20px;">
-                    <h3 style="margin: 0 0 15px 0; font-size: 16px; color: var(--dark-green);"><i class="fas fa-id-card"></i> Account Details</h3>
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <div style="display: flex; justify-content: space-between; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-                            <span style="color: #666;">Full Name</span>
-                            <span style="font-weight: 600;" id="detailName">--</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px; background: #f5f5f5; border-radius: 8px;">
-                            <span style="color: #666; font-size: 14px;">Email</span>
-                            <span style="font-weight: 600; color: var(--dark-gray); font-size: 14px; word-break: break-all; text-align: right; max-width: 60%;" id="detailEmail">--</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 10px; background: #f5f5f5; border-radius: 8px;">
-                            <span style="color: #666;">Account Status</span>
-                            <span style="font-weight: 600; color: var(--primary-green);"><i class="fas fa-check-circle"></i> Active</span>
+                <!-- Guest User Info (shown when not logged in) -->
+                <div id="guestInfoCard">
+                    <div class="info-card" style="background: linear-gradient(135deg, #f5f5f5, #e0e0e0);">
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div class="activity-icon" style="width: 60px; height: 60px; background: #999; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-user" style="font-size: 24px; color: white;"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <h3 style="margin: 0; color: #666;">Guest User</h3>
+                                <p style="margin: 5px 0 0 0; color: #999; font-size: 14px;">Sign in to access all features</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -190,8 +186,8 @@
                 <!-- Settings Section -->
                 <h4 style="margin: 20px 0 15px 0; color: var(--dark-gray);"><i class="fas fa-cog"></i> Settings</h4>
                 <div class="settings-list">
-                    <!-- Edit Profile -->
-                    <div class="settings-item" onclick="showEditNameModal()">
+                    <!-- Edit Profile (only for logged-in users) -->
+                    <div id="editProfileItem" class="settings-item" onclick="showEditNameModal()" style="display: none;">
                         <div class="settings-icon" style="background: #4CAF50;">
                             <i class="fas fa-user-edit"></i>
                         </div>
@@ -202,7 +198,19 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Notification Settings -->
+                    <!-- Sign In (shown instead of Edit Profile for guests) -->
+                    <div id="signInProfileItem" class="settings-item" onclick="showLoginForm()">
+                        <div class="settings-icon" style="background: #4CAF50;">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                        <div class="settings-content">
+                            <h4>Sign In</h4>
+                            <p>Sign in to edit your profile</p>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <!-- Notification Settings (available to all) -->
                     <div class="settings-item" onclick="showSettingsModal()">
                         <div class="settings-icon" style="background: #2196F3;">
                             <i class="fas fa-bell"></i>
@@ -214,8 +222,8 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Privacy Settings -->
-                    <div class="settings-item" onclick="showPrivacyModal()">
+                    <!-- Privacy Settings (only for logged-in users) -->
+                    <div id="privacySettingsItem" class="settings-item" onclick="showPrivacyModal()" style="display: none;">
                         <div class="settings-icon" style="background: #9C27B0;">
                             <i class="fas fa-shield-alt"></i>
                         </div>
@@ -226,7 +234,19 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- My Programs -->
+                    <!-- Sign In for Privacy (shown instead of Privacy for guests) -->
+                    <div id="signInPrivacyItem" class="settings-item" onclick="showLoginForm()">
+                        <div class="settings-icon" style="background: #9C27B0;">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </div>
+                        <div class="settings-content">
+                            <h4>Privacy</h4>
+                            <p>Sign in to manage privacy settings</p>
+                        </div>
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+
+                    <!-- My Programs (available to all) -->
                     <div class="settings-item" onclick="window.location.href='join-programs.html'">
                         <div class="settings-icon" style="background: #FF9800;">
                             <i class="fas fa-graduation-cap"></i>
@@ -238,7 +258,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Contact Us -->
+                    <!-- Contact Us (available to all) -->
                     <div class="settings-item" onclick="window.location.href='contact.html'">
                         <div class="settings-icon" style="background: #00BCD4;">
                             <i class="fas fa-envelope"></i>
@@ -250,7 +270,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Contact Developers -->
+                    <!-- Contact Developers (available to all) -->
                     <div class="settings-item" style="border-bottom: none;">
                         <div class="settings-icon" style="background: #4CAF50;">
                             <i class="fas fa-code"></i>
@@ -259,29 +279,30 @@
                             <h4>Contact Developers</h4>
                             <p>For app support, feature requests, bug reports, and technical assistance</p>
                             <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                                <a href="javascript:void(0)" onclick="if(typeof window.openWhatsApp==='function'){window.openWhatsApp('256703268522','Hello Abdulsalam, I need help with the KIUMA app');}else{window.location.href='https://wa.me/256703268522?text='+encodeURIComponent('Hello Abdulsalam, I need help with the KIUMA app');}" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #25D366; color: white; border-radius: 8px; text-decoration: none; transition: background 0.3s; cursor: pointer;" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
+                                <a href="javascript:void(0)" onclick="if(typeof window.openWhatsApp==='function'){window.openWhatsApp('256703268522','Hello Developer 1, I need help with the KIUMA app');}else{window.location.href='https://wa.me/256703268522?text='+encodeURIComponent('Hello Developer 1, I need help with the KIUMA app');}" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #25D366; color: white; border-radius: 8px; text-decoration: none; transition: background 0.3s; cursor: pointer;" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
                                     <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
                                     <div style="flex: 1;">
-                                        <div style="font-weight: 600;">Abdulsalam</div>
+                                        <div style="font-weight: 600;">Developer 1</div>
                                         <div style="font-size: 12px; opacity: 0.9;">0703268522</div>
                                     </div>
                                     <i class="fas fa-external-link-alt" style="font-size: 12px;"></i>
                                 </a>
-                                <a href="javascript:void(0)" onclick="if(typeof window.openWhatsApp==='function'){window.openWhatsApp('256744950690','Hello Sulaiman, I need help with the KIUMA app');}else{window.location.href='https://wa.me/256744950690?text='+encodeURIComponent('Hello Sulaiman, I need help with the KIUMA app');}" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #25D366; color: white; border-radius: 8px; text-decoration: none; transition: background 0.3s; cursor: pointer;" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
+                                <a href="javascript:void(0)" onclick="if(typeof window.openWhatsApp==='function'){window.openWhatsApp('256744950690','Hello Developer 2, I need help with the KIUMA app');}else{window.location.href='https://wa.me/256744950690?text='+encodeURIComponent('Hello Developer 2, I need help with the KIUMA app');}" style="display: flex; align-items: center; gap: 10px; padding: 10px; background: #25D366; color: white; border-radius: 8px; text-decoration: none; transition: background 0.3s; cursor: pointer;" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
                                     <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
                                     <div style="flex: 1;">
-                                        <div style="font-weight: 600;">Sulaiman</div>
+                                        <div style="font-weight: 600;">Developer 2</div>
                                         <div style="font-size: 12px; opacity: 0.9;">0744950690</div>
                                     </div>
                                     <i class="fas fa-external-link-alt" style="font-size: 12px;"></i>
                                 </a>
                             </div>
                         </div>
+                        <i class="fas fa-chevron-right"></i>
                     </div>
                 </div>
 
-                <!-- Sign Out -->
-                <div class="settings-list" style="margin-top: 20px;">
+                <!-- Sign Out (only shown when logged in) -->
+                <div id="signOutSection" class="settings-list" style="margin-top: 20px; display: none;">
                     <div class="settings-item" onclick="handleLogout()" style="border: 2px solid #FFCDD2;">
                         <div class="settings-icon" style="background: #757575;">
                             <i class="fas fa-sign-out-alt"></i>
@@ -550,14 +571,49 @@
         // Show login section
         function showLoginSection() {
             document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('accountSection').style.display = 'none';
+            document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
             document.getElementById('signupSection').style.display = 'none';
+            
+            // Show guest-specific UI elements
+            const userInfoCard = document.getElementById('userInfoCard');
+            const guestInfoCard = document.getElementById('guestInfoCard');
+            const editProfileItem = document.getElementById('editProfileItem');
+            const signInProfileItem = document.getElementById('signInProfileItem');
+            const privacySettingsItem = document.getElementById('privacySettingsItem');
+            const signInPrivacyItem = document.getElementById('signInPrivacyItem');
+            const signOutSection = document.getElementById('signOutSection');
+            
+            if (userInfoCard) userInfoCard.style.display = 'none';
+            if (guestInfoCard) guestInfoCard.style.display = 'block';
+            if (editProfileItem) editProfileItem.style.display = 'none';
+            if (signInProfileItem) signInProfileItem.style.display = 'block';
+            if (privacySettingsItem) privacySettingsItem.style.display = 'none';
+            if (signInPrivacyItem) signInPrivacyItem.style.display = 'block';
+            if (signOutSection) signOutSection.style.display = 'none';
         }
 
         // Show account section
         function showAccountSection() {
             document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('accountSection').style.display = 'block';
+            document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
+            document.getElementById('signupSection').style.display = 'none';
+            
+            // Show logged-in specific UI elements
+            const userInfoCard = document.getElementById('userInfoCard');
+            const guestInfoCard = document.getElementById('guestInfoCard');
+            const editProfileItem = document.getElementById('editProfileItem');
+            const signInProfileItem = document.getElementById('signInProfileItem');
+            const privacySettingsItem = document.getElementById('privacySettingsItem');
+            const signInPrivacyItem = document.getElementById('signInPrivacyItem');
+            const signOutSection = document.getElementById('signOutSection');
+            
+            if (userInfoCard) userInfoCard.style.display = 'block';
+            if (guestInfoCard) guestInfoCard.style.display = 'none';
+            if (editProfileItem) editProfileItem.style.display = 'block';
+            if (signInProfileItem) signInProfileItem.style.display = 'none';
+            if (privacySettingsItem) privacySettingsItem.style.display = 'block';
+            if (signInPrivacyItem) signInPrivacyItem.style.display = 'none';
+            if (signOutSection) signOutSection.style.display = 'block';
         }
 
         // Show signup form
@@ -752,6 +808,13 @@
 
         // Edit name functions
         function showEditNameModal() {
+            // Check if user is logged in
+            if (!pageUser || !pageUser.uid) {
+                alert('Please sign in to edit your profile');
+                showLoginForm();
+                return;
+            }
+            
             const modal = document.getElementById('editNameModal');
             const input = document.getElementById('editNameInput');
             if (pageUser) {
@@ -825,6 +888,13 @@
 
         // Privacy functions
         function showPrivacyModal() {
+            // Check if user is logged in
+            if (!pageUser || !pageUser.uid) {
+                alert('Please sign in to manage privacy settings');
+                showLoginForm();
+                return;
+            }
+            
             // Load saved privacy settings
             const profileVisible = localStorage.getItem('profileVisible') !== 'false';
             const showEmail = localStorage.getItem('showEmail') !== 'false';

@@ -24,6 +24,9 @@ body {
     overflow-x: hidden;
     padding-bottom: 80px;
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
 .container {
