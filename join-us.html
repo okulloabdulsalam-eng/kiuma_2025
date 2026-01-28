@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -6,292 +6,9 @@
     <title>Account - KIUMA</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#757575">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/register-service-worker.js"></script>
-    
-    <!-- Mobile-First Styles -->
-    <style>
-        /* Mobile Welcome Banner */
-        .mobile-welcome-banner {
-            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-            margin-bottom: 20px;
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
-        }
-        
-        .welcome-icon {
-            font-size: 60px;
-            margin-bottom: 15px;
-            opacity: 0.9;
-        }
-        
-        .welcome-title {
-            margin: 0 0 10px 0;
-            font-size: 24px;
-            font-weight: 700;
-        }
-        
-        .welcome-subtitle {
-            margin: 0;
-            opacity: 0.9;
-            font-size: 16px;
-            line-height: 1.4;
-        }
-        
-        /* Mobile Form Container */
-        .mobile-form-container {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .mobile-form-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .mobile-form-title {
-            margin: 0 0 10px 0;
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--dark-green);
-        }
-        
-        .mobile-form-subtitle {
-            margin: 0;
-            color: #666;
-            font-size: 16px;
-        }
-        
-        /* Mobile Form */
-        .mobile-form {
-            width: 100%;
-        }
-        
-        .mobile-form-group {
-            margin-bottom: 20px;
-        }
-        
-        .mobile-form-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
-        }
-        
-        .mobile-form-label i {
-            color: var(--primary-green);
-            width: 20px;
-            text-align: center;
-        }
-        
-        .mobile-input {
-            width: 100%;
-            padding: 16px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            box-sizing: border-box;
-        }
-        
-        .mobile-input:focus {
-            outline: none;
-            border-color: var(--primary-green);
-            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
-        }
-        
-        .mobile-input::placeholder {
-            color: #999;
-        }
-        
-        /* Password Wrapper */
-        .mobile-password-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        
-        .mobile-password-wrapper .mobile-input {
-            padding-right: 50px;
-        }
-        
-        .mobile-password-toggle {
-            position: absolute;
-            right: 15px;
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 5px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            touch-action: manipulation;
-        }
-        
-        .mobile-password-toggle:active {
-            background: #f0f0f0;
-            transform: scale(0.95);
-        }
-        
-        .mobile-password-strength,
-        .mobile-password-match {
-            margin-top: 8px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        /* Checkbox */
-        .mobile-checkbox-label {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            font-size: 15px;
-            cursor: pointer;
-            line-height: 1.4;
-        }
-        
-        .mobile-checkbox {
-            margin: 4px 0 0 0;
-            min-width: 18px;
-            height: 18px;
-            accent-color: var(--primary-green);
-        }
-        
-        .mobile-checkbox-text {
-            flex: 1;
-            color: #333;
-        }
-        
-        /* Mobile Button */
-        .mobile-btn {
-            width: 100%;
-            padding: 18px 20px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            touch-action: manipulation;
-            box-sizing: border-box;
-        }
-        
-        .mobile-btn:active {
-            transform: scale(0.98);
-        }
-        
-        .mobile-btn-primary {
-            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
-            color: white;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-        
-        .mobile-btn-primary:hover {
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-        
-        /* Mobile Message */
-        .mobile-message {
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .mobile-message.success {
-            background: #E8F5E9;
-            color: #2E7D32;
-            border: 1px solid #4CAF50;
-        }
-        
-        .mobile-message.error {
-            background: #FFEBEE;
-            color: #C62828;
-            border: 1px solid #F44336;
-        }
-        
-        /* Mobile Form Footer */
-        .mobile-form-footer {
-            text-align: center;
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #f0f0f0;
-        }
-        
-        .mobile-form-footer p {
-            margin: 0;
-            color: #666;
-            font-size: 15px;
-        }
-        
-        .mobile-link {
-            color: var(--primary-green);
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        .mobile-link:active {
-            opacity: 0.7;
-        }
-        
-        /* Touch Optimizations */
-        @media (hover: none) and (pointer: coarse) {
-            .mobile-btn {
-                padding: 20px 20px;
-                font-size: 17px;
-            }
-            
-            .mobile-input {
-                padding: 18px 15px;
-                font-size: 17px;
-            }
-            
-            .mobile-password-toggle {
-                padding: 8px;
-                font-size: 18px;
-            }
-        }
-        
-        /* Small Screen Optimizations */
-        @media (max-width: 360px) {
-            .mobile-welcome-banner {
-                padding: 30px 15px;
-            }
-            
-            .welcome-icon {
-                font-size: 50px;
-            }
-            
-            .welcome-title {
-                font-size: 22px;
-            }
-            
-            .mobile-form-container {
-                padding: 20px;
-            }
-        }
-    </style>
     
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
@@ -368,167 +85,33 @@
                 </div>
 
                 <!-- Welcome Banner -->
-                <div class="mobile-welcome-banner">
-                    <div class="welcome-icon">
-                        <i class="fas fa-mosque"></i>
-                    </div>
-                    <h2 class="welcome-title">Welcome to KIUMA</h2>
-                    <p class="welcome-subtitle">Sign in to access your account and settings</p>
+                <div class="info-card" style="background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); color: white; text-align: center; margin-bottom: 25px;">
+                    <div style="font-size: 50px; margin-bottom: 15px;"><i class="fas fa-mosque"></i></div>
+                    <h2 style="margin: 0 0 10px 0; font-size: 22px;">Welcome to KIUMA</h2>
+                    <p style="margin: 0; opacity: 0.9; font-size: 14px;">Sign in to access your account and settings</p>
                 </div>
 
                 <!-- Login Form -->
-                <div class="mobile-form-container">
-                    <form id="loginForm" onsubmit="handleLogin(event)" class="mobile-form">
-                        <div id="loginMessage" class="mobile-message" style="display: none;"></div>
-                        
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-envelope"></i>
-                                Email Address
-                            </label>
-                            <input type="email" class="mobile-input" id="loginEmail" name="email" placeholder="Enter your email" required autocomplete="email">
-                        </div>
-
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-lock"></i>
-                                Password
-                            </label>
-                            <input type="password" class="mobile-input" id="loginPassword" name="password" placeholder="Enter your password" required autocomplete="current-password">
-                        </div>
-
-                        <div class="mobile-form-footer" style="margin-top: 15px; margin-bottom: 20px; border-top: none; padding-top: 0;">
-                            <p style="margin: 0;">
-                                <a href="#" onclick="showForgotPasswordForm(); return false;" class="mobile-link">
-                                    <i class="fas fa-key"></i> Forgot Password?
-                                </a>
-                            </p>
-                        </div>
-
-                        <button type="submit" class="mobile-btn mobile-btn-primary">
-                            <i class="fas fa-sign-in-alt"></i>
-                            Sign In
-                        </button>
-                    </form>
-
-                    <div class="mobile-form-footer">
-                        <p>Don't have an account? <a href="#" onclick="showSignupForm(); return false;" class="mobile-link">Create Account</a></p>
-                    </div>
-                </div>
-
-                <!-- Forgot Password Form (hidden by default) -->
-                <div id="forgotPasswordSection" class="mobile-form-container" style="display: none;">
-                    <div class="mobile-form-header">
-                        <h3 class="mobile-form-title">Reset Password</h3>
-                        <p class="mobile-form-subtitle">We'll send you a link to reset your password</p>
-                    </div>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div id="loginMessage" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 14px;"></div>
                     
-                    <form id="forgotPasswordForm" onsubmit="handleForgotPassword(event)" class="mobile-form">
-                        <div id="forgotPasswordMessage" class="mobile-message" style="display: none;"></div>
-                        
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-envelope"></i>
-                                Email Address
-                            </label>
-                            <input type="email" class="mobile-input" id="forgotPasswordEmail" name="email" placeholder="Enter your email address" required autocomplete="email">
-                        </div>
-
-                        <button type="submit" class="mobile-btn mobile-btn-primary">
-                            <i class="fas fa-paper-plane"></i>
-                            Send Reset Link
-                        </button>
-
-                        <div class="mobile-form-footer" style="margin-top: 20px;">
-                            <p>
-                                <a href="#" onclick="showLoginForm(); return false;" class="mobile-link">
-                                    <i class="fas fa-arrow-left"></i> Back to Sign In
-                                </a>
-                            </p>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Signup Form (hidden by default) -->
-                <div id="signupSection" class="mobile-form-container" style="display: none;">
-                    <div class="mobile-form-header">
-                        <h3 class="mobile-form-title">Create New Account</h3>
-                        <p class="mobile-form-subtitle">Join our community today</p>
+                    <div class="form-group">
+                        <label class="form-label">Email Address *</label>
+                        <input type="email" class="form-input" id="loginEmail" name="email" placeholder="Enter your email" required>
                     </div>
-                    
-                    <form id="signupForm" onsubmit="handleSignup(event)" class="mobile-form">
-                        <div id="signupMessage" class="mobile-message" style="display: none;"></div>
-                        
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-user"></i>
-                                Full Name
-                            </label>
-                            <input type="text" class="mobile-input" id="signupName" name="name" placeholder="Enter your full name" required autocomplete="name">
-                        </div>
 
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-envelope"></i>
-                                Email Address
-                            </label>
-                            <input type="email" class="mobile-input" id="signupEmail" name="email" placeholder="Enter your email" required autocomplete="email">
-                        </div>
-
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-phone"></i>
-                                Phone Number
-                            </label>
-                            <input type="tel" class="mobile-input" id="signupPhone" name="phone" placeholder="Enter your phone number (optional)" autocomplete="tel">
-                        </div>
-
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-lock"></i>
-                                Password
-                            </label>
-                            <div class="mobile-password-wrapper">
-                                <input type="password" class="mobile-input" id="signupPassword" name="password" placeholder="Create a password (min. 6 characters)" required minlength="6" autocomplete="new-password" oninput="checkPasswordStrength()">
-                                <button type="button" class="mobile-password-toggle" onclick="togglePassword('signupPassword')">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <div id="passwordStrength" class="mobile-password-strength"></div>
-                        </div>
-
-                        <div class="mobile-form-group">
-                            <label class="mobile-form-label">
-                                <i class="fas fa-lock"></i>
-                                Confirm Password
-                            </label>
-                            <div class="mobile-password-wrapper">
-                                <input type="password" class="mobile-input" id="signupConfirmPassword" name="confirmPassword" placeholder="Confirm your password" required minlength="6" autocomplete="new-password" oninput="checkPasswordMatch()">
-                                <button type="button" class="mobile-password-toggle" onclick="togglePassword('signupConfirmPassword')">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                            </div>
-                            <div id="passwordMatch" class="mobile-password-match"></div>
-                        </div>
-
-                        <div class="mobile-form-group">
-                            <label class="mobile-checkbox-label">
-                                <input type="checkbox" id="agreeTerms" name="agreeTerms" required class="mobile-checkbox">
-                                <span class="mobile-checkbox-text">
-                                    I agree to the <a href="#" onclick="showTerms(); return false;" class="mobile-link">Terms and Conditions</a> and <a href="#" onclick="showPrivacy(); return false;" class="mobile-link">Privacy Policy</a>
-                                </span>
-                            </label>
-                        </div>
-
-                        <button type="submit" class="mobile-btn mobile-btn-primary">
-                            <i class="fas fa-user-plus"></i>
-                            Create Account
-                        </button>
-                    </form>
-
-                    <div class="mobile-form-footer">
-                        <p>Already have an account? <a href="#" onclick="showLoginForm(); return false;" class="mobile-link">Sign In</a></p>
+                    <div class="form-group">
+                        <label class="form-label">Password *</label>
+                        <input type="password" class="form-input" id="loginPassword" name="password" placeholder="Enter your password" required>
                     </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 16px; margin-bottom: 15px;">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+
+                <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
+                    Don't have an account? <a href="#" onclick="showSignupForm(); return false;" style="color: var(--primary-green); font-weight: 600;">Create Account</a>
                 </div>
             </section>
 
@@ -552,39 +135,21 @@
                     </div>
                 </div>
 
-                <!-- Account Details -->
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Settings Section -->
                 <h4 style="margin: 20px 0 15px 0; color: var(--dark-gray);"><i class="fas fa-cog"></i> Settings</h4>
                 <div class="settings-list">
-                    <!-- Edit Profile (only for logged-in users) -->
-                    <div id="editProfileItem" class="settings-item" onclick="showEditNameModal()" style="display: none;">
+                    <!-- Edit Profile -->
+                    <div class="settings-item" onclick="showEditNameModal()">
                         <div class="settings-icon" style="background: #4CAF50;">
                             <i class="fas fa-user-edit"></i>
                         </div>
                         <div class="settings-content">
                             <h4>Edit Profile</h4>
-                            <p>Update your display name</p>
                         </div>
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Sign In (shown instead of Edit Profile for guests) -->
-                    <div id="signInProfileItem" class="settings-item" onclick="showLoginForm()">
-                        <div class="settings-icon" style="background: #4CAF50;">
-                            <i class="fas fa-sign-in-alt"></i>
-                        </div>
-                        <div class="settings-content">
-                            <h4>Sign In</h4>
-                            <p>Sign in to edit your profile</p>
-                        </div>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-
-                    <!-- Notification Settings (available to all) -->
+                    <!-- Notification Settings -->
                     <div class="settings-item" onclick="showSettingsModal()">
                         <div class="settings-icon" style="background: #2196F3;">
                             <i class="fas fa-bell"></i>
@@ -596,8 +161,8 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Privacy Settings (only for logged-in users) -->
-                    <div id="privacySettingsItem" class="settings-item" onclick="showPrivacyModal()" style="display: none;">
+                    <!-- Privacy Settings -->
+                    <div class="settings-item" onclick="showPrivacyModal()">
                         <div class="settings-icon" style="background: #9C27B0;">
                             <i class="fas fa-shield-alt"></i>
                         </div>
@@ -608,19 +173,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Sign In for Privacy (shown instead of Privacy for guests) -->
-                    <div id="signInPrivacyItem" class="settings-item" onclick="showLoginForm()">
-                        <div class="settings-icon" style="background: #9C27B0;">
-                            <i class="fas fa-sign-in-alt"></i>
-                        </div>
-                        <div class="settings-content">
-                            <h4>Privacy</h4>
-                            <p>Sign in to manage privacy settings</p>
-                        </div>
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-
-                    <!-- My Programs (available to all) -->
+                    <!-- My Programs -->
                     <div class="settings-item" onclick="window.location.href='join-programs.html'">
                         <div class="settings-icon" style="background: #FF9800;">
                             <i class="fas fa-graduation-cap"></i>
@@ -632,7 +185,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Contact Us (available to all) -->
+                    <!-- Contact Us -->
                     <div class="settings-item" onclick="window.location.href='contact.html'">
                         <div class="settings-icon" style="background: #00BCD4;">
                             <i class="fas fa-envelope"></i>
@@ -644,7 +197,7 @@
                         <i class="fas fa-chevron-right"></i>
                     </div>
 
-                    <!-- Contact Developers (available to all) -->
+                    <!-- Contact Developers -->
                     <div class="settings-item" style="border-bottom: none;">
                         <div class="settings-icon" style="background: #4CAF50;">
                             <i class="fas fa-code"></i>
@@ -675,8 +228,8 @@
                     </div>
                 </div>
 
-                <!-- Sign Out (only shown when logged in) -->
-                <div id="signOutSection" class="settings-list" style="margin-top: 20px; display: none;">
+                <!-- Sign Out -->
+                <div class="settings-list" style="margin-top: 20px;">
                     <div class="settings-item" onclick="handleLogout()" style="border: 2px solid #FFCDD2;">
                         <div class="settings-icon" style="background: #757575;">
                             <i class="fas fa-sign-out-alt"></i>
@@ -698,18 +251,6 @@
             <a href="pay.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Pay</span></a>
             <a href="join-us.html" class="nav-item active" id="accountNavItem"><i class="fas fa-user-circle"></i><span id="accountNavText">Join</span></a>
         </nav>
-    </div>
-
-    <!-- Floating Important Lessons Button -->
-    <div class="floating-lessons-btn" onclick="showLessonsModal()">
-        <i class="fas fa-fire"></i>
-        <span>Important Lessons</span>
-    </div>
-
-    <!-- Floating Kizumu Visit Button -->
-    <div class="floating-kizumu-btn" onclick="showActivitiesModal()">
-        <i class="fas fa-heart"></i>
-        <span>Kizumu Visit</span>
     </div>
 
     <!-- Edit Name Modal -->
@@ -851,20 +392,236 @@
             }
         });
 
-        // Check authentication state (runs in background to verify/update)
+        // Show login section
+        function showLoginSection() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('accountSection').style.display = 'none';
+            document.getElementById('signupSection').style.display = 'none';
+        }
+
+        // Show account section
+        function showAccountSection() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('accountSection').style.display = 'block';
+            document.getElementById('signupSection').style.display = 'none';
+        }
+
+        // Show signup form
+        function showSignupForm() {
+            document.getElementById('signupSection').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+        }
+
+        // Show login form
+        function showLoginForm() {
+            document.getElementById('signupSection').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        // Update user info display
+        function updateUserInfo() {
+            if (pageUser) {
+                const displayName = pageUser.displayName || pageUser.email?.split('@')[0] || 'User';
+                const email = pageUser.email || 'No email';
+                const createdAt = pageUser.metadata?.creationTime || new Date().toISOString();
+                const memberSince = new Date(createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                
+                document.getElementById('userDisplayName').textContent = displayName;
+                document.getElementById('userEmail').textContent = email;
+                document.getElementById('userMemberSince').textContent = `Member since: ${memberSince}`;
+            }
+        }
+
+        // Update navigation
+        function updateNavigation() {
+            const accountNavItem = document.getElementById('accountNavItem');
+            const accountNavText = document.getElementById('accountNavText');
+            const accountIcon = document.getElementById('accountIcon');
+            
+            if (pageUser && pageUser.uid) {
+                accountNavText.textContent = 'Account';
+                accountIcon.className = 'fas fa-user';
+            } else {
+                accountNavText.textContent = 'Join';
+                accountIcon.className = 'fas fa-user-circle';
+            }
+        }
+
+        // Handle login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageDiv = document.getElementById('loginMessage');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+            messageDiv.style.display = 'none';
+
+            try {
+                if (typeof signInWithEmail === 'function') {
+                    const result = await signInWithEmail(email, password);
+                    if (result.success) {
+                        pageUser = result.user;
+                        showAccountSection();
+                        updateUserInfo();
+                        updateNavigation();
+                        messageDiv.style.display = 'block';
+                        messageDiv.className = 'mobile-message success';
+                        messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Login successful! Redirecting...';
+                        
+                        // Redirect to home page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        throw new Error(result.message || 'Login failed');
+                    }
+                } else {
+                    throw new Error('Firebase Auth not available');
+                }
+            } catch (error) {
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'mobile-message error';
+                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + (error.message || 'Failed to sign in. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+            }
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            try {
+                if (typeof signOut === 'function') {
+                    await signOut();
+                }
+                pageUser = null;
+                showLoginSection();
+                updateNavigation();
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Error signing out. Please try again.');
+            }
+        }
+
+        // Handle edit name
+        async function handleEditName(e) {
+            e.preventDefault();
+            const newName = document.getElementById('editNameInput').value.trim();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            if (!newName) {
+                alert('Please enter a valid name');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
+            try {
+                if (pageUser && typeof pageUser.updateProfile === 'function') {
+                    await pageUser.updateProfile({ displayName: newName });
+                    pageUser.displayName = newName;
+                    updateUserInfo();
+                    closeEditNameModal();
+                    alert('Name updated successfully!');
+                } else {
+                    // Fallback to localStorage update
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    userData.name = newName;
+                    userData.firstName = newName.split(' ')[0];
+                    localStorage.setItem('userData', JSON.stringify(userData));
+                    pageUser.displayName = newName;
+                    updateUserInfo();
+                    closeEditNameModal();
+                    alert('Name updated successfully!');
+                }
+            } catch (error) {
+                console.error('Error updating name:', error);
+                alert('Failed to update name. Please try again.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+            }
+        }
+
+        // Modal functions
+        function closeEditNameModal() {
+            document.getElementById('editNameModal').style.display = 'none';
+        }
+
+        function showEditNameModal() {
+            const modal = document.getElementById('editNameModal');
+            const input = document.getElementById('editNameInput');
+            if (pageUser) {
+                input.value = pageUser.displayName || pageUser.email?.split('@')[0] || '';
+            }
+            modal.style.display = 'flex';
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        function showSettingsModal() {
+            document.getElementById('settingsModal').style.display = 'flex';
+        }
+
+        function closePrivacyModal() {
+            document.getElementById('privacyModal').style.display = 'none';
+        }
+
+        function showPrivacyModal() {
+            // Load saved privacy settings
+            const profileVisible = localStorage.getItem('profileVisible') !== 'false';
+            const showEmail = localStorage.getItem('showEmail') !== 'false';
+            
+            document.getElementById('profileVisible').checked = profileVisible;
+            document.getElementById('showEmail').checked = showEmail;
+            
+            document.getElementById('privacyModal').style.display = 'flex';
+        }
+
+        // Save settings
+        function saveSettings() {
+            const notifications = document.getElementById('notificationsEnabled').checked;
+            const emails = document.getElementById('emailUpdates').checked;
+            const reminders = document.getElementById('eventReminders').checked;
+            
+            localStorage.setItem('notificationsEnabled', notifications);
+            localStorage.setItem('emailUpdates', emails);
+            localStorage.setItem('eventReminders', reminders);
+            
+            closeSettingsModal();
+            alert('Settings saved successfully!');
+        }
+
+        // Save privacy settings
+        function savePrivacySettings() {
+            const profileVisible = document.getElementById('profileVisible').checked;
+            const showEmail = document.getElementById('showEmail').checked;
+            
+            localStorage.setItem('profileVisible', profileVisible);
+            localStorage.setItem('showEmail', showEmail);
+            
+            closePrivacyModal();
+            alert('Privacy settings saved successfully!');
+        }
+
+        // Check authentication state
         async function checkAuthState() {
-            // Wait a bit for Firebase to initialize (non-blocking)
+            // Wait a bit for Firebase to initialize
             let retries = 0;
             while (retries < 10 && (typeof firebase === 'undefined' || !firebase.auth)) {
                 await new Promise(resolve => setTimeout(resolve, 200));
                 retries++;
             }
             
-            // Try to check Firebase Auth directly
             if (typeof firebase !== 'undefined' && firebase.auth) {
                 try {
                     const auth = firebase.auth();
-                    // Wait for auth to be ready
                     await new Promise((resolve) => {
                         const unsubscribe = auth.onAuthStateChanged((user) => {
                             unsubscribe();
@@ -874,7 +631,6 @@
                     
                     const user = auth.currentUser;
                     if (user) {
-                        // Firebase user found - sync with localStorage
                         pageUser = user;
                         const userData = {
                             name: user.displayName || user.email?.split('@')[0] || 'User',
@@ -900,15 +656,6 @@
                     const user = getCurrentUser();
                     if (user) {
                         pageUser = user;
-                        // Sync with localStorage
-                        const userData = {
-                            name: user.displayName || user.email?.split('@')[0] || 'User',
-                            firstName: user.displayName?.split(' ')[0] || user.email?.split('@')[0] || 'User',
-                            email: user.email,
-                            uid: user.uid,
-                            createdAt: user.metadata?.creationTime || new Date().toISOString()
-                        };
-                        localStorage.setItem('userData', JSON.stringify(userData));
                         showAccountSection();
                         updateUserInfo();
                         updateNavigation();
@@ -919,804 +666,13 @@
                 }
             }
             
-            // If we have localStorage data but no Firebase user, check if we should keep showing account
-            // This handles the case where localStorage has data but Firebase session expired
-            const userData = localStorage.getItem('userData');
-            if (userData && pageUser) {
-                try {
-                    const parsedData = JSON.parse(userData);
-                    // If localStorage has valid data, keep showing account section
-                    // User might need to re-authenticate but we don't want to lose their data
-                    if (parsedData && (parsedData.email || parsedData.uid)) {
-                        // Keep account section visible but note that Firebase session might be expired
-                        if (!pageUser.uid) {
-                            // Convert localStorage data to user-like object for display
-                            pageUser = {
-                                displayName: parsedData.name || parsedData.firstName,
-                                email: parsedData.email,
-                                uid: parsedData.uid,
-                                metadata: { creationTime: parsedData.createdAt }
-                            };
-                            updateUserInfo();
-                        }
-                        return;
-                    }
-                } catch (e) {
-                    console.log('localStorage parse failed:', e);
-                }
-            }
-            
             // If no user found anywhere, show login
-            if (!pageUser || (!pageUser.uid && !userData)) {
+            if (!pageUser) {
                 pageUser = null;
                 showLoginSection();
                 updateNavigation();
             }
         }
-
-        // Show login section
-        function showLoginSection() {
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
-            document.getElementById('forgotPasswordSection').style.display = 'none';
-            document.getElementById('signupSection').style.display = 'none';
-            
-            // Show guest-specific UI elements
-            const userInfoCard = document.getElementById('userInfoCard');
-            const guestInfoCard = document.getElementById('guestInfoCard');
-            const editProfileItem = document.getElementById('editProfileItem');
-            const signInProfileItem = document.getElementById('signInProfileItem');
-            const privacySettingsItem = document.getElementById('privacySettingsItem');
-            const signInPrivacyItem = document.getElementById('signInPrivacyItem');
-            const signOutSection = document.getElementById('signOutSection');
-            
-            if (userInfoCard) userInfoCard.style.display = 'none';
-            if (guestInfoCard) guestInfoCard.style.display = 'block';
-            if (editProfileItem) editProfileItem.style.display = 'none';
-            if (signInProfileItem) signInProfileItem.style.display = 'block';
-            if (privacySettingsItem) privacySettingsItem.style.display = 'none';
-            if (signInPrivacyItem) signInPrivacyItem.style.display = 'block';
-            if (signOutSection) signOutSection.style.display = 'none';
-        }
-
-        // Show account section
-        function showAccountSection() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
-            document.getElementById('forgotPasswordSection').style.display = 'none';
-            document.getElementById('signupSection').style.display = 'none';
-            
-            // Show logged-in specific UI elements
-            const userInfoCard = document.getElementById('userInfoCard');
-            const guestInfoCard = document.getElementById('guestInfoCard');
-            const editProfileItem = document.getElementById('editProfileItem');
-            const signInProfileItem = document.getElementById('signInProfileItem');
-            const privacySettingsItem = document.getElementById('privacySettingsItem');
-            const signInPrivacyItem = document.getElementById('signInPrivacyItem');
-            const signOutSection = document.getElementById('signOutSection');
-            
-            if (userInfoCard) userInfoCard.style.display = 'block';
-            if (guestInfoCard) guestInfoCard.style.display = 'none';
-            if (editProfileItem) editProfileItem.style.display = 'block';
-            if (signInProfileItem) signInProfileItem.style.display = 'none';
-            if (privacySettingsItem) privacySettingsItem.style.display = 'block';
-            if (signInPrivacyItem) signInPrivacyItem.style.display = 'none';
-            if (signOutSection) signOutSection.style.display = 'block';
-        }
-
-        // Show signup form
-        function showSignupForm() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('forgotPasswordSection').style.display = 'none';
-            document.getElementById('signupSection').style.display = 'block';
-        }
-
-        // Show login form
-        function showLoginForm() {
-            document.getElementById('loginSection').style.display = 'block';
-            document.getElementById('accountSection').style.display = 'none'; // Hide settings when showing login form
-            document.getElementById('forgotPasswordSection').style.display = 'none';
-            document.getElementById('signupSection').style.display = 'none';
-        }
-
-        // Show forgot password form
-        function showForgotPasswordForm() {
-            document.getElementById('loginSection').style.display = 'none';
-            document.getElementById('forgotPasswordSection').style.display = 'block';
-            document.getElementById('signupSection').style.display = 'none';
-            
-            // Clear any previous messages
-            const messageDiv = document.getElementById('forgotPasswordMessage');
-            messageDiv.style.display = 'none';
-            messageDiv.innerHTML = '';
-            
-            // Clear the form
-            document.getElementById('forgotPasswordEmail').value = '';
-        }
-
-        // Password strength checker
-        function checkPasswordStrength() {
-            const password = document.getElementById('signupPassword').value;
-            const strengthDiv = document.getElementById('passwordStrength');
-            
-            if (password.length === 0) {
-                strengthDiv.innerHTML = '';
-                strengthDiv.className = 'mobile-password-strength';
-                return;
-            }
-            
-            let strength = 0;
-            if (password.length >= 6) strength++;
-            if (password.length >= 10) strength++;
-            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-            if (/[0-9]/.test(password)) strength++;
-            if (/[^a-zA-Z0-9]/.test(password)) strength++;
-            
-            const strengthTexts = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
-            const strengthColors = ['#F44336', '#FF9800', '#FF9800', '#4CAF50', '#4CAF50', '#2E7D32'];
-            
-            strengthDiv.innerHTML = `Password strength: ${strengthTexts[strength]}`;
-            strengthDiv.style.color = strengthColors[strength];
-        }
-
-        // Password match checker
-        function checkPasswordMatch() {
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            const matchDiv = document.getElementById('passwordMatch');
-            
-            if (confirmPassword.length === 0) {
-                matchDiv.innerHTML = '';
-                matchDiv.className = 'mobile-password-match';
-                return;
-            }
-            
-            if (password === confirmPassword) {
-                matchDiv.innerHTML = '✓ Passwords match';
-                matchDiv.style.color = '#4CAF50';
-            } else {
-                matchDiv.innerHTML = '✗ Passwords do not match';
-                matchDiv.style.color = '#F44336';
-            }
-        }
-
-        // Password toggle function
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const button = input.nextElementSibling;
-            const icon = button.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.className = 'fas fa-eye-slash';
-            } else {
-                input.type = 'password';
-                icon.className = 'fas fa-eye';
-            }
-        }
-
-        // Show terms modal
-        function showTerms() {
-            showMobileAlert('Terms and Conditions\n\nBy creating an account, you agree to:\n• Provide accurate information\n• Keep your password secure\n• Use the service responsibly\n• Respect community guidelines\n\nKIUMA reserves the right to suspend accounts that violate these terms.', 'Terms and Conditions');
-        }
-
-        // Show privacy policy
-        function showPrivacy() {
-            showMobileAlert('Privacy Policy\n\nYour privacy is important to us:\n• We collect only necessary information\n• Your data is stored securely\n• We never share your personal information\n• You can request data deletion at any time\n\nFor questions, contact our support team.', 'Privacy Policy');
-        }
-
-        // Update user info display
-        function updateUserInfo() {
-            if (pageUser) {
-                const displayName = pageUser.displayName || pageUser.email?.split('@')[0] || 'User';
-                const email = pageUser.email || 'No email';
-                
-                // Main user card
-                const userDisplayNameEl = document.getElementById('userDisplayName');
-                const userEmailEl = document.getElementById('userEmail');
-                if (userDisplayNameEl) userDisplayNameEl.textContent = displayName;
-                if (userEmailEl) {
-                    userEmailEl.textContent = email;
-                    userEmailEl.style.display = 'block';
-                    userEmailEl.style.visibility = 'visible';
-                }
-                
-                // Account details section
-                const detailName = document.getElementById('detailName');
-                const detailEmail = document.getElementById('detailEmail');
-                const memberSince = document.getElementById('userMemberSince');
-                
-                if (detailName) detailName.textContent = displayName;
-                if (detailEmail) detailEmail.textContent = email;
-                
-                // Member since date
-                if (memberSince) {
-                    let joinDate = '--';
-                    if (pageUser.metadata?.creationTime) {
-                        const date = new Date(pageUser.metadata.creationTime);
-                        joinDate = date.toLocaleDateString('en-US', {
-                            year: 'numeric', 
-                            month: 'short', 
-                            day: 'numeric'
-                        });
-                    } else if (pageUser.createdAt) {
-                        const date = new Date(pageUser.createdAt);
-                        joinDate = date.toLocaleDateString('en-US', {
-                            year: 'numeric', 
-                            month: 'short', 
-                            day: 'numeric'
-                        });
-                    }
-                    memberSince.textContent = 'Member since: ' + joinDate;
-                    memberSince.style.display = 'block';
-                    memberSince.style.visibility = 'visible';
-                }
-            }
-        }
-
-        // Handle login
-        async function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            const messageDiv = document.getElementById('loginMessage');
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
-            messageDiv.style.display = 'none';
-
-            try {
-                if (typeof signInWithEmail === 'function') {
-                    const result = await signInWithEmail(email, password);
-                    if (result.success) {
-                        pageUser = result.user;
-                        // Save user data to localStorage for homepage greeting
-                        const userData = {
-                            name: pageUser.displayName || pageUser.email?.split('@')[0] || 'User',
-                            firstName: pageUser.displayName?.split(' ')[0] || pageUser.email?.split('@')[0] || 'User',
-                            email: pageUser.email,
-                            uid: pageUser.uid,
-                            createdAt: pageUser.metadata?.creationTime || new Date().toISOString()
-                        };
-                        localStorage.setItem('userData', JSON.stringify(userData));
-                        showAccountSection();
-                        updateUserInfo();
-                        updateNavigation();
-                        messageDiv.style.display = 'block';
-                        messageDiv.style.backgroundColor = '#E8F5E9';
-                        messageDiv.style.color = '#2E7D32';
-                        messageDiv.style.border = '1px solid #4CAF50';
-                        messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Signed in successfully!';
-                        setTimeout(() => {
-                            messageDiv.style.display = 'none';
-                        }, 2000);
-                    } else {
-                        throw new Error(result.message || 'Login failed');
-                    }
-                } else {
-                    throw new Error('Firebase Auth not available');
-                }
-            } catch (error) {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#FFEBEE';
-                messageDiv.style.color = '#C62828';
-                messageDiv.style.border = '1px solid #F44336';
-                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
-            }
-        }
-
-        // Handle signup
-        async function handleSignup(e) {
-            e.preventDefault();
-            const name = document.getElementById('signupName').value.trim();
-            const email = document.getElementById('signupEmail').value.trim();
-            const phone = document.getElementById('signupPhone').value.trim();
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            const agreeTerms = document.getElementById('agreeTerms').checked;
-            const messageDiv = document.getElementById('signupMessage');
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-
-            // Enhanced validation
-            if (!name || name.length < 2) {
-                showMessage('Please enter your full name (at least 2 characters)', 'error');
-                return;
-            }
-
-            if (!email || !email.includes('@') || !email.includes('.')) {
-                showMessage('Please enter a valid email address', 'error');
-                return;
-            }
-
-            if (password.length < 6) {
-                showMessage('Password must be at least 6 characters long', 'error');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showMessage('Passwords do not match', 'error');
-                return;
-            }
-
-            if (!agreeTerms) {
-                showMessage('You must agree to the Terms and Conditions and Privacy Policy', 'error');
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
-            messageDiv.style.display = 'none';
-
-            try {
-                if (typeof signUpWithEmail === 'function') {
-                    const result = await signUpWithEmail(email, password, name);
-                    if (result.success) {
-                        pageUser = result.user;
-                        // Save user data to localStorage for homepage greeting
-                        const userData = {
-                            name: name || pageUser.displayName || pageUser.email?.split('@')[0] || 'User',
-                            firstName: (name || pageUser.displayName || pageUser.email?.split('@')[0] || 'User').split(' ')[0],
-                            email: pageUser.email,
-                            phone: phone || '',
-                            uid: pageUser.uid,
-                            createdAt: new Date().toISOString()
-                        };
-                        localStorage.setItem('userData', JSON.stringify(userData));
-                        showAccountSection();
-                        updateUserInfo();
-                        updateNavigation();
-                        showMessage('Account created successfully! Welcome to KIUMA!', 'success');
-                        
-                        // Redirect to home page after 2 seconds
-                        setTimeout(() => {
-                            window.location.href = 'index.html';
-                        }, 2000);
-                    } else {
-                        throw new Error(result.message || 'Signup failed');
-                    }
-                } else {
-                    throw new Error('Firebase Auth not available');
-                }
-            } catch (error) {
-                showMessage(error.message || 'Failed to create account. Please try again.', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-            }
-        }
-
-        // Handle forgot password
-        async function handleForgotPassword(e) {
-            e.preventDefault();
-            const email = document.getElementById('forgotPasswordEmail').value.trim();
-            const messageDiv = document.getElementById('forgotPasswordMessage');
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-
-            // Enhanced validation
-            if (!email || !email.includes('@') || !email.includes('.')) {
-                showForgotPasswordMessage('Please enter a valid email address', 'error');
-                return;
-            }
-
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            messageDiv.style.display = 'none';
-
-            try {
-                if (typeof resetPassword === 'function') {
-                    const result = await resetPassword(email);
-                    if (result.success) {
-                        showForgotPasswordMessage('Password reset link sent! Please check your email inbox (including spam folder).', 'success');
-                        
-                        // Clear the form
-                        document.getElementById('forgotPasswordEmail').value = '';
-                        
-                        // Redirect to login after 3 seconds
-                        setTimeout(() => {
-                            showLoginForm();
-                        }, 3000);
-                    } else {
-                        throw new Error(result.message || 'Failed to send reset link');
-                    }
-                } else {
-                    // Fallback for when Firebase is not available
-                    showForgotPasswordMessage('Password reset functionality is currently unavailable. Please contact support for assistance.', 'error');
-                }
-            } catch (error) {
-                let errorMessage = error.message;
-                
-                // Handle specific Firebase errors
-                if (errorMessage.includes('user-not-found')) {
-                    errorMessage = 'No account found with this email address.';
-                } else if (errorMessage.includes('invalid-email')) {
-                    errorMessage = 'Invalid email address format.';
-                } else if (errorMessage.includes('too-many-requests')) {
-                    errorMessage = 'Too many requests. Please try again later.';
-                } else {
-                    errorMessage = 'Failed to send reset link. Please try again.';
-                }
-                
-                showForgotPasswordMessage(errorMessage, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
-            }
-        }
-
-        // Helper function to show forgot password messages
-        function showForgotPasswordMessage(message, type) {
-            const messageDiv = document.getElementById('forgotPasswordMessage');
-            messageDiv.style.display = 'flex';
-            messageDiv.className = 'mobile-message ' + type;
-            
-            if (type === 'success') {
-                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
-            } else {
-                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
-            }
-        }
-
-        // Helper function to show signup messages
-        function showMessage(message, type) {
-            const messageDiv = document.getElementById('signupMessage');
-            messageDiv.style.display = 'flex';
-            messageDiv.className = 'mobile-message ' + type;
-            
-            if (type === 'success') {
-                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
-            } else {
-                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
-            }
-        }
-
-        // Handle logout
-        async function handleLogout() {
-            if (!confirm('Are you sure you want to sign out?')) {
-                return;
-            }
-
-            try {
-                if (typeof signOut === 'function') {
-                    await signOut();
-                } else {
-                    localStorage.removeItem('userData');
-                }
-                pageUser = null;
-                showLoginSection();
-                updateNavigation();
-            } catch (error) {
-                console.error('Logout error:', error);
-                alert('Error signing out. Please try again.');
-            }
-        }
-
-        // Edit name functions
-        function showEditNameModal() {
-            // Check if user is logged in
-            if (!pageUser || !pageUser.uid) {
-                showMobileAlert('Please sign in to edit your profile', 'Authentication Required');
-                showLoginForm();
-                return;
-            }
-            
-            const modal = document.getElementById('editNameModal');
-            const input = document.getElementById('editNameInput');
-            if (pageUser) {
-                input.value = pageUser.displayName || pageUser.email?.split('@')[0] || '';
-            }
-            modal.style.display = 'flex';
-        }
-
-        function closeEditNameModal() {
-            document.getElementById('editNameModal').style.display = 'none';
-        }
-
-        async function handleEditName(e) {
-            e.preventDefault();
-            const newName = document.getElementById('editNameInput').value.trim();
-            
-            if (!newName) {
-                alert('Please enter a name');
-                return;
-            }
-
-            try {
-                if (pageUser && typeof pageUser.updateProfile === 'function') {
-                    await pageUser.updateProfile({ displayName: newName });
-                    pageUser.displayName = newName;
-                }
-                // Always update localStorage for homepage greeting
-                const existingData = JSON.parse(localStorage.getItem('userData') || '{}');
-                existingData.name = newName;
-                existingData.firstName = newName.split(' ')[0];
-                localStorage.setItem('userData', JSON.stringify(existingData));
-                updateUserInfo();
-                closeEditNameModal();
-                alert('Name updated successfully!');
-            } catch (error) {
-                console.error('Error updating name:', error);
-                alert('Error updating name. Please try again.');
-            }
-        }
-
-        // Settings functions
-        function showSettingsModal() {
-            // Load saved settings
-            const notificationsEnabled = localStorage.getItem('notificationsEnabled') !== 'false';
-            const emailUpdates = localStorage.getItem('emailUpdates') !== 'false';
-            const eventReminders = localStorage.getItem('eventReminders') !== 'false';
-            
-            document.getElementById('notificationsEnabled').checked = notificationsEnabled;
-            document.getElementById('emailUpdates').checked = emailUpdates;
-            document.getElementById('eventReminders').checked = eventReminders;
-            
-            document.getElementById('settingsModal').style.display = 'flex';
-        }
-
-        function closeSettingsModal() {
-            document.getElementById('settingsModal').style.display = 'none';
-        }
-
-        function saveSettings() {
-            const notifications = document.getElementById('notificationsEnabled').checked;
-            const emails = document.getElementById('emailUpdates').checked;
-            const reminders = document.getElementById('eventReminders').checked;
-            
-            localStorage.setItem('notificationsEnabled', notifications);
-            localStorage.setItem('emailUpdates', emails);
-            localStorage.setItem('eventReminders', reminders);
-            
-            closeSettingsModal();
-            alert('Settings saved successfully!');
-        }
-
-        // Privacy functions
-        function showPrivacyModal() {
-            // Check if user is logged in
-            if (!pageUser || !pageUser.uid) {
-                showMobileAlert('Please sign in to manage privacy settings', 'Authentication Required');
-                showLoginForm();
-                return;
-            }
-            
-            // Load saved privacy settings
-            const profileVisible = localStorage.getItem('profileVisible') !== 'false';
-            const showEmail = localStorage.getItem('showEmail') !== 'false';
-            
-            document.getElementById('profileVisible').checked = profileVisible;
-            document.getElementById('showEmail').checked = showEmail;
-            
-            document.getElementById('privacyModal').style.display = 'flex';
-        }
-
-        function closePrivacyModal() {
-            document.getElementById('privacyModal').style.display = 'none';
-        }
-
-        function savePrivacySettings() {
-            const profileVisible = document.getElementById('profileVisible').checked;
-            const showEmail = document.getElementById('showEmail').checked;
-            
-            localStorage.setItem('profileVisible', profileVisible);
-            localStorage.setItem('showEmail', showEmail);
-            
-            closePrivacyModal();
-            alert('Privacy settings saved successfully!');
-        }
-
-        // Update navigation text - uses unified navigation system
-        function updateNavigation() {
-            // Use the unified navigation update system
-            if (typeof window.forceUpdateNavigation === 'function') {
-                window.forceUpdateNavigation();
-            } else if (typeof window.updateNavigationLinks === 'function') {
-                window.updateNavigationLinks();
-            }
-        }
-
-        // Close modals when clicking outside
-        document.querySelectorAll('.modal-overlay').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                }
-            });
-        });
     </script>
-
-    <style>
-        .settings-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .settings-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .settings-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .settings-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-        }
-
-        .settings-content {
-            flex: 1;
-        }
-
-        .settings-content h4 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-            color: var(--dark-gray);
-        }
-
-        .settings-content p {
-            margin: 0;
-            font-size: 13px;
-            color: var(--text-gray);
-        }
-
-        .settings-option {
-            padding: 15px;
-            background: #f5f5f5;
-            border-radius: 8px;
-        }
-
-        .settings-option input[type="checkbox"] {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-    </style>
-    <script>
-    </script>
-
-    <!-- Important Lessons Modal -->
-    <div class="modal-overlay" id="lessonsModal" style="display: none;">
-        <div class="modal-content activities-modal">
-            <div class="modal-header" style="background: linear-gradient(135deg, #F44336, #C62828);">
-                <h3><i class="fas fa-fire"></i> Important Lessons</h3>
-                <button class="modal-close" onclick="closeLessonsModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="activities-modal-list">
-                <div class="activity-modal-item" onclick="navigateToLesson('learn-prayer')">
-                    <div class="activity-modal-icon" style="background: var(--primary-green);">
-                        <i class="fas fa-pray"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Learn the Prayer</h4>
-                        <p>How to perform Salah correctly</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToLesson('misunderstood-concepts')">
-                    <div class="activity-modal-icon" style="background: #FF9800;">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Misunderstood Concepts</h4>
-                        <p>Clarifying common misconceptions</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToLesson('important-hadiths')">
-                    <div class="activity-modal-icon" style="background: #9C27B0;">
-                        <i class="fas fa-book-quran"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Important Hadiths</h4>
-                        <p>Essential sayings of the Prophet (PBUH)</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToLesson('did-you-know')">
-                    <div class="activity-modal-icon" style="background: #2196F3;">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Did You Know</h4>
-                        <p>Interesting Islamic facts</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToLesson('akhlaq-series')">
-                    <div class="activity-modal-icon" style="background: #E91E63;">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Islamic Character (Akhlaq)</h4>
-                        <p>Essential character traits and virtues</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Activities Modal -->
-    <div class="modal-overlay" id="activitiesModal" style="display: none;">
-        <div class="modal-content activities-modal">
-            <div class="modal-header">
-                <h3><i class="fas fa-heart"></i> Important Activities</h3>
-                <button class="modal-close" onclick="closeActivitiesModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="activities-modal-list">
-                <div class="activity-modal-item" onclick="navigateToActivity('kizumu-visit')">
-                    <div class="activity-modal-icon" style="background: #E91E63;">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Kizumu Tahfiz Charity Visit</h4>
-                        <p>Support Islamic education through charity visit</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToActivity('tuition-brothers')">
-                    <div class="activity-modal-icon" style="background: var(--primary-green);">
-                        <i class="fas fa-graduation-cap"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Tuition for Brothers</h4>
-                        <p>Support brothers' education and learning</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToActivity('charity-visit')">
-                    <div class="activity-modal-icon" style="background: #4CAF50;">
-                        <i class="fas fa-hand-holding-heart"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>Charity Visit</h4>
-                        <p>Support our charity initiatives</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-                
-                <div class="activity-modal-item" onclick="navigateToActivity('activities')">
-                    <div class="activity-modal-icon" style="background: #FF9800;">
-                        <i class="fas fa-running"></i>
-                    </div>
-                    <div class="activity-modal-text">
-                        <h4>View All Activities</h4>
-                        <p>See all community activities and events</p>
-                    </div>
-                    <i class="fas fa-chevron-right"></i>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
