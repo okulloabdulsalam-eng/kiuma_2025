@@ -5,13 +5,21 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+// Load environment variables
+// require('dotenv').config(); // Uncomment after npm install
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+const NODE_ENV = process.env.NODE_ENV || 'development';
+const BCRYPT_ROUNDS = parseInt(process.env.BCRYPT_ROUNDS) || 12;
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: process.env.CORS_ORIGIN || '*' }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
 
 // Initialize SQLite database
 const dbPath = path.join(__dirname, 'kiuma_users.db');
@@ -43,12 +51,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
                 });
             }
         });
-            if (err) {
-                console.error('Error creating users table:', err.message);
-            } else {
-                console.log('Users table ready');
-            }
-        });
     }
 });
 
@@ -57,7 +59,7 @@ app.post('/register', async (req, res) => {
     try {
         const { email, password, firstName, lastName, whatsapp, gender } = req.body;
 
-        // Validation
+        // Enhanced validation
         if (!email || !password) {
             return res.status(400).json({
                 success: false,
@@ -65,10 +67,49 @@ app.post('/register', async (req, res) => {
             });
         }
 
-        if (password.length < 6) {
+        // Email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
             return res.status(400).json({
                 success: false,
-                message: 'Password must be at least 6 characters long'
+                message: 'Please provide a valid email address'
+            });
+        }
+
+        // Password strength validation
+        if (password.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password must be at least 8 characters long'
+            });
+        }
+
+        // Password complexity validation
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/;
+        if (!passwordRegex.test(password)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Password must contain at least one uppercase letter, one lowercase letter, and one number'
+            });
+        }
+
+        // WhatsApp number validation (if provided)
+        if (whatsapp) {
+            const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+            const cleanPhone = whatsapp.replace(/[\s\-\(\)]/g, '');
+            if (!phoneRegex.test(cleanPhone)) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please provide a valid WhatsApp number (with country code)'
+                });
+            }
+        }
+
+        // Gender validation (if provided)
+        if (gender && !['male', 'female', 'other'].includes(gender.toLowerCase())) {
+            return res.status(400).json({
+                success: false,
+                message: 'Gender must be male, female, or other'
             });
         }
 
@@ -90,7 +131,7 @@ app.post('/register', async (req, res) => {
             }
 
             // Hash password
-            const saltRounds = 10;
+            const saltRounds = BCRYPT_ROUNDS;
             try {
                 const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -225,10 +266,42 @@ app.post('/api/send-whatsapp', (req, res) => {
     try {
         const { number, message } = req.body;
 
+        // Enhanced validation
         if (!number || !message) {
             return res.status(400).json({
                 success: false,
                 message: 'WhatsApp number and message are required'
+            });
+        }
+
+        // Phone number validation
+        const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+        const cleanedPhoneNumber = number.replace(/[\s\-\(\)]/g, '');
+        
+        if (!phoneRegex.test(cleanedPhoneNumber)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid WhatsApp number (with country code)'
+            });
+        }
+
+        // Message validation
+        if (message.length > 1000) {
+            return res.status(400).json({
+                success: false,
+                message: 'Message must be less than 1000 characters'
+            });
+        }
+
+        // Content filtering
+        const blockedWords = ['spam', 'scam', 'fraud']; // Add more as needed
+        const messageLower = message.toLowerCase();
+        const hasBlockedContent = blockedWords.some(word => messageLower.includes(word));
+        
+        if (hasBlockedContent) {
+            return res.status(400).json({
+                success: false,
+                message: 'Message contains inappropriate content'
             });
         }
 
@@ -269,10 +342,51 @@ app.post('/api/send-email', (req, res) => {
     try {
         const { email, subject, message } = req.body;
 
+        // Enhanced validation
         if (!email || !subject || !message) {
             return res.status(400).json({
                 success: false,
                 message: 'Email, subject, and message are required'
+            });
+        }
+
+        // Email format validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide a valid email address'
+            });
+        }
+
+        // Subject validation
+        if (subject.length > 100) {
+            return res.status(400).json({
+                success: false,
+                message: 'Subject must be less than 100 characters'
+            });
+        }
+
+        // Message validation
+        if (message.length > 5000) {
+            return res.status(400).json({
+                success: false,
+                message: 'Message must be less than 5000 characters'
+            });
+        }
+
+        // Content filtering
+        const blockedWords = ['spam', 'scam', 'fraud']; // Add more as needed
+        const messageLower = message.toLowerCase();
+        const subjectLower = subject.toLowerCase();
+        const hasBlockedContent = blockedWords.some(word => 
+            messageLower.includes(word) || subjectLower.includes(word)
+        );
+        
+        if (hasBlockedContent) {
+            return res.status(400).json({
+                success: false,
+                message: 'Email contains inappropriate content'
             });
         }
 
@@ -332,12 +446,39 @@ app.post('/api/send-notifications', (req, res) => {
     try {
         const { subject, message } = req.body;
 
+        // Enhanced validation
         if (!subject || !message) {
             return res.status(400).json({
                 success: false,
                 message: 'Subject and message are required'
             });
         }
+
+        // Subject validation
+        if (subject.length > 100) {
+            return res.status(400).json({
+                success: false,
+                message: 'Subject must be less than 100 characters'
+            });
+        }
+
+        // Message validation
+        if (message.length > 5000) {
+            return res.status(400).json({
+                success: false,
+                message: 'Message must be less than 5000 characters'
+            });
+        }
+
+        // Admin authentication check (in production)
+        // TODO: Implement proper admin authentication
+        // const adminToken = req.headers.authorization;
+        // if (!adminToken || !isValidAdminToken(adminToken)) {
+        //     return res.status(403).json({
+        //         success: false,
+        //         message: 'Admin authentication required'
+        //     });
+        // }
 
         // Get all users from database
         db.all('SELECT id, email, whatsapp, firstName, lastName FROM users', async (err, rows) => {

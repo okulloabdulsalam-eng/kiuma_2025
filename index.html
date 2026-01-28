@@ -113,9 +113,6 @@
                     <div class="card-text">
                         <div class="hijri-date" id="hijriDate"></div>
                         <div class="date-display" id="dateDisplay"></div>
-                        <div class="next-prayer" id="nextPrayer">
-                            <i class="fas fa-clock"></i> Next: <span id="nextPrayerTime">Asr</span>
-                        </div>
                     </div>
                     <div class="card-illustration">
                         <i class="fas fa-mosque" style="font-size: 60px; color: #4CAF50;"></i>
@@ -127,62 +124,15 @@
             <section class="prayer-times-list" id="prayerTimesList">
                 <div class="prayer-times-header">
                     <h3 style="margin: 0 0 15px 0; color: var(--dark-gray); font-size: 18px;">Prayer Times</h3>
-                    <button class="admin-edit-btn" onclick="showAdminLogin()" id="adminEditBtn" style="display: none;">
-                        <i class="fas fa-edit"></i> Edit Times
-                    </button>
+                    <div class="friday-indicator" id="fridayIndicator" style="display: none; color: var(--primary-green); font-weight: bold;">
+                        <i class="fas fa-mosque"></i> Friday - Juma Prayer
+                    </div>
                 </div>
                 
-                <div class="prayer-table-header">
-                    <div class="header-cell">Prayer</div>
-                    <div class="header-cell">Adhan</div>
-                    <div class="header-cell">Iqaama</div>
-                </div>
-                
-                <div class="prayer-item">
-                    <span class="prayer-name">Fajr</span>
-                    <span class="prayer-time adhan-time editable" data-prayer="fajr" data-type="adhan" id="fajrAdhan" contenteditable="false">05:35</span>
-                    <span class="prayer-time iqaama-time editable" data-prayer="fajr" data-type="iqaama" id="fajrIqaama" contenteditable="false">06:00</span>
-                </div>
-                <div class="prayer-item">
-                    <span class="prayer-name">Dhuhr</span>
-                    <span class="prayer-time adhan-time editable" data-prayer="dhuhr" data-type="adhan" id="dhuhrAdhan" contenteditable="false">13:00</span>
-                    <span class="prayer-time iqaama-time editable" data-prayer="dhuhr" data-type="iqaama" id="dhuhrIqaama" contenteditable="false">13:15</span>
-                </div>
-                <div class="prayer-item">
-                    <span class="prayer-name">Asr</span>
-                    <span class="prayer-time adhan-time editable" data-prayer="asr" data-type="adhan" id="asrAdhan" contenteditable="false">16:00</span>
-                    <span class="prayer-time iqaama-time editable" data-prayer="asr" data-type="iqaama" id="asrIqaama" contenteditable="false">16:15</span>
-                </div>
-                <div class="prayer-item">
-                    <span class="prayer-name">Maghrib</span>
-                    <span class="prayer-time adhan-time editable" data-prayer="maghrib" data-type="adhan" id="maghribAdhan" contenteditable="false">18:55</span>
-                    <span class="prayer-time iqaama-time editable" data-prayer="maghrib" data-type="iqaama" id="maghribIqaama" contenteditable="false">19:00</span>
-                </div>
-                <div class="prayer-item">
-                    <span class="prayer-name">Isha</span>
-                    <span class="prayer-time adhan-time editable" data-prayer="isha" data-type="adhan" id="ishaAdhan" contenteditable="false">20:00</span>
-                    <span class="prayer-time iqaama-time editable" data-prayer="isha" data-type="iqaama" id="ishaIqaama" contenteditable="false">20:15</span>
+                <div id="prayer-times-container">
+                    <!-- Prayer times will be populated by JavaScript -->
                 </div>
             </section>
-
-            <!-- Admin Login Modal -->
-            <div class="modal-overlay" id="adminLoginModal" style="display: none;">
-                <div class="modal-content">
-                    <h3><i class="fas fa-lock"></i> Admin Login</h3>
-                    <p>Sign in with your account to edit content</p>
-                    <div class="form-group">
-                        <input type="email" class="form-input" id="adminEmail" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <input type="password" class="form-input" id="adminPassword" placeholder="Enter your password">
-                    </div>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-primary" onclick="verifyAdminPassword()" style="flex: 1;">Login</button>
-                        <button class="btn btn-secondary" onclick="closeAdminLogin()" style="flex: 1;">Cancel</button>
-                    </div>
-                    <p id="passwordError" style="color: #F44336; font-size: 12px; margin: 10px 0 0 0; display: none;">Incorrect email or password.</p>
-                </div>
-            </div>
 
             <!-- Search Bar -->
             <section class="search-section">
@@ -545,11 +495,9 @@
     <!-- Service Worker Registration (for offline functionality) -->
     <script src="js/register-service-worker.js"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="supabase-config.js"></script>
-    <!-- Load singleton Supabase client first (as module) -->
-    <script type="module" src="services/supabaseClient.js"></script>
-    <script type="module" src="js/prayer-times.js"></script>
+    <!-- Load static prayer times system -->
+    <script src="js/prayer-times-static.js?v=202501282130"></script>
+    <script src="js/prayer-display.js?v=202501282130"></script>
     <script src="js/index-search.js"></script>
     <script src="script.js"></script>
     <script src="update-navigation.js"></script>

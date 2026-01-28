@@ -296,7 +296,7 @@
                         <i class="fas fa-calendar-alt"></i>
                         Weekly Timetable
                     </h2>
-                    <table class="timetable-table">
+                    <table class="timetable-table" id="timetableTable">
                         <thead>
                             <tr>
                                 <th>Day</th>
@@ -304,32 +304,8 @@
                                 <th>Program</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Monday</td>
-                                <td>7:15 PM - 8:15 PM</td>
-                                <td>Memorization, Tajweed, Tafsir</td>
-                            </tr>
-                            <tr>
-                                <td>Tuesday</td>
-                                <td>7:15 PM - 8:15 PM</td>
-                                <td>Memorization, Tajweed, Tafsir</td>
-                            </tr>
-                            <tr>
-                                <td>Wednesday</td>
-                                <td>7:15 PM - 8:15 PM</td>
-                                <td>Memorization, Tajweed, Tafsir</td>
-                            </tr>
-                            <tr>
-                                <td>Thursday</td>
-                                <td>7:15 PM - 8:15 PM</td>
-                                <td>Memorization, Tajweed, Tafsir</td>
-                            </tr>
-                            <tr>
-                                <td>Friday</td>
-                                <td>7:15 PM - 8:15 PM</td>
-                                <td>Memorization, Tajweed, Tafsir</td>
-                            </tr>
+                        <tbody id="timetableBody">
+                            <!-- Timetable will be loaded here -->
                         </tbody>
                     </table>
                 </div>
@@ -576,35 +552,63 @@
     <script>
     </script>
     <script>
+        // ============================================
+        // TIMETABLE DATA - EDIT THIS EASILY!
+        // ============================================
+        // To update the timetable, just modify the times and programs below:
+        const timetableData = [
+            { day: "Monday", time: "7:15 PM - 8:15 PM", program: "Memorization, Tajweed, Tafsir" },
+            { day: "Tuesday", time: "7:15 PM - 8:15 PM", program: "Memorization, Tajweed, Tafsir" },
+            { day: "Wednesday", time: "7:15 PM - 8:15 PM", program: "Memorization, Tajweed, Tafsir" },
+            { day: "Thursday", time: "7:15 PM - 8:15 PM", program: "Memorization, Tajweed, Tafsir" },
+            { day: "Friday", time: "7:15 PM - 8:15 PM", program: "Memorization, Tajweed, Tafsir" }
+        ];
+        
+        // Load and display timetable
+        function loadTimetable() {
+            const tbody = document.getElementById('timetableBody');
+            tbody.innerHTML = '';
+            
+            timetableData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.day}</td>
+                    <td>${item.time}</td>
+                    <td>${item.program}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
         // Teachers Data (You can replace this with data from your backend)
         const teachers = [
             {
-                name: "Ustadh Ahmed Ali",
-                languages: "Arabic, English, Swahili",
-                whatsapp: "256701234567",
-                course: "Islamic Studies",
-                email: "ahmed.ali@kiu.ac.ug"
+                name: "ABDULRAHMAN LUBEGA",
+                languages: "Arabic, English, Luganda",
+                whatsapp: "+256777351331",
+                course: "Qyran/Hadith/Books",
+                email: "............@gmail.com"
             },
             {
-                name: "Ustadha Fatima Hassan",
-                languages: "Arabic, English",
-                whatsapp: "256702345678",
-                course: "Quranic Studies",
-                email: "fatima.hassan@kiu.ac.ug"
+                name: "FAHAD LUYIRIKA",
+                languages: "Arabic, English, Luganda",
+                whatsapp: "+256708840983",
+                course: "Quranic/Hadith",
+                email: "............@gmail.com"
             },
             {
-                name: "Ustadh Ibrahim Musa",
+                name: "JUMA NSUBUGA",
                 languages: "Arabic, English, Luganda",
                 whatsapp: "256703456789",
-                course: "Islamic Law",
-                email: "ibrahim.musa@kiu.ac.ug"
+                course: "Quran",
+                email: "................@gmail.com"
             },
             {
-                name: "Ustadha Aisha Omar",
+                name: "****************",
                 languages: "Arabic, English, Swahili",
-                whatsapp: "256704567890",
-                course: "Tafsir Studies",
-                email: "aisha.omar@kiu.ac.ug"
+                whatsapp: "256************",
+                course: "Quran",
+                email: "............@gmail.com"
             }
         ];
 
@@ -755,6 +759,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             loadTeachers();
+            loadTimetable();
         });
     </script>
 </body>
