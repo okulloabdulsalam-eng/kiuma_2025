@@ -12,6 +12,287 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="js/register-service-worker.js"></script>
     
+    <!-- Mobile-First Styles -->
+    <style>
+        /* Mobile Welcome Banner */
+        .mobile-welcome-banner {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+        
+        .welcome-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        
+        .welcome-title {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .welcome-subtitle {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+        
+        /* Mobile Form Container */
+        .mobile-form-container {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .mobile-form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .mobile-form-title {
+            margin: 0 0 10px 0;
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark-green);
+        }
+        
+        .mobile-form-subtitle {
+            margin: 0;
+            color: #666;
+            font-size: 16px;
+        }
+        
+        /* Mobile Form */
+        .mobile-form {
+            width: 100%;
+        }
+        
+        .mobile-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .mobile-form-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .mobile-form-label i {
+            color: var(--primary-green);
+            width: 20px;
+            text-align: center;
+        }
+        
+        .mobile-input {
+            width: 100%;
+            padding: 16px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .mobile-input:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+        }
+        
+        .mobile-input::placeholder {
+            color: #999;
+        }
+        
+        /* Password Wrapper */
+        .mobile-password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mobile-password-wrapper .mobile-input {
+            padding-right: 50px;
+        }
+        
+        .mobile-password-toggle {
+            position: absolute;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+        }
+        
+        .mobile-password-toggle:active {
+            background: #f0f0f0;
+            transform: scale(0.95);
+        }
+        
+        .mobile-password-strength,
+        .mobile-password-match {
+            margin-top: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        /* Checkbox */
+        .mobile-checkbox-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            cursor: pointer;
+            line-height: 1.4;
+        }
+        
+        .mobile-checkbox {
+            margin: 4px 0 0 0;
+            min-width: 18px;
+            height: 18px;
+            accent-color: var(--primary-green);
+        }
+        
+        .mobile-checkbox-text {
+            flex: 1;
+            color: #333;
+        }
+        
+        /* Mobile Button */
+        .mobile-btn {
+            width: 100%;
+            padding: 18px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            touch-action: manipulation;
+            box-sizing: border-box;
+        }
+        
+        .mobile-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .mobile-btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            color: white;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        .mobile-btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+        
+        /* Mobile Message */
+        .mobile-message {
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .mobile-message.success {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #4CAF50;
+        }
+        
+        .mobile-message.error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #F44336;
+        }
+        
+        /* Mobile Form Footer */
+        .mobile-form-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .mobile-form-footer p {
+            margin: 0;
+            color: #666;
+            font-size: 15px;
+        }
+        
+        .mobile-link {
+            color: var(--primary-green);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        
+        .mobile-link:active {
+            opacity: 0.7;
+        }
+        
+        /* Touch Optimizations */
+        @media (hover: none) and (pointer: coarse) {
+            .mobile-btn {
+                padding: 20px 20px;
+                font-size: 17px;
+            }
+            
+            .mobile-input {
+                padding: 18px 15px;
+                font-size: 17px;
+            }
+            
+            .mobile-password-toggle {
+                padding: 8px;
+                font-size: 18px;
+            }
+        }
+        
+        /* Small Screen Optimizations */
+        @media (max-width: 360px) {
+            .mobile-welcome-banner {
+                padding: 30px 15px;
+            }
+            
+            .welcome-icon {
+                font-size: 50px;
+            }
+            
+            .welcome-title {
+                font-size: 22px;
+            }
+            
+            .mobile-form-container {
+                padding: 20px;
+            }
+        }
+    </style>
+    
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
@@ -87,63 +368,166 @@
                 </div>
 
                 <!-- Welcome Banner -->
-                <div class="info-card" style="background: linear-gradient(135deg, var(--primary-green), var(--dark-green)); color: white; text-align: center; margin-bottom: 25px;">
-                    <div style="font-size: 50px; margin-bottom: 15px;"><i class="fas fa-mosque"></i></div>
-                    <h2 style="margin: 0 0 10px 0; font-size: 22px;">Welcome to KIUMA</h2>
-                    <p style="margin: 0; opacity: 0.9; font-size: 14px;">Sign in to access your account and settings</p>
+                <div class="mobile-welcome-banner">
+                    <div class="welcome-icon">
+                        <i class="fas fa-mosque"></i>
+                    </div>
+                    <h2 class="welcome-title">Welcome to KIUMA</h2>
+                    <p class="welcome-subtitle">Sign in to access your account and settings</p>
                 </div>
 
                 <!-- Login Form -->
-                <form id="loginForm" onsubmit="handleLogin(event)">
-                    <div id="loginMessage" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 14px;"></div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Email Address *</label>
-                        <input type="email" class="form-input" id="loginEmail" name="email" placeholder="Enter your email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Password *</label>
-                        <input type="password" class="form-input" id="loginPassword" name="password" placeholder="Enter your password" required>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 16px; margin-bottom: 15px;">
-                        <i class="fas fa-sign-in-alt"></i> Sign In
-                    </button>
-                </form>
-
-                <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-                    Don't have an account? <a href="#" onclick="showSignupForm(); return false;" style="color: var(--primary-green); font-weight: 600;">Create Account</a>
-                </div>
-
-                <!-- Signup Form (hidden by default) -->
-                <div id="signupSection" style="display: none; margin-top: 30px;">
-                    <h3 style="margin-bottom: 20px; color: var(--dark-green);">Create New Account</h3>
-                    <form id="signupForm" onsubmit="handleSignup(event)">
-                        <div id="signupMessage" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 8px; font-size: 14px;"></div>
+                <div class="mobile-form-container">
+                    <form id="loginForm" onsubmit="handleLogin(event)" class="mobile-form">
+                        <div id="loginMessage" class="mobile-message" style="display: none;"></div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Full Name *</label>
-                            <input type="text" class="form-input" id="signupName" name="name" placeholder="Enter your full name" required>
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <input type="email" class="mobile-input" id="loginEmail" name="email" placeholder="Enter your email" required autocomplete="email">
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Email Address *</label>
-                            <input type="email" class="form-input" id="signupEmail" name="email" placeholder="Enter your email" required>
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <input type="password" class="mobile-input" id="loginPassword" name="password" placeholder="Enter your password" required autocomplete="current-password">
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Password *</label>
-                            <input type="password" class="form-input" id="signupPassword" name="password" placeholder="Create a password (min. 6 characters)" required minlength="6">
+                        <div class="mobile-form-footer" style="margin-top: 15px; margin-bottom: 20px; border-top: none; padding-top: 0;">
+                            <p style="margin: 0;">
+                                <a href="#" onclick="showForgotPasswordForm(); return false;" class="mobile-link">
+                                    <i class="fas fa-key"></i> Forgot Password?
+                                </a>
+                            </p>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 15px; font-size: 16px; margin-bottom: 15px;">
-                            <i class="fas fa-user-plus"></i> Create Account
+                        <button type="submit" class="mobile-btn mobile-btn-primary">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Sign In
                         </button>
                     </form>
 
-                    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 14px;">
-                        Already have an account? <a href="#" onclick="showLoginForm(); return false;" style="color: var(--primary-green); font-weight: 600;">Sign In</a>
+                    <div class="mobile-form-footer">
+                        <p>Don't have an account? <a href="#" onclick="showSignupForm(); return false;" class="mobile-link">Create Account</a></p>
+                    </div>
+                </div>
+
+                <!-- Forgot Password Form (hidden by default) -->
+                <div id="forgotPasswordSection" class="mobile-form-container" style="display: none;">
+                    <div class="mobile-form-header">
+                        <h3 class="mobile-form-title">Reset Password</h3>
+                        <p class="mobile-form-subtitle">We'll send you a link to reset your password</p>
+                    </div>
+                    
+                    <form id="forgotPasswordForm" onsubmit="handleForgotPassword(event)" class="mobile-form">
+                        <div id="forgotPasswordMessage" class="mobile-message" style="display: none;"></div>
+                        
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <input type="email" class="mobile-input" id="forgotPasswordEmail" name="email" placeholder="Enter your email address" required autocomplete="email">
+                        </div>
+
+                        <button type="submit" class="mobile-btn mobile-btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Send Reset Link
+                        </button>
+
+                        <div class="mobile-form-footer" style="margin-top: 20px;">
+                            <p>
+                                <a href="#" onclick="showLoginForm(); return false;" class="mobile-link">
+                                    <i class="fas fa-arrow-left"></i> Back to Sign In
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Signup Form (hidden by default) -->
+                <div id="signupSection" class="mobile-form-container" style="display: none;">
+                    <div class="mobile-form-header">
+                        <h3 class="mobile-form-title">Create New Account</h3>
+                        <p class="mobile-form-subtitle">Join our community today</p>
+                    </div>
+                    
+                    <form id="signupForm" onsubmit="handleSignup(event)" class="mobile-form">
+                        <div id="signupMessage" class="mobile-message" style="display: none;"></div>
+                        
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-user"></i>
+                                Full Name
+                            </label>
+                            <input type="text" class="mobile-input" id="signupName" name="name" placeholder="Enter your full name" required autocomplete="name">
+                        </div>
+
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email Address
+                            </label>
+                            <input type="email" class="mobile-input" id="signupEmail" name="email" placeholder="Enter your email" required autocomplete="email">
+                        </div>
+
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-phone"></i>
+                                Phone Number
+                            </label>
+                            <input type="tel" class="mobile-input" id="signupPhone" name="phone" placeholder="Enter your phone number (optional)" autocomplete="tel">
+                        </div>
+
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <div class="mobile-password-wrapper">
+                                <input type="password" class="mobile-input" id="signupPassword" name="password" placeholder="Create a password (min. 6 characters)" required minlength="6" autocomplete="new-password" oninput="checkPasswordStrength()">
+                                <button type="button" class="mobile-password-toggle" onclick="togglePassword('signupPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div id="passwordStrength" class="mobile-password-strength"></div>
+                        </div>
+
+                        <div class="mobile-form-group">
+                            <label class="mobile-form-label">
+                                <i class="fas fa-lock"></i>
+                                Confirm Password
+                            </label>
+                            <div class="mobile-password-wrapper">
+                                <input type="password" class="mobile-input" id="signupConfirmPassword" name="confirmPassword" placeholder="Confirm your password" required minlength="6" autocomplete="new-password" oninput="checkPasswordMatch()">
+                                <button type="button" class="mobile-password-toggle" onclick="togglePassword('signupConfirmPassword')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div id="passwordMatch" class="mobile-password-match"></div>
+                        </div>
+
+                        <div class="mobile-form-group">
+                            <label class="mobile-checkbox-label">
+                                <input type="checkbox" id="agreeTerms" name="agreeTerms" required class="mobile-checkbox">
+                                <span class="mobile-checkbox-text">
+                                    I agree to the <a href="#" onclick="showTerms(); return false;" class="mobile-link">Terms and Conditions</a> and <a href="#" onclick="showPrivacy(); return false;" class="mobile-link">Privacy Policy</a>
+                                </span>
+                            </label>
+                        </div>
+
+                        <button type="submit" class="mobile-btn mobile-btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Create Account
+                        </button>
+                    </form>
+
+                    <div class="mobile-form-footer">
+                        <p>Already have an account? <a href="#" onclick="showLoginForm(); return false;" class="mobile-link">Sign In</a></p>
                     </div>
                 </div>
             </section>
@@ -324,6 +708,18 @@
             <a href="pay.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Pay</span></a>
             <a href="join-us.html" class="nav-item active" id="accountNavItem"><i class="fas fa-user-circle"></i><span id="accountNavText">Join</span></a>
         </nav>
+    </div>
+
+    <!-- Floating Important Lessons Button -->
+    <div class="floating-lessons-btn" onclick="showLessonsModal()">
+        <i class="fas fa-fire"></i>
+        <span>Important Lessons</span>
+    </div>
+
+    <!-- Floating Kizumu Visit Button -->
+    <div class="floating-kizumu-btn" onclick="showActivitiesModal()">
+        <i class="fas fa-heart"></i>
+        <span>Kizumu Visit</span>
     </div>
 
     <!-- Edit Name Modal -->
@@ -572,6 +968,7 @@
         function showLoginSection() {
             document.getElementById('loginSection').style.display = 'block';
             document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
+            document.getElementById('forgotPasswordSection').style.display = 'none';
             document.getElementById('signupSection').style.display = 'none';
             
             // Show guest-specific UI elements
@@ -596,6 +993,7 @@
         function showAccountSection() {
             document.getElementById('loginSection').style.display = 'none';
             document.getElementById('accountSection').style.display = 'block'; // Show settings to everyone
+            document.getElementById('forgotPasswordSection').style.display = 'none';
             document.getElementById('signupSection').style.display = 'none';
             
             // Show logged-in specific UI elements
@@ -618,14 +1016,103 @@
 
         // Show signup form
         function showSignupForm() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('forgotPasswordSection').style.display = 'none';
             document.getElementById('signupSection').style.display = 'block';
-            document.getElementById('loginForm').style.display = 'none';
         }
 
         // Show login form
         function showLoginForm() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('accountSection').style.display = 'none'; // Hide settings when showing login form
+            document.getElementById('forgotPasswordSection').style.display = 'none';
             document.getElementById('signupSection').style.display = 'none';
-            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        // Show forgot password form
+        function showForgotPasswordForm() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('forgotPasswordSection').style.display = 'block';
+            document.getElementById('signupSection').style.display = 'none';
+            
+            // Clear any previous messages
+            const messageDiv = document.getElementById('forgotPasswordMessage');
+            messageDiv.style.display = 'none';
+            messageDiv.innerHTML = '';
+            
+            // Clear the form
+            document.getElementById('forgotPasswordEmail').value = '';
+        }
+
+        // Password strength checker
+        function checkPasswordStrength() {
+            const password = document.getElementById('signupPassword').value;
+            const strengthDiv = document.getElementById('passwordStrength');
+            
+            if (password.length === 0) {
+                strengthDiv.innerHTML = '';
+                strengthDiv.className = 'mobile-password-strength';
+                return;
+            }
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^a-zA-Z0-9]/.test(password)) strength++;
+            
+            const strengthTexts = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+            const strengthColors = ['#F44336', '#FF9800', '#FF9800', '#4CAF50', '#4CAF50', '#2E7D32'];
+            
+            strengthDiv.innerHTML = `Password strength: ${strengthTexts[strength]}`;
+            strengthDiv.style.color = strengthColors[strength];
+        }
+
+        // Password match checker
+        function checkPasswordMatch() {
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const matchDiv = document.getElementById('passwordMatch');
+            
+            if (confirmPassword.length === 0) {
+                matchDiv.innerHTML = '';
+                matchDiv.className = 'mobile-password-match';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                matchDiv.innerHTML = '✓ Passwords match';
+                matchDiv.style.color = '#4CAF50';
+            } else {
+                matchDiv.innerHTML = '✗ Passwords do not match';
+                matchDiv.style.color = '#F44336';
+            }
+        }
+
+        // Password toggle function
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+
+        // Show terms modal
+        function showTerms() {
+            showMobileAlert('Terms and Conditions\n\nBy creating an account, you agree to:\n• Provide accurate information\n• Keep your password secure\n• Use the service responsibly\n• Respect community guidelines\n\nKIUMA reserves the right to suspend accounts that violate these terms.', 'Terms and Conditions');
+        }
+
+        // Show privacy policy
+        function showPrivacy() {
+            showMobileAlert('Privacy Policy\n\nYour privacy is important to us:\n• We collect only necessary information\n• Your data is stored securely\n• We never share your personal information\n• You can request data deletion at any time\n\nFor questions, contact our support team.', 'Privacy Policy');
         }
 
         // Update user info display
@@ -737,9 +1224,38 @@
             e.preventDefault();
             const name = document.getElementById('signupName').value.trim();
             const email = document.getElementById('signupEmail').value.trim();
+            const phone = document.getElementById('signupPhone').value.trim();
             const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
             const messageDiv = document.getElementById('signupMessage');
             const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Enhanced validation
+            if (!name || name.length < 2) {
+                showMessage('Please enter your full name (at least 2 characters)', 'error');
+                return;
+            }
+
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('Password must be at least 6 characters long', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage('Passwords do not match', 'error');
+                return;
+            }
+
+            if (!agreeTerms) {
+                showMessage('You must agree to the Terms and Conditions and Privacy Policy', 'error');
+                return;
+            }
 
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
@@ -755,6 +1271,7 @@
                             name: name || pageUser.displayName || pageUser.email?.split('@')[0] || 'User',
                             firstName: (name || pageUser.displayName || pageUser.email?.split('@')[0] || 'User').split(' ')[0],
                             email: pageUser.email,
+                            phone: phone || '',
                             uid: pageUser.uid,
                             createdAt: new Date().toISOString()
                         };
@@ -762,11 +1279,12 @@
                         showAccountSection();
                         updateUserInfo();
                         updateNavigation();
-                        messageDiv.style.display = 'block';
-                        messageDiv.style.backgroundColor = '#E8F5E9';
-                        messageDiv.style.color = '#2E7D32';
-                        messageDiv.style.border = '1px solid #4CAF50';
-                        messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> Account created successfully!';
+                        showMessage('Account created successfully! Welcome to KIUMA!', 'success');
+                        
+                        // Redirect to home page after 2 seconds
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
                     } else {
                         throw new Error(result.message || 'Signup failed');
                     }
@@ -774,14 +1292,94 @@
                     throw new Error('Firebase Auth not available');
                 }
             } catch (error) {
-                messageDiv.style.display = 'block';
-                messageDiv.style.backgroundColor = '#FFEBEE';
-                messageDiv.style.color = '#C62828';
-                messageDiv.style.border = '1px solid #F44336';
-                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + error.message;
+                showMessage(error.message || 'Failed to create account. Please try again.', 'error');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            }
+        }
+
+        // Handle forgot password
+        async function handleForgotPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('forgotPasswordEmail').value.trim();
+            const messageDiv = document.getElementById('forgotPasswordMessage');
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+
+            // Enhanced validation
+            if (!email || !email.includes('@') || !email.includes('.')) {
+                showForgotPasswordMessage('Please enter a valid email address', 'error');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            messageDiv.style.display = 'none';
+
+            try {
+                if (typeof resetPassword === 'function') {
+                    const result = await resetPassword(email);
+                    if (result.success) {
+                        showForgotPasswordMessage('Password reset link sent! Please check your email inbox (including spam folder).', 'success');
+                        
+                        // Clear the form
+                        document.getElementById('forgotPasswordEmail').value = '';
+                        
+                        // Redirect to login after 3 seconds
+                        setTimeout(() => {
+                            showLoginForm();
+                        }, 3000);
+                    } else {
+                        throw new Error(result.message || 'Failed to send reset link');
+                    }
+                } else {
+                    // Fallback for when Firebase is not available
+                    showForgotPasswordMessage('Password reset functionality is currently unavailable. Please contact support for assistance.', 'error');
+                }
+            } catch (error) {
+                let errorMessage = error.message;
+                
+                // Handle specific Firebase errors
+                if (errorMessage.includes('user-not-found')) {
+                    errorMessage = 'No account found with this email address.';
+                } else if (errorMessage.includes('invalid-email')) {
+                    errorMessage = 'Invalid email address format.';
+                } else if (errorMessage.includes('too-many-requests')) {
+                    errorMessage = 'Too many requests. Please try again later.';
+                } else {
+                    errorMessage = 'Failed to send reset link. Please try again.';
+                }
+                
+                showForgotPasswordMessage(errorMessage, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Reset Link';
+            }
+        }
+
+        // Helper function to show forgot password messages
+        function showForgotPasswordMessage(message, type) {
+            const messageDiv = document.getElementById('forgotPasswordMessage');
+            messageDiv.style.display = 'flex';
+            messageDiv.className = 'mobile-message ' + type;
+            
+            if (type === 'success') {
+                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            } else {
+                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            }
+        }
+
+        // Helper function to show signup messages
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('signupMessage');
+            messageDiv.style.display = 'flex';
+            messageDiv.className = 'mobile-message ' + type;
+            
+            if (type === 'success') {
+                messageDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            } else {
+                messageDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
             }
         }
 
@@ -1006,18 +1604,6 @@
     <script>
     </script>
 
-    <!-- Floating Important Lessons Button -->
-    <div class="floating-lessons-btn" onclick="showLessonsModal()">
-        <i class="fas fa-fire"></i>
-        <span>Important Lessons</span>
-    </div>
-
-    <!-- Floating Kizumu Visit Button -->
-    <div class="floating-kizumu-btn" onclick="showActivitiesModal()">
-        <i class="fas fa-heart"></i>
-        <span>Kizumu Visit</span>
-    </div>
-
     <!-- Important Lessons Modal -->
     <div class="modal-overlay" id="lessonsModal" style="display: none;">
         <div class="modal-content activities-modal">
@@ -1118,13 +1704,13 @@
                     <i class="fas fa-chevron-right"></i>
                 </div>
                 
-                <div class="activity-modal-item" onclick="navigateToActivity('kisilaahe')">
-                    <div class="activity-modal-icon" style="background: #9C27B0;">
-                        <i class="fas fa-donate"></i>
+                <div class="activity-modal-item" onclick="navigateToActivity('charity-visit')">
+                    <div class="activity-modal-icon" style="background: #4CAF50;">
+                        <i class="fas fa-hand-holding-heart"></i>
                     </div>
                     <div class="activity-modal-text">
-                        <h4>Donate to Kisilaahe</h4>
-                        <p>Support Kisilaahe with essential items</p>
+                        <h4>Charity Visit</h4>
+                        <p>Support our charity initiatives</p>
                     </div>
                     <i class="fas fa-chevron-right"></i>
                 </div>

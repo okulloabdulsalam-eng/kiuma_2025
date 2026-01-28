@@ -16,6 +16,51 @@ let isUpdatingNavigation = false;
 let lastAuthState = null;
 
 /**
+ * Initialize persistent login system
+ * This runs on page load to ensure users stay logged in
+ */
+function initializePersistentLogin() {
+    console.log('🔐 Initializing persistent login system...');
+    
+    // Check if user was previously logged in
+    const wasLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+    const userEmail = localStorage.getItem('userEmail');
+    const userUid = localStorage.getItem('userUid');
+    
+    if (wasLoggedIn && userEmail) {
+        console.log('📱 Found persistent login data for:', userEmail);
+        
+        // Wait for Firebase to initialize, then check auth state
+        setTimeout(() => {
+            if (typeof firebase !== 'undefined' && firebase.auth) {
+                const auth = firebase.auth();
+                const currentUser = auth.currentUser;
+                
+                if (currentUser && currentUser.email === userEmail) {
+                    console.log('✅ Persistent login confirmed for:', currentUser.email);
+                    // Update navigation to show logged in state
+                    updateNavigationLinks();
+                } else {
+                    console.log('⚠️ Firebase auth state mismatch, clearing persistent data');
+                    // Clear inconsistent data
+                    localStorage.removeItem('userLoggedIn');
+                    localStorage.removeItem('userEmail');
+                    localStorage.removeItem('userUid');
+                    updateNavigationLinks();
+                }
+            } else {
+                console.log('⏳ Firebase not ready yet, will retry...');
+                // Retry after a short delay
+                setTimeout(initializePersistentLogin, 500);
+            }
+        }, 100);
+    } else {
+        console.log('🔓 No previous login found, showing logged out state');
+        updateNavigationLinks();
+    }
+}
+
+/**
  * Check if user is logged in by checking all available sources
  * @returns {boolean} True if user is logged in
  */
@@ -190,18 +235,21 @@ function initializeNavigation() {
     // Update immediately if DOM is ready
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
-            // Small delay to ensure other scripts have initialized
-            setTimeout(updateNavigationLinks, 100);
+            // Initialize persistent login system first
+            setTimeout(initializePersistentLogin, 100);
         });
     } else {
         // DOM already loaded
-        setTimeout(updateNavigationLinks, 100);
+        setTimeout(initializePersistentLogin, 100);
     }
-    
-    // Also update after a longer delay to catch late-loading auth systems
-    setTimeout(updateNavigationLinks, 500);
-    setTimeout(updateNavigationLinks, 1000);
 }
+
+// Auto-initialize
+initializeNavigation();
+
+// Also update after a longer delay to catch late-loading auth systems
+setTimeout(updateNavigationLinks, 500);
+setTimeout(updateNavigationLinks, 1000);
 
 // Set up Firebase Auth listener
 function setupAuthListener() {
