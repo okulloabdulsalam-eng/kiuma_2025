@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4CAF50">
+    <title>Notifications - KIUMA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Service Worker Registration (for offline functionality) -->
+    <script src="js/register-service-worker.js"></script>
+    
+    <!-- Firebase SDK -->
+    <!-- Firebase SDK - Authentication & BarakahPush -->
+    <!-- BarakahPush Notification System – Active -->
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.6.0/firebase-messaging-compat.js"></script>
+    <!-- BarakahPush Notification System – Active -->
+    <!-- Load order is critical: Supabase must load BEFORE barakahpush-init.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script src="services/supabaseClient.js"></script>
+    <!-- Ensure Supabase is ready before BarakahPush -->
+    <script>
+        // Verify Supabase client is available before BarakahPush loads
+        if (typeof window.getSupabaseClient !== 'function') {
+            console.warn('[BarakahPush] Supabase client not available, creating fallback');
+            window.getSupabaseClient = function() {
+                return null; // Safe fallback
+            };
+        }
+    </script>
+    <script src="fcm-config.js"></script>
+    <script src="firebase-auth.js"></script>
+    <script src="js/barakahpush-init.js"></script>
+    <script src="js/barakahpush.js"></script>
+    
+    <style>
+        /* Mobile-First Styles */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overscroll-behavior: none;
+        }
+        
+        .mobile-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .mobile-btn {
+            min-height: 44px; /* iOS touch target */
+            padding: 12px 16px;
+            font-size: 14px;
+            border-radius: 8px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            flex: 1;
+            min-width: 100px;
+            max-width: 150px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .mobile-notification-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 12px;
+            position: relative;
+            touch-action: manipulation;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #f0f0f0;
+        }
+        
+        .mobile-notification-item:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mobile-notification-item.unread {
+            border-left: 4px solid #4CAF50;
+            background: linear-gradient(to right, #E8F5E9 0%, white 4%);
+        }
+        
+        .mobile-notification-item.read {
+            opacity: 0.7;
+            background: #fafafa;
+        }
+        
+        .mobile-notification-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+            color: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+        }
+        
+        .mobile-notification-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .mobile-notification-content h4 {
+            margin: 0 0 6px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .mobile-notification-content p {
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .mobile-notification-time {
+            font-size: 12px;
+            color: #999;
+        }
+        
+        .mobile-notification-delete {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #f44336;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            touch-action: manipulation;
+            z-index: 5;
+        }
+        
+        .mobile-filter-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 8px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .mobile-filter-buttons::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .mobile-filter-btn {
+            flex-shrink: 0;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            touch-action: manipulation;
+            min-height: 40px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .mobile-filter-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .mobile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 10000;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .mobile-modal.active {
+            display: flex;
+        }
+        
+        .mobile-modal-content {
+            background: white;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            border-radius: 20px 20px 0 0;
+            padding: 24px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+        
+        .mobile-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .mobile-modal-header h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #333;
+        }
+        
+        .mobile-close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #666;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: manipulation;
+        }
+        
+        .mobile-form-group {
+            margin-bottom: 20px;
+        }
+        
+        .mobile-form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .mobile-form-input,
+        .mobile-form-textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px; /* Prevents zoom on iOS */
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        
+        .mobile-form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .mobile-form-select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            background: white;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+        }
+        
+        .mobile-submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            touch-action: manipulation;
+            min-height: 48px;
+        }
+        
+        .mobile-submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .mobile-empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        
+        .mobile-empty-state i {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .mobile-badge {
+            background: #f44336;
+            color: white;
+            border-radius: 12px;
+            padding: 2px 8px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav-menu" id="navMenu">
+        <div class="nav-header">
+            <span class="nav-close" id="navClose"><i class="fas fa-times"></i></span>
+        </div>
+        <ul class="nav-list">
+            <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="values.html" class="nav-link"><i class="fas fa-heart"></i> Values</a></li>
+            <li><a href="programs.html" class="nav-link"><i class="fas fa-book"></i> Programs</a></li>
+            <li><a href="activities.html" class="nav-link"><i class="fas fa-running"></i> Activities</a></li>
+            <li><a href="events.html" class="nav-link"><i class="fas fa-calendar-alt"></i> Events</a></li>
+            <li><a href="leadership.html" class="nav-link"><i class="fas fa-users"></i> Leadership</a></li>
+            <li><a href="contact.html" class="nav-link"><i class="fas fa-phone"></i> Contact</a></li>
+            <li><a href="library.html" class="nav-link"><i class="fas fa-book-open"></i> Library</a></li>
+            <li><a href="media.html" class="nav-link"><i class="fas fa-photo-video"></i> Media</a></li>
+            <li><a href="ask-question.html" class="nav-link"><i class="fas fa-question-circle"></i> Ask Question</a></li>
+            <li><a href="join-programs.html" class="nav-link"><i class="fas fa-user-plus"></i> Join Programs</a></li>
+            <li><a href="notifications.html" class="nav-link active"><i class="fas fa-bell"></i> Notifications</a></li>
+            <li><a href="pay.html" class="nav-link"><i class="fas fa-credit-card"></i> Pay</a></li>
+            <li><a href="join-us.html" class="nav-link"><i class="fas fa-user-circle"></i> My Account</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <div class="logo-container">
+                    <img src="logo.png" alt="KIUMA Logo" class="header-logo" onerror="this.style.display='none'; if(this.nextElementSibling && this.nextElementSibling.nextElementSibling) this.nextElementSibling.nextElementSibling.style.display='block';" onload="this.style.display='block'; if(this.nextElementSibling && this.nextElementSibling.nextElementSibling) this.nextElementSibling.nextElementSibling.style.display='none';">
+                    <span class="header-text">KIUMA</span>
+                    <svg class="header-logo-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <circle cx="100" cy="100" r="95" fill="none" stroke="#4CAF50" stroke-width="4"/>
+                        <path id="topArc" d="M 20,100 A 80,80 0 0,1 180,100" fill="none"/>
+                        <text fill="#4CAF50" font-size="9" font-weight="bold" font-family="Arial, sans-serif" letter-spacing="0.5">
+                            <textPath href="#topArc" startOffset="50%" text-anchor="middle">KAMPALA INTERNATIONAL UNIVERSITY</textPath>
+                        </text>
+                        <path id="bottomArc" d="M 180,100 A 80,80 0 0,1 20,100" fill="none"/>
+                        <text fill="#4CAF50" font-size="9" font-weight="bold" font-family="Arial, sans-serif" letter-spacing="0.5">
+                            <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">MUSLIM ASSOCIATION</textPath>
+                        </text>
+                        <path d="M 50,75 L 50,115 L 58,115 L 58,105 L 63,100 L 58,95 L 58,85 Z" fill="none" stroke="#4CAF50" stroke-width="2"/>
+                        <circle cx="56.5" cy="100" r="2" fill="#4CAF50"/>
+                        <rect x="88" y="65" width="10" height="45" fill="none" stroke="#4CAF50" stroke-width="2"/>
+                        <rect x="90" y="75" width="6" height="2" fill="#4CAF50"/>
+                        <rect x="90" y="85" width="6" height="2" fill="#4CAF50"/>
+                        <rect x="90" y="95" width="6" height="2" fill="#4CAF50"/>
+                        <polygon points="93,60 90,65 96,65" fill="#4CAF50"/>
+                        <path d="M 140,92 A 12,12 0 0,1 128,92 A 10,10 0 0,0 140,92 Z" fill="#4CAF50"/>
+                        <path d="M 130,88 L 131.5,92 L 136,92 L 132.5,94.5 L 134,99 L 130,96.5 L 126,99 L 127.5,94.5 L 124,92 L 128.5,92 Z" fill="#4CAF50"/>
+                        <text x="100" y="145" font-size="22" font-weight="bold" fill="#4CAF50" text-anchor="middle" font-family="Arial, sans-serif" letter-spacing="2">KIUMA</text>
+                    </svg>
+                </div>
+                <button class="notifications-btn" id="notificationsBtn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" style="display: none;">0</span>
+                </button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="welcome-section">
+                <div>
+                    <h2 class="greeting">
+                        <a href="about.html">KIUMA</a>
+                    </h2>
+                </div>
+                <a href="join-us.html" class="account-icon-btn" id="accountIconBtn" aria-label="Account">
+                    <i class="fas fa-user-circle" id="accountIcon"></i>
+                </a>
+            </section>
+
+            <section class="page-header">
+                <h2 class="page-title">Notifications</h2>
+            </section>
+
+            <section class="page-content">
+                <div class="mobile-actions" style="margin-bottom: 16px;">
+                    <!-- BarakahPush Notification System – Active -->
+                    <button class="btn btn-primary mobile-btn" onclick="initializeBarakahPush()">
+                        <i class="fas fa-bell"></i> Enable Push
+                    </button>
+                    <button class="btn btn-secondary mobile-btn" id="adminLoginBtn" onclick="showAdminLogin()">
+                        <i class="fas fa-lock"></i> Admin
+                    </button>
+                    <button class="btn btn-primary mobile-btn admin-only" onclick="showAddNotificationModal()" style="display: none;">
+                        <i class="fas fa-plus"></i> Send Notification
+                    </button>
+                    <button class="btn btn-secondary mobile-btn admin-logout" onclick="logoutAdmin()" style="display: none;">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+                
+                <div class="mobile-filter-buttons">
+                    <button class="btn btn-primary mobile-filter-btn" onclick="filterNotifications('all')" data-filter="all">All</button>
+                    <button class="btn btn-outline mobile-filter-btn" onclick="filterNotifications('unread')" data-filter="unread">
+                        Unread <span class="mobile-badge" id="unreadBadge">0</span>
+                    </button>
+                </div>
+
+                <div id="notificationsList">
+                    <div class="mobile-empty-state">
+                        <i class="fas fa-bell"></i>
+                        <p>Loading notifications...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Home</span></a>
+            <a href="programs.html" class="nav-item"><i class="fas fa-book"></i><span>Programs</span></a>
+            <a href="events.html" class="nav-item"><i class="fas fa-calendar"></i><span>Events</span></a>
+            <a href="pay.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Pay</span></a>
+            <a href="join-us.html" class="nav-item" id="accountNavItem"><i class="fas fa-user-circle"></i><span id="accountNavText">Account</span></a>
+        </nav>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div class="mobile-modal" id="adminLoginModal">
+        <div class="mobile-modal-content">
+            <div class="mobile-modal-header">
+                <h3><i class="fas fa-shield-alt"></i> Admin Login</h3>
+                <button class="mobile-close-btn" onclick="closeAdminLogin()" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mobile-form-group">
+                <label class="mobile-form-label">Password</label>
+                <input type="password" class="mobile-form-input" id="adminPassword" placeholder="Enter admin password" autocomplete="off">
+                <p id="passwordError" style="color: #f44336; font-size: 14px; margin-top: 8px; display: none;"></p>
+            </div>
+            <button class="mobile-submit-btn" onclick="verifyAdminPassword()">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+        </div>
+    </div>
+
+    <!-- Add Notification Modal -->
+    <div class="mobile-modal" id="addNotificationModal">
+        <div class="mobile-modal-content">
+            <div class="mobile-modal-header">
+                <h3><i class="fas fa-bell"></i> Add Notification</h3>
+                <button class="mobile-close-btn" onclick="closeAddNotificationModal()" aria-label="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="addNotificationForm" onsubmit="addNotification(event)">
+                <div class="mobile-form-group">
+                    <label class="mobile-form-label">Title * <span id="titleCharCount" style="font-size: 12px; color: #999; font-weight: normal;">(0/200)</span></label>
+                    <input type="text" class="mobile-form-input" id="notifTitle" placeholder="Notification title" maxlength="200" required>
+                </div>
+                <div class="mobile-form-group">
+                    <label class="mobile-form-label">Message * <span id="messageCharCount" style="font-size: 12px; color: #999; font-weight: normal;">(0/2000)</span></label>
+                    <textarea class="mobile-form-textarea" id="notifMessage" placeholder="Notification message" maxlength="2000" required></textarea>
+                </div>
+                <div class="mobile-form-group">
+                    <label class="mobile-form-label">
+                        <input type="checkbox" id="sendEmail" style="margin-right: 8px;">
+                        Send Email
+                    </label>
+                </div>
+                <div class="mobile-form-group">
+                    <label class="mobile-form-label">
+                        <input type="checkbox" id="sendPush" checked style="margin-right: 8px;">
+                        Send Push Notification (default ON)
+                    </label>
+                </div>
+                <button type="submit" class="mobile-submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Notification
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="api-config.js"></script>
+    <script src="script.js"></script>
+    <script src="update-navigation.js"></script>
+    <script>
+        // Notifications Admin Password
+        const NOTIFICATIONS_ADMIN_PASSWORD = 'kiuma2025';
+        let currentFilter = 'all';
+        // Use cachedNotifications from barakahpush.js if available, otherwise create local
+        if (typeof window.cachedNotifications === 'undefined') {
+            window.cachedNotifications = []; // Cache notifications for instant filtering
+        }
+        // Create local alias to avoid redeclaration issues (use var for function scope)
+        var cachedNotifications = window.cachedNotifications;
+        let isLoadingNotifications = false;
+        
+        // Define filterNotifications IMMEDIATELY (before onclick handlers execute)
+        // BarakahPush Notification System – Active
+        window.filterNotifications = function(type) {
+            try {
+                // Handle both 'all'/'unread' status and type/category filtering
+                if (type === 'all' || type === 'unread') {
+                    currentFilter = type;
+                } else {
+                    // Filter by notification type/category
+                    currentFilter = type;
+                }
+                
+                // Update button states safely
+                try {
+                    document.querySelectorAll('.mobile-filter-btn').forEach(btn => {
+                        const filter = btn.dataset.filter;
+                        if (filter === type || filter === currentFilter) {
+                            btn.classList.remove('btn-outline');
+                            btn.classList.add('btn-primary');
+                        } else {
+                            btn.classList.remove('btn-primary');
+                            btn.classList.add('btn-outline');
+                        }
+                    });
+                } catch (btnError) {
+                    console.warn('[BarakahPush] Error updating button states:', btnError);
+                }
+                
+                // Filter notifications
+                let filtered = cachedNotifications || [];
+                
+                if (type === 'all') {
+                    // Show all
+                    filtered = cachedNotifications;
+                } else if (type === 'unread') {
+                    // Show only unread
+                    filtered = cachedNotifications.filter(n => !n.is_read);
+                } else {
+                    // Filter by type/category
+                    filtered = cachedNotifications.filter(n => {
+                        const notifType = (n.type || 'general').toLowerCase();
+                        return notifType === type.toLowerCase();
+                    });
+                }
+                
+                // Display filtered notifications
+                if (typeof displayNotifications === 'function') {
+                    displayNotifications(filtered, type);
+                } else {
+                    // Fallback display
+                    const notificationsList = document.getElementById('notificationsList');
+                    if (notificationsList) {
+                        notificationsList.innerHTML = filtered.length > 0 
+                            ? '<div class="mobile-empty-state"><i class="fas fa-bell"></i><p>No notifications found</p></div>'
+                            : '<div class="mobile-empty-state"><i class="fas fa-bell"></i><p>No notifications found</p></div>';
+                    }
+                }
+            } catch (error) {
+                console.warn('[BarakahPush] Error in filterNotifications (non-fatal):', error);
+                // Silently fail - don't break the UI
+            }
+        };
+        
+        // Update admin button visibility
+        function updateAdminButtonVisibility() {
+            const isAuth = sessionStorage.getItem('isAdminAuthenticated') === 'true' || 
+                          localStorage.getItem('adminPassword') === NOTIFICATIONS_ADMIN_PASSWORD;
+            
+            const adminLoginBtn = document.getElementById('adminLoginBtn');
+            const adminOnlyBtns = document.querySelectorAll('.admin-only');
+            const adminLogoutBtns = document.querySelectorAll('.admin-logout');
+            
+            if (isAuth) {
+                if (adminLoginBtn) adminLoginBtn.style.display = 'none';
+                adminOnlyBtns.forEach(btn => btn.style.display = 'block');
+                adminLogoutBtns.forEach(btn => btn.style.display = 'block');
+            } else {
+                if (adminLoginBtn) adminLoginBtn.style.display = 'block';
+                adminOnlyBtns.forEach(btn => btn.style.display = 'none');
+                adminLogoutBtns.forEach(btn => btn.style.display = 'none');
+            }
+        }
+        
+        // Show admin login
+        function showAdminLogin() {
+            const modal = document.getElementById('adminLoginModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                const passwordInput = document.getElementById('adminPassword');
+                if (passwordInput) {
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+        }
+        
+        // Close admin login
+        function closeAdminLogin() {
+            const modal = document.getElementById('adminLoginModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            const passwordInput = document.getElementById('adminPassword');
+            if (passwordInput) {
+                passwordInput.value = '';
+            }
+            const errorMsg = document.getElementById('passwordError');
+            if (errorMsg) {
+                errorMsg.style.display = 'none';
+            }
+        }
+        
+        // Verify admin password - BarakahPush Notification System – Active
+        // Password-only login (no email required)
+        function verifyAdminPassword() {
+            const passwordInput = document.getElementById('adminPassword');
+            const password = passwordInput ? passwordInput.value.trim() : '';
+            const errorMsg = document.getElementById('passwordError');
+            
+            // Clear any previous errors
+            if (errorMsg) {
+                errorMsg.style.display = 'none';
+                errorMsg.textContent = '';
+            }
+            
+            if (!password) {
+                if (errorMsg) {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = 'Please enter password.';
+                }
+                return false;
+            }
+            
+            if (password === NOTIFICATIONS_ADMIN_PASSWORD) {
+                sessionStorage.setItem('isAdminAuthenticated', 'true');
+                localStorage.setItem('adminPassword', NOTIFICATIONS_ADMIN_PASSWORD);
+                closeAdminLogin();
+                updateAdminButtonVisibility();
+                alert('Admin access granted!');
+                return true;
+            } else {
+                if (errorMsg) {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = 'Incorrect password. Please try again.';
+                }
+                return false;
+            }
+        }
+        
+        // Override global verifyAdminPassword if it exists (from script.js)
+        window.verifyAdminPassword = verifyAdminPassword;
+        
+        // Logout admin
+        function logoutAdmin() {
+            sessionStorage.removeItem('isAdminAuthenticated');
+            localStorage.removeItem('adminPassword');
+            updateAdminButtonVisibility();
+            alert('Logged out successfully!');
+        }
+        
+        // Show add notification modal
+        window.showAddNotificationModal = function() {
+            const isAuth = sessionStorage.getItem('isAdminAuthenticated') === 'true' || 
+                          localStorage.getItem('adminPassword') === NOTIFICATIONS_ADMIN_PASSWORD;
+            
+            if (!isAuth) {
+                showAdminLogin();
+                return;
+            }
+            
+            const modal = document.getElementById('addNotificationModal');
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        };
+        
+        // Close add notification modal
+        window.closeAddNotificationModal = function() {
+            const modal = document.getElementById('addNotificationModal');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+            const form = document.getElementById('addNotificationForm');
+            if (form) {
+                form.reset();
+            }
+        };
+        
+        // filterNotifications is already defined above (line 544) - no duplicate needed
+        
+        // Display notifications (instant, no loading)
+        function displayNotifications(notifications, filter = 'all') {
+            const notificationsList = document.getElementById('notificationsList');
+            if (!notificationsList) return;
+            
+            const readNotifications = getReadNotifications();
+            
+            // Filter by status (client-side, instant)
+            let filtered = notifications;
+            if (filter === 'unread') {
+                filtered = notifications.filter(n => {
+                    const notifId = n.id.toString();
+                    return !readNotifications.includes(notifId);
+                });
+            }
+            
+            // Display notifications
+            if (filtered.length === 0) {
+                // Check if we have notifications but they're all filtered out
+                const hasNotifications = notifications.length > 0;
+                const message = hasNotifications && filter === 'unread' 
+                    ? 'No unread notifications' 
+                    : 'No notifications found';
+                
+                notificationsList.innerHTML = `
+                    <div class="mobile-empty-state">
+                        <i class="fas fa-bell"></i>
+                        <p>${message}</p>
+                    </div>
+                `;
+                updateUnreadBadge();
+                return;
+            }
+            
+            notificationsList.innerHTML = '';
+            const isAuth = sessionStorage.getItem('isAdminAuthenticated') === 'true' || 
+                          localStorage.getItem('adminPassword') === NOTIFICATIONS_ADMIN_PASSWORD;
+            
+            filtered.forEach(notif => {
+                const notifId = notif.id.toString();
+                const isRead = readNotifications.includes(notifId);
+                const iconClass = notif.icon || 'fa-bell';
+                
+                const item = document.createElement('div');
+                item.className = `mobile-notification-item ${isRead ? 'read' : 'unread'}`;
+                item.dataset.id = notifId;
+                item.dataset.status = isRead ? 'read' : 'unread';
+                
+                // Sanitize inputs to prevent XSS
+                const safeTitle = sanitizeHTML(notif.title);
+                const safeMessage = sanitizeHTML(notif.message);
+                const safeNotifId = sanitizeHTML(notifId);
+                const safeDatabaseId = sanitizeHTML(notif.databaseId || '');
+                item.innerHTML = `
+                    <div class="mobile-notification-icon">
+                        <i class="fas ${iconClass}"></i>
+                    </div>
+                    <div class="mobile-notification-content">
+                        <h4>${safeTitle}</h4>
+                        <p>${safeMessage}</p>
+                        <span class="mobile-notification-time">${formatTimeAgo(notif.createdAt || notif.created_date || new Date())}</span>
+                    </div>
+                    ${isAuth ? `<button class="mobile-notification-delete" onclick="deleteNotification('${safeNotifId}', '${safeDatabaseId}', event)" aria-label="Delete"><i class="fas fa-trash"></i></button>` : ''}
+                `;
+                
+                // Mark as read on click - BarakahPush Notification System – Active
+                item.addEventListener('click', async function(e) {
+                    if (e.target.closest('.mobile-notification-delete')) return;
+                    
+                    if (this.dataset.status === 'unread') {
+                        this.dataset.status = 'read';
+                        this.classList.remove('unread');
+                        this.classList.add('read');
+                        
+                        // Use BarakahPush mark as read
+                        if (typeof markNotificationAsRead === 'function') {
+                            await markNotificationAsRead(notifId);
+                        } else {
+                            // Fallback to local storage
+                            markNotificationAsRead(notifId);
+                        }
+                        
+                        if (typeof updateBarakahPushBadge === 'function') {
+                            updateBarakahPushBadge();
+                        } else {
+                            updateUnreadBadge();
+                        }
+                        
+                        // Update filter if on unread view
+                        if (currentFilter === 'unread') {
+                            displayNotifications(cachedNotifications, 'unread');
+                        }
+                    }
+                });
+                
+                notificationsList.appendChild(item);
+            });
+            
+            updateUnreadBadge();
+        }
+        
+        // Get read notifications (with error handling)
+        function getReadNotifications() {
+            try {
+                return JSON.parse(localStorage.getItem('readNotifications') || '[]');
+            } catch (e) {
+                console.error('Error reading localStorage:', e);
+                // If quota exceeded or other error, return empty array
+                return [];
+            }
+        }
+        
+        // Mark notification as read (with error handling)
+        function markNotificationAsRead(id) {
+            try {
+                const readNotifications = getReadNotifications();
+                if (!readNotifications.includes(id)) {
+                    readNotifications.push(id);
+                    localStorage.setItem('readNotifications', JSON.stringify(readNotifications));
+                }
+            } catch (e) {
+                console.error('Error saving to localStorage:', e);
+                // If quota exceeded, try to clear old data
+                if (e.name === 'QuotaExceededError') {
+                    try {
+                        // Keep only last 100 read notifications
+                        const readNotifications = getReadNotifications();
+                        if (readNotifications.length > 100) {
+                            localStorage.setItem('readNotifications', JSON.stringify(readNotifications.slice(-100)));
+                            markNotificationAsRead(id); // Retry
+                        }
+                    } catch (e2) {
+                        console.error('Error clearing localStorage:', e2);
+                    }
+                }
+            }
+        }
+        
+        // Update unread badge (fast calculation from cache)
+        function updateUnreadBadge() {
+            try {
+                const readNotifications = getReadNotifications();
+                const unreadCount = cachedNotifications.filter(n => {
+                    const notifId = n.id.toString();
+                    return !readNotifications.includes(notifId);
+                }).length;
+                
+                // Update filter badge
+                const badge = document.getElementById('unreadBadge');
+                if (badge) {
+                    badge.textContent = unreadCount;
+                    badge.style.display = unreadCount > 0 ? 'inline' : 'none';
+                }
+                
+                // Update header badge
+                const headerBadge = document.querySelector('.notifications-btn .badge');
+                if (headerBadge) {
+                    headerBadge.textContent = unreadCount;
+                    headerBadge.style.display = unreadCount > 0 ? 'inline' : 'none';
+                }
+                
+                // Also update global badge if function exists
+                if (typeof window.updateNotificationBadge === 'function') {
+                    window.updateNotificationBadge();
+                }
+            } catch (e) {
+                console.error('Error updating badge:', e);
+            }
+        }
+        
+        // Sanitize HTML to prevent XSS
+        function sanitizeHTML(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+        
+        // Format time ago (with error handling)
+        function formatTimeAgo(dateString) {
+            try {
+                const now = new Date();
+                const date = new Date(dateString);
+                
+                // Check if date is valid
+                if (isNaN(date.getTime())) {
+                    return 'Recently';
+                }
+                
+                const diffInSeconds = Math.floor((now - date) / 1000);
+                
+                if (diffInSeconds < 0) return 'Just now'; // Future date
+                if (diffInSeconds < 60) return 'Just now';
+                if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+                if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+                if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+                return date.toLocaleDateString();
+            } catch (e) {
+                return 'Recently';
+            }
+        }
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (notificationsListener) {
+                notificationsListener();
+                notificationsListener = null;
+            }
+        });
+        
+        // Load notifications (with caching and timeout)
+        let loadingTimeoutId = null;
+        async function loadNotificationsFromStorage(showLoading = true) {
+            if (isLoadingNotifications) {
+                return; // Already loading, don't duplicate
+            }
+            
+            const notificationsList = document.getElementById('notificationsList');
+            if (!notificationsList) return;
+            
+            // Clear any existing timeout
+            if (loadingTimeoutId) {
+                clearTimeout(loadingTimeoutId);
+                loadingTimeoutId = null;
+            }
+            
+            // Try to load from localStorage cache first (instant)
+            if (cachedNotifications.length === 0) {
+                try {
+                    const cached = localStorage.getItem('cachedNotifications');
+                    if (cached) {
+                        cachedNotifications = JSON.parse(cached);
+                        if (cachedNotifications.length > 0) {
+                            displayNotifications(cachedNotifications, currentFilter);
+                            showLoading = false; // Already showing data
+                        }
+                    }
+                } catch (e) {
+                    console.log('Cache load failed:', e);
+                }
+            } else if (showLoading) {
+                // Show cached data immediately if available
+                displayNotifications(cachedNotifications, currentFilter);
+                showLoading = false;
+            }
+            
+            if (showLoading) {
+                notificationsList.innerHTML = '<div class="mobile-empty-state"><i class="fas fa-spinner fa-spin"></i><p>Loading...</p></div>';
+            }
+            
+            isLoadingNotifications = true;
+            
+            // Add timeout to prevent infinite loading
+            loadingTimeoutId = setTimeout(() => {
+                if (isLoadingNotifications && cachedNotifications.length === 0) {
+                    isLoadingNotifications = false;
+                    notificationsList.innerHTML = `
+                        <div class="mobile-empty-state">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Loading timeout. Please check your connection and refresh.</p>
+                            <button class="btn btn-primary mobile-btn" onclick="loadNotificationsFromStorage(true)" style="margin-top: 16px;">
+                                <i class="fas fa-redo"></i> Retry
+                            </button>
+                        </div>
+                    `;
+                }
+            }, 10000); // 10 second timeout
+            
+            const isStaticHosting = window.location.hostname.includes('github.io') || 
+                                   window.location.hostname.includes('netlify.app') ||
+                                   window.location.hostname.includes('vercel.app');
+            
+            let notifications = [];
+            
+            // Try database first (if not static hosting) - with timeout
+            if (!isStaticHosting) {
+                try {
+                    const API_BASE_URL = window.API_BASE_URL || '/api';
+                    const fetchPromise = fetch(API_BASE_URL + '/get_notifications.php');
+                    const timeoutPromise = new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Request timeout')), 3000)
+                    );
+                    
+                    const response = await Promise.race([fetchPromise, timeoutPromise]);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.success && data.notifications) {
+                            notifications = data.notifications.map(n => ({
+                                id: n.id.toString(),
+                                title: n.title,
+                                message: n.message,
+                                icon: n.icon || 'fa-bell',
+                                createdAt: n.created_date ? new Date(n.created_date) : new Date(),
+                                created_date: n.created_date,
+                                databaseId: n.id.toString()
+                            }));
+                        }
+                    }
+                } catch (error) {
+                    console.log('Database not available:', error.message);
+                }
+            }
+            
+            // Cache notifications
+            cachedNotifications = notifications;
+            isLoadingNotifications = false;
+            
+            // Clear loading timeout
+            if (loadingTimeoutId) {
+                clearTimeout(loadingTimeoutId);
+                loadingTimeoutId = null;
+            }
+            
+            // Save to localStorage for instant load next time (with quota handling)
+            try {
+                localStorage.setItem('cachedNotifications', JSON.stringify(cachedNotifications));
+            } catch (e) {
+                console.log('Cache save failed:', e);
+                // If quota exceeded, try to clear old cache
+                if (e.name === 'QuotaExceededError') {
+                    try {
+                        // Keep only last 50 notifications in cache
+                        const limitedCache = cachedNotifications.slice(0, 50);
+                        localStorage.setItem('cachedNotifications', JSON.stringify(limitedCache));
+                    } catch (e2) {
+                        console.error('Error clearing cache:', e2);
+                    }
+                }
+            }
+            
+            // Display with current filter (instant)
+            displayNotifications(cachedNotifications, currentFilter);
+        }
+        
+        // Add notification - BarakahPush Notification System – Active
+        window.addNotification = async function(e) {
+            e.preventDefault();
+            
+            const isAuth = sessionStorage.getItem('isAdminAuthenticated') === 'true' || 
+                          localStorage.getItem('adminPassword') === NOTIFICATIONS_ADMIN_PASSWORD;
+            
+            if (!isAuth) {
+                alert('You must be authenticated as admin to send notifications.');
+                showAdminLogin();
+                return;
+            }
+            
+            const title = document.getElementById('notifTitle').value.trim();
+            const message = document.getElementById('notifMessage').value.trim();
+            const sendEmail = document.getElementById('sendEmail').checked;
+            const sendPush = document.getElementById('sendPush').checked;
+            
+            // Input validation
+            if (!title || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Length validation
+            if (title.length > 200) {
+                alert('Title must be 200 characters or less.');
+                return;
+            }
+            
+            if (message.length > 2000) {
+                alert('Message must be 2000 characters or less.');
+                return;
+            }
+            
+            const submitBtn = document.querySelector('#addNotificationForm button[type="submit"]');
+            if (!submitBtn) {
+                alert('Error: Submit button not found');
+                return;
+            }
+            
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            try {
+                // BarakahPush Notification System – Active
+                // Send via Firebase Cloud Function
+                let result = null;
+                
+                if (typeof firebase !== 'undefined' && firebase.functions) {
+                    // Use Firebase Cloud Function
+                    const sendNotification = firebase.functions().httpsCallable('adminSendNotification');
+                    result = await sendNotification({
+                        password: NOTIFICATIONS_ADMIN_PASSWORD,
+                        title: title,
+                        body: message,
+                        send_email: sendEmail,
+                        send_push: sendPush
+                    });
+                } else {
+                    // Fallback to API endpoint
+                    const API_BASE_URL = window.API_BASE_URL || '/api';
+                    const response = await fetch(API_BASE_URL + '/send-barakahpush-notification.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            password: NOTIFICATIONS_ADMIN_PASSWORD,
+                            title: title,
+                            body: message,
+                            send_email: sendEmail,
+                            send_push: sendPush
+                        })
+                    });
+                    
+                    if (response.ok) {
+                        result = await response.json();
+                    } else {
+                        throw new Error('Failed to send notification');
+                    }
+                }
+                
+                if (result && result.success) {
+                    closeAddNotificationModal();
+                    alert(`Notification sent successfully! Sent to ${result.sent || result.total || 0} users.`);
+                    
+                    // Refresh notifications
+                    setTimeout(() => {
+                        if (typeof fetchBarakahPushNotifications === 'function') {
+                            fetchBarakahPushNotifications().then(() => {
+                                if (typeof displayNotifications === 'function') {
+                                    displayNotifications(cachedNotifications, currentFilter);
+                                }
+                            });
+                        } else {
+                            loadNotificationsFromStorage(true);
+                        }
+                    }, 1000);
+                } else {
+                    throw new Error(result?.error || 'Failed to send notification');
+                }
+                
+            } catch (error) {
+                console.error('[BarakahPush] Error sending notification:', error);
+                alert('Error sending notification: ' + (error.message || 'Unknown error'));
+            } finally {
+                // Always reset button state
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                }
+            }
+        };
+        
+        // Delete notification
+        async function deleteNotification(notificationId, databaseId, event) {
+            if (event) {
+                event.stopPropagation();
+                event.preventDefault();
+            }
+            
+            // Mobile-friendly confirmation
+            const confirmed = confirm('Are you sure you want to delete this notification?');
+            if (!confirmed) {
+                return;
+            }
+            
+            const isAuth = sessionStorage.getItem('isAdminAuthenticated') === 'true' || 
+                          localStorage.getItem('adminPassword') === NOTIFICATIONS_ADMIN_PASSWORD;
+            
+            if (!isAuth) {
+                alert('You must be authenticated as admin to delete notifications.');
+                showAdminLogin();
+                return;
+            }
+            
+            try {
+                // Delete from database
+                if (databaseId) {
+                    const API_BASE_URL = window.API_BASE_URL || '/api';
+                    const formData = new FormData();
+                    formData.append('notification_id', databaseId);
+                    formData.append('admin_password', NOTIFICATIONS_ADMIN_PASSWORD);
+                    
+                    await fetch(API_BASE_URL + '/delete_notification.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+                
+                // Remove from cache immediately (optimistic update)
+                cachedNotifications = cachedNotifications.filter(n => {
+                    const notifId = n.id.toString();
+                    return notifId !== notificationId;
+                });
+                displayNotifications(cachedNotifications, currentFilter);
+                
+                alert('Notification deleted successfully!');
+                
+                // Refresh in background
+                setTimeout(() => {
+                    loadNotificationsFromStorage(false);
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error deleting notification:', error);
+                alert('Error deleting notification: ' + error.message);
+            }
+        }
+        
+        // Initialize - BarakahPush Notification System – Active
+        document.addEventListener('DOMContentLoaded', async function() {
+            updateAdminButtonVisibility();
+            
+            // Initialize BarakahPush
+            if (typeof initializeBarakahPush === 'function') {
+                await initializeBarakahPush();
+            }
+            
+            // Load notifications using BarakahPush
+            if (typeof fetchBarakahPushNotifications === 'function') {
+                cachedNotifications = await fetchBarakahPushNotifications();
+                displayNotifications(cachedNotifications, currentFilter);
+            } else {
+                // Fallback to old method
+                loadNotificationsFromStorage(true);
+            }
+            
+            
+                    // Refresh notifications in background every 30 seconds (only when page is visible)
+            let refreshInterval = null;
+            const startBackgroundRefresh = () => {
+                if (refreshInterval) clearInterval(refreshInterval);
+                refreshInterval = setInterval(async () => {
+                    // Only refresh if page is visible (saves battery/data)
+                    if (!document.hidden && !isLoadingNotifications) {
+                        if (typeof fetchBarakahPushNotifications === 'function') {
+                            cachedNotifications = await fetchBarakahPushNotifications();
+                            displayNotifications(cachedNotifications, currentFilter);
+                        } else {
+                            loadNotificationsFromStorage(false); // Silent refresh
+                        }
+                    }
+                }, 30000);
+            };
+            
+            // Start refresh when page is visible
+            startBackgroundRefresh();
+            
+            // Pause refresh when page is hidden, resume when visible
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    if (refreshInterval) clearInterval(refreshInterval);
+                } else {
+                    startBackgroundRefresh();
+                }
+            });
+            
+            // Password input enter key
+            const passwordInput = document.getElementById('adminPassword');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        verifyAdminPassword();
+                    }
+                });
+            }
+            
+            // Close modals on overlay click
+            document.querySelectorAll('.mobile-modal').forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            });
+            
+            // Character counters for form inputs
+            const titleInput = document.getElementById('notifTitle');
+            const messageInput = document.getElementById('notifMessage');
+            const titleCounter = document.getElementById('titleCharCount');
+            const messageCounter = document.getElementById('messageCharCount');
+            
+            if (titleInput && titleCounter) {
+                titleInput.addEventListener('input', () => {
+                    const length = titleInput.value.length;
+                    titleCounter.textContent = `(${length}/200)`;
+                    titleCounter.style.color = length > 180 ? '#f44336' : '#999';
+                });
+            }
+            
+            if (messageInput && messageCounter) {
+                messageInput.addEventListener('input', () => {
+                    const length = messageInput.value.length;
+                    messageCounter.textContent = `(${length}/2000)`;
+                    messageCounter.style.color = length > 1800 ? '#f44336' : '#999';
+                });
+            }
+        });
+        
+        // Make functions globally accessible
+        window.deleteNotification = deleteNotification;
+        window.showAdminLogin = showAdminLogin;
+        window.closeAdminLogin = closeAdminLogin;
+        window.verifyAdminPassword = verifyAdminPassword;
+        window.logoutAdmin = logoutAdmin;
+    </script>
+
+    <!-- Floating Important Lessons Button -->
+    <div class="floating-lessons-btn" onclick="showLessonsModal()">
+        <i class="fas fa-fire"></i>
+        <span>Important Lessons</span>
+    </div>
+
+    <!-- Floating Kizumu Visit Button -->
+    <div class="floating-kizumu-btn" onclick="showActivitiesModal()">
+        <i class="fas fa-heart"></i>
+        <span>Kizumu Visit</span>
+    </div>
+
+    <!-- Important Lessons Modal -->
+    <div class="modal-overlay" id="lessonsModal" style="display: none;">
+        <div class="modal-content activities-modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, #F44336, #C62828);">
+                <h3><i class="fas fa-fire"></i> Important Lessons</h3>
+                <button class="modal-close" onclick="closeLessonsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="activities-modal-list">
+                <div class="activity-modal-item" onclick="navigateToLesson('learn-prayer')">
+                    <div class="activity-modal-icon" style="background: var(--primary-green);">
+                        <i class="fas fa-pray"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Learn the Prayer</h4>
+                        <p>How to perform Salah correctly</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToLesson('misunderstood-concepts')">
+                    <div class="activity-modal-icon" style="background: #FF9800;">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Misunderstood Concepts</h4>
+                        <p>Clarifying common misconceptions</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToLesson('important-hadiths')">
+                    <div class="activity-modal-icon" style="background: #9C27B0;">
+                        <i class="fas fa-book-quran"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Important Hadiths</h4>
+                        <p>Essential sayings of the Prophet (PBUH)</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToLesson('did-you-know')">
+                    <div class="activity-modal-icon" style="background: #2196F3;">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Did You Know</h4>
+                        <p>Interesting Islamic facts</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToLesson('akhlaq-series')">
+                    <div class="activity-modal-icon" style="background: #E91E63;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Islamic Character (Akhlaq)</h4>
+                        <p>Essential character traits and virtues</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activities Modal -->
+    <div class="modal-overlay" id="activitiesModal" style="display: none;">
+        <div class="modal-content activities-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-heart"></i> Important Activities</h3>
+                <button class="modal-close" onclick="closeActivitiesModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="activities-modal-list">
+                <div class="activity-modal-item" onclick="navigateToActivity('kizumu-visit')">
+                    <div class="activity-modal-icon" style="background: #E91E63;">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Kizumu Tahfiz Charity Visit</h4>
+                        <p>Support Islamic education through charity visit</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('tuition-brothers')">
+                    <div class="activity-modal-icon" style="background: var(--primary-green);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Tuition for Brothers</h4>
+                        <p>Support brothers' education and learning</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('charity-visit')">
+                    <div class="activity-modal-icon" style="background: #4CAF50;">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>Charity Visit</h4>
+                        <p>Support our charity initiatives</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+                
+                <div class="activity-modal-item" onclick="navigateToActivity('activities')">
+                    <div class="activity-modal-icon" style="background: #FF9800;">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="activity-modal-text">
+                        <h4>View All Activities</h4>
+                        <p>See all community activities and events</p>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

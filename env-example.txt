@@ -1,0 +1,23 @@
+# Environment Variables Template
+# Copy this file to .env and fill in your actual values
+
+# Server Configuration
+PORT=3000
+NODE_ENV=development
+
+# Database Configuration
+DB_PATH=./kiuma_users.db
+
+# Security
+BCRYPT_ROUNDS=12
+
+# CORS Configuration
+CORS_ORIGIN=*
+
+# Session Configuration
+SESSION_SECRET=your-secret-key-here
+
+# API Keys (if needed)
+# API_KEY=your-api-key-here
+# PESAPAL_CONSUMER_KEY=your-pesapal-consumer-key
+# PESAPAL_CONSUMER_SECRET=your-pesapal-consumer-secret

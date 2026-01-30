@@ -1,0 +1,38 @@
+{
+  "appId": "com.kiuma.app",
+  "appName": "KIUMA",
+  "webDir": ".",
+  "bundledWebRuntime": false,
+  "server": {
+    "url": "https://your-domain.com",
+    "cleartext": false,
+    "hostname": "your-domain.com"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 2000,
+      "backgroundColor": "#757575",
+      "showSpinner": true,
+      "spinnerColor": "#4CAF50"
+    },
+    "Keyboard": {
+      "resize": "body",
+      "style": "dark"
+    },
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#757575"
+    }
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": true
+  },
+  "ios": {
+    "contentInset": "automatic",
+    "scrollEnabled": true,
+    "allowsLinkPreview": false
+  }
+}
+
